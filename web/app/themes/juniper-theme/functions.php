@@ -249,7 +249,7 @@ function enqueue_ls_scripts(): void {
 		'no_results'              => __( 'No results.', 'wps-juniper' ), // Keine Ergebnisse.
 		'select_label'            => __( 'Select %s', 'wps-juniper' ), // Wähle ...
 		'open_filter'             => __( 'Open filter', 'wps-juniper' ), // Filter öffnen
-		'metals-and-accessories'  => __( 'Metals and accessories', 'wps-juniper' ), // Metalle und Zubehör
+		'metals-and-accessories'  => __( 'Metals and Accessories', 'wps-juniper' ), // Metalle und Zubehör
 		'color'                   => __( 'Colours', 'wps-juniper' ), // Farben
 		'product_cat'             => __( 'Categories', 'wps-juniper' ), // Kategorien
 		'checkbox'                => __( 'Sample available', 'wps-juniper' ), // Muster erhältlich
