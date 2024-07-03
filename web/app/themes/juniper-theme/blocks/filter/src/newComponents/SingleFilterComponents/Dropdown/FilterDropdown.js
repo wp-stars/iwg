@@ -13,7 +13,8 @@ const FilterDropdown = (data) => {
     data = data.data ? data.data : data
 
     const key = data.key
-    const label = preparePlaceholder(data.label, translationObject.select_label)
+    const label = data.label
+    const placeholder = preparePlaceholder(data.label, translationObject.select_label)
     const urlParam = data.url ?? ''
     const onChange = data.onChange
 
@@ -155,7 +156,7 @@ const FilterDropdown = (data) => {
             onChange={(newValue) => {
                 onChange(newValue)
             }}
-            placeholder={label}
+            placeholder={placeholder}
             components={{Option}}
             styles={colourStyles}
             theme={customTheme}
