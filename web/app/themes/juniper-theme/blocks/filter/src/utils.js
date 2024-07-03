@@ -130,5 +130,5 @@ export function postHasSampleAvailable(post) {
 }
 
 export function hideOptionName(option, parent) {
-    return parent !== undefined && (parent.slug === 'weisstoene' || parent.slug === 'white-tone')
+    return parent !== undefined && (parent.slug === 'weisstoene' || parent.slug === 'white-tones') && option?.parent > 0
 }
