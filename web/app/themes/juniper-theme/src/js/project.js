@@ -218,3 +218,24 @@ Array.prototype.removeUndefined = function () {
 Element.prototype.appendBefore = function (element, parentNode = null) {
     element.parentNode.insertBefore(this, element);
 };
+
+// highlight classes
+function addClassToPlusCellsInFigures(className) {
+    var figures = document.querySelectorAll('figure.wp-block-table');
+    figures.forEach(function(figure) {
+        var tables = figure.getElementsByTagName('table');
+        for (var i = 0; i < tables.length; i++) {
+            var table = tables[i];
+
+            var cells = table.getElementsByTagName('td');
+            for (var j = 0; j < cells.length; j++) {
+                var cell = cells[j];
+                if (/\+/.test(cell.textContent)) {
+                    cell.classList.add(className);
+                }
+            }
+        }
+    });
+}
+
+addClassToPlusCellsInFigures('table-cell-plus');
