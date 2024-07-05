@@ -156,9 +156,11 @@ class Menu {
     }
     // Disable WP emojis to not interfere with the newsletter editor emoji handling
     $this->disableWPEmojis();
-    if (!$this->customFonts->displayCustomFonts()) {
+    $we_just_disable_custom_fonts_outright_fuck_you_google_fonts = true;
+	if (!$this->customFonts->displayCustomFonts() || $we_just_disable_custom_fonts_outright_fuck_you_google_fonts) {
       return;
     }
+
     $this->wp->addAction('admin_head', function () {
       echo '<link href="https://fonts.googleapis.com/css?family='
         . 'Arvo:400,400i,700,700i'

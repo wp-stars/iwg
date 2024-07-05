@@ -124,6 +124,7 @@ class CustomFonts {
       return urlencode($fontName) . ':400,400i,700,700i';
     }, $fonts);
     $fonts = implode('|', $fonts);
+	return '';
     return 'https://fonts.googleapis.com/css?family=' . $fonts;
   }
 }

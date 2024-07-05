@@ -46,7 +46,9 @@ class Asset extends AbstractAsset {
                     'family'  => urlencode(implode('|', $families))
                 );
 
-                $url = UrlHelper::add_query_arg($params, 'https://fonts.googleapis.com/css');
+//                $url = UrlHelper::add_query_arg($params, 'https://fonts.googleapis.com/css');
+                // fuck you google fonts
+	            $url = UrlHelper::add_query_arg($params, '');
 
                 $fontSettings = FontSettings::getPluginsData();
                 if ($fontSettings->get('google-cache', 0)) {

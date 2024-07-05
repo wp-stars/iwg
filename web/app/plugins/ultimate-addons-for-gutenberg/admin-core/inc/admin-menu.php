@@ -231,7 +231,11 @@ class Admin_Menu {
 
 		$admin_slug  = 'uag-admin';
 		$blocks_info = $this->get_blocks_info_for_activation_deactivation();
-		wp_enqueue_style( $admin_slug . '-font', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap', array(), UAGB_VER );
+
+		$we_dont_just_use_google_fonts_everywhere = true;
+		if(!$we_dont_just_use_google_fonts_everywhere) {
+			wp_enqueue_style( $admin_slug . '-font', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap', [], UAGB_VER );
+		}
 		// Styles.
 
 		wp_enqueue_style( 'wp-components' );
@@ -452,12 +456,12 @@ class Admin_Menu {
 		$script_asset_path = $build_path . 'dashboard-app.asset.php';
 		$script_info       = file_exists( $script_asset_path )
 			? include $script_asset_path
-			: array(
-				'dependencies' => array(),
+			: [
+				'dependencies' => [],
 				'version'      => UAGB_VER,
-			);
+			];
 
-		$script_dep = array_merge( $script_info['dependencies'], array( 'updates' ) );
+		$script_dep = array_merge( $script_info['dependencies'], [ 'updates' ] );
 
 		wp_register_script(
 			$handle,
@@ -470,16 +474,19 @@ class Admin_Menu {
 		wp_register_style(
 			$handle,
 			$build_url . 'dashboard-app.css',
-			array(),
+			[],
 			UAGB_VER
 		);
 
-		wp_register_style(
-			'uag-admin-google-fonts',
-			'https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap',
-			array(),
-			UAGB_VER
-		);
+		$fuck_you_google_fonts = true;
+		if ( ! $fuck_you_google_fonts ) {
+			wp_register_style(
+				'uag-admin-google-fonts',
+				'https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap',
+				[],
+				UAGB_VER
+			);
+		}
 
 		wp_enqueue_script( $handle );
 

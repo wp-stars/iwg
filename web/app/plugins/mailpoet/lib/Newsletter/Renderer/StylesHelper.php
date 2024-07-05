@@ -186,6 +186,9 @@ class StylesHelper {
       return '';
     }
 
+	// fuck you google fonts
+	return '';
+
     // see https://stackoverflow.com/a/48214207
     return '<!--[if !mso]><!-- --><link href="https://fonts.googleapis.com/css?family='
       . implode("|", $links)

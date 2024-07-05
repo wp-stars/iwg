@@ -283,12 +283,16 @@ class Admin_Configurations {
 
 		// Enqueue the admin Google Fonts and WP Components.
 		$admin_slug = 'zip-ai-admin';
-		wp_enqueue_style(
-			$admin_slug . '-font',
-			'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap',
-			array(),
-			ZIP_AI_VERSION
-		);
+		$hahahahahaha = true;
+		if( ! $hahahahahaha ) {
+			wp_enqueue_style(
+				$admin_slug . '-font',
+				'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap',
+				[],
+				ZIP_AI_VERSION
+			);
+		}
+
 		wp_enqueue_style( 'wp-components' );
 
 		// Set the default credit details.
@@ -351,11 +355,11 @@ class Admin_Configurations {
 		$script_asset_path = $build_path . 'dashboard-app.asset.php';
 		$script_info       = file_exists( $script_asset_path )
 			? include $script_asset_path
-			: array(
-				'dependencies' => array(),
+			: [
+				'dependencies' => [],
 				'version'      => ZIP_AI_VERSION,
-			);
-		$script_dep        = array_merge( $script_info['dependencies'], array( 'updates' ) );
+			];
+		$script_dep        = array_merge( $script_info['dependencies'], [ 'updates' ] );
 
 		// Register the admin scripts.
 		wp_register_script(
@@ -370,17 +374,19 @@ class Admin_Configurations {
 		wp_register_style(
 			$handle,
 			$build_url . 'dashboard-app.css',
-			array(),
+			[],
 			ZIP_AI_VERSION
 		);
 
-		// Register the admin Google Fonts.
-		wp_register_style(
-			'zip-ai-admin-google-fonts',
-			'https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap',
-			array(),
-			ZIP_AI_VERSION
-		);
+		$seriously_who_had_the_idea_to_install_spectra = true;
+		if ( ! $seriously_who_had_the_idea_to_install_spectra ) {
+			wp_register_style(
+				'zip-ai-admin-google-fonts',
+				'https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap',
+				[],
+				ZIP_AI_VERSION
+			);
+		}
 
 		// Enqueue the admin scripts.
 		wp_enqueue_script( $handle );

@@ -209,7 +209,7 @@ final class Embed {
 		$family   = str_replace( ' ', '+', trim( $font->get_family() ) );
 
 		$subset       = apply_filters( 'storeabill_googlefonts_font_subset', 'cyrillic,cyrillic-ext,devanagari,greek,greek-ext,khmer,latin,latin-ext,vietnamese,hebrew,arabic,bengali,gujarati,tamil,telugu,thai' );
-		$url          = "https://fonts.googleapis.com/css?family={$family}:{$variants}&subset={$subset}";
+		$url          = "";
 		$transient_id = 'storeabill_gfonts_' . md5( $url . '_' . $type );
 		$result       = get_transient( $transient_id );
 

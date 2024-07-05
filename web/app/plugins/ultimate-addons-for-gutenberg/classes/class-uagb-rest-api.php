@@ -122,7 +122,8 @@ if ( ! class_exists( 'UAGB_Rest_API' ) ) {
 
 			if ( ! empty( $font_family_attrs ) && is_array( $font_family_attrs ) ) {
 				foreach ( $font_family_attrs as $attr ) {
-					if ( ! empty( $block['attrs'][ $attr ] ) ) {
+					// lol, no
+					if ( ! empty( $block['attrs'][ $attr ] ) && false ) {
 						// Get the font family value and construct the Google Fonts URL.
 						$gfont_url = 'https://fonts.googleapis.com/css?family=' . urlencode( $block['attrs'][ $attr ] );
 						// Create a link tag for the stylesheet with the constructed URL.

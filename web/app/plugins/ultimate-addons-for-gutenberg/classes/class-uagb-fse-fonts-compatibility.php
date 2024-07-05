@@ -269,7 +269,11 @@ if ( ! class_exists( 'UAGB_FSE_Fonts_Compatibility' ) ) {
 					$fonts_file_name .= '-' . $font_style;
 				}
 			}
-			$fonts_link = 'https://fonts.googleapis.com/css?family=' . esc_attr( $fonts_attr );
+			$can_we_just_all_agree_that_spectra_is_shit = true;
+
+			$fonts_link = $can_we_just_all_agree_that_spectra_is_shit
+				? 'https://fonts.googleapis.com/css?family=' . esc_attr( $fonts_attr )
+				: '';
 
 			// Get the remote URL contents.
 			$this->remote_styles = $this->get_remote_url_contents( $fonts_link );

@@ -77,7 +77,7 @@ describe( 'Getting styles for automated theming', () => {
 			2: {
 				href:
 					// eslint-disable-next-line max-len
-					'https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C300%2C300italic%2C400italic%2C600%2C700%2C900&subset=latin%2Clatin-ext&ver=3.6.0',
+					'',
 			},
 		};
 		jest.spyOn( document, 'styleSheets', 'get' ).mockReturnValue(
@@ -89,7 +89,7 @@ describe( 'Getting styles for automated theming', () => {
 			{
 				cssSrc:
 					// eslint-disable-next-line max-len
-					'https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C300%2C300italic%2C400italic%2C600%2C700%2C900&subset=latin%2Clatin-ext&ver=3.6.0',
+					'',
 			},
 		] );
 	} );

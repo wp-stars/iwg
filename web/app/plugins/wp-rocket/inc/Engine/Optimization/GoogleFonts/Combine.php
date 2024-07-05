@@ -141,6 +141,6 @@ class Combine extends AbstractGFOptimization {
 	private function get_combined_url(): string {
 		$display = $this->get_font_display_value();
 
-		return esc_url( "https://fonts.googleapis.com/css?family={$this->fonts}{$this->subsets}&display={$display}" );
+		return esc_url( "" );
 	}
 }
