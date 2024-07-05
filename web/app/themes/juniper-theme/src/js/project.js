@@ -220,22 +220,29 @@ Element.prototype.appendBefore = function (element, parentNode = null) {
 };
 
 // highlight classes
-function addClassToPlusCellsInFigures(className) {
-    var figures = document.querySelectorAll('figure.wp-block-table');
-    figures.forEach(function(figure) {
-        var tables = figure.getElementsByTagName('table');
-        for (var i = 0; i < tables.length; i++) {
-            var table = tables[i];
-
-            var cells = table.getElementsByTagName('td');
-            for (var j = 0; j < cells.length; j++) {
-                var cell = cells[j];
-                if (/\+/.test(cell.textContent)) {
-                    cell.classList.add(className);
-                }
-            }
+function addClassToPlusCellsInFigures() {
+    document.querySelectorAll('figure.wp-block-table').forEach(function(figure) {
+        let tables = figure.getElementsByTagName('table');
+        for (let i = 0; i < tables.length; i++){
+            handleTable(tables[i]);
         }
     });
 }
 
-addClassToPlusCellsInFigures('table-cell-plus');
+const handleTable = (table) => {
+    let cells = table.getElementsByTagName('td');
+    for (var j = 0; j < cells.length; j++) {
+        handleTableCell(cells[j]);
+    }
+}
+
+const handleTableCell = (cell) => {
+    if (containsPlus(cell.textContent)) {
+        cell.classList.add('table-cell-plus');
+        console.log('works fine')
+    }
+}
+
+const containsPlus = (text) => /\+/.test(text);
+
+addClassToPlusCellsInFigures();
