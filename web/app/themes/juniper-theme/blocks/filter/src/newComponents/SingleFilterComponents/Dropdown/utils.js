@@ -3,6 +3,7 @@ import colorCodes from "../../../ColorCodes";
 import {getUrlParamValue, hideOptionName} from "../../../utils";
 import convert from "color-convert";
 
+
 export default function prepareDropdownOptions(rawOptions, label) {
     const cateogoryOptions = []
 
@@ -10,6 +11,7 @@ export default function prepareDropdownOptions(rawOptions, label) {
         .filter((tax) => tax.parent)
         .map((tax) => tax.parent)
         .filter((tax, index, self) => self.indexOf(tax) === index)
+        .sort(sortByTermOrder)
 
     const parentTaxms = rawOptions.filter((tax) => parents.includes(tax.term_id))
 
@@ -25,7 +27,10 @@ export default function prepareDropdownOptions(rawOptions, label) {
 
     const others = generateCategoryBaseConstruct(othersLabel);
 
-    others.options = rawOptions.filter(tax => !tax.parent && !parents.includes(tax.term_id)).map(mapToOptionObject)
+    others.options = rawOptions
+        .filter(tax => !tax.parent && !parents.includes(tax.term_id))
+        .map(mapToOptionObject)
+        .sort(sortByTermOrder)
 
     cateogoryOptions.push(others);
 
@@ -37,11 +42,16 @@ function generateCategoryOfParent(parent, rawOptions) {
 
     parent.name = `${translationObject.all_label} ${parent.name}`
 
-    newCategory.options = rawOptions
-        .filter((tax) => tax.parent === parent.term_id || tax.term_id === parent.term_id)
+    const clean_category_options = rawOptions
+        .filter((tax) => tax.parent === parent.term_id)
+        .sort(sortByTermOrder)
         .map(tax => mapToOptionObject(tax, parent))
-        // sorts category head to top
-        .sort((taxA, taxB) => taxA.label === mapToOptionObject(parent).label || taxA.color > taxB.color ? -1 : 1)
+
+    const parent_category_option = rawOptions
+        .filter((tax) => tax.term_id === parent.term_id)
+        .map(tax => mapToOptionObject(tax, parent))
+
+    newCategory.options = parent_category_option.concat(clean_category_options)
 
     return newCategory;
 }
@@ -104,4 +114,10 @@ export function getDefaultSelectionFromUrl(urlParam, preparedOptions) {
  */
 export function preparePlaceholder(label, selectLabel) {
     return selectLabel.includes('%s') ? selectLabel.replaceAll('%s', label) : `${label} ${selectLabel}`
+}
+
+function sortByTermOrder(termA, termB) {
+    const a_bigger_b = parseInt(termA.term_order) > parseInt(termB.term_order)
+
+    return a_bigger_b ? 1 : -1;
 }

@@ -27,11 +27,7 @@ add_action(
 );
 
 add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
-	$post_type = $context['fields']['post_type'];
-
 	$filter_options = $context['fields']['filter_options'] ?: [];
-
-	$current_language = apply_filters( 'wpml_current_language', null );
 
 	foreach ( $filter_options as $key => $option ) {
 		$tax                                                  = get_taxonomy( $option['filter_choices'] );
@@ -46,8 +42,6 @@ add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
 
 		$context['fields']['filter_options'][ $key ]['tax_options'] = $terms;
 	}
-
-	//	$data_arr['posts'] = wps_get_filter_posts( $post_type, 0 );
 
 	$post_mock_card     = do_shortcode( '[wps_get_mocked_card encoding=\'ISO-8859-1\']' );
 	$data_arr['mocked'] = base64_encode( $post_mock_card );
