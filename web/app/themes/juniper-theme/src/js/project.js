@@ -220,29 +220,31 @@ Element.prototype.appendBefore = function (element, parentNode = null) {
 };
 
 // highlight classes
-function addClassToPlusCellsInFigures() {
-    document.querySelectorAll('figure.wp-block-table').forEach(function(figure) {
-        let tables = figure.getElementsByTagName('table');
-        for (let i = 0; i < tables.length; i++){
-            handleTable(tables[i]);
-        }
-    });
+function wps_addClassToPlusCellsInFigures() {
+    document.querySelectorAll('figure.wp-block-table').forEach((figure) => wps_handleFigures(figure));
 }
 
-const handleTable = (table) => {
-    let cells = table.getElementsByTagName('td');
-    for (var j = 0; j < cells.length; j++) {
-        handleTableCell(cells[j]);
+const wps_handleFigures = (figure) => {
+    let items = figure.getElementsByTagName('table');
+    for (let i = 0; i < items.length; i++){
+        wps_handleTable(items[i]);
+    }
+};
+
+const wps_handleTable = (table) => {
+    let items = table.getElementsByTagName('td');
+    for (var i = 0; i < items.length; i++) {
+        wps_handleTableCell(items[i]);
     }
 }
 
-const handleTableCell = (cell) => {
-    if (containsPlus(cell.textContent)) {
-        cell.classList.add('table-cell-plus');
-        console.log('works fine')
+const wps_handleTableCell = (cell) => {
+    if (wps_containsPlus(cell.textContent)) {
+        wps_appendClass(cell);
     }
 }
 
-const containsPlus = (text) => /\+/.test(text);
+const wps_containsPlus = (text) => /\+/.test(text);
+const wps_appendClass = (cell) => cell.classList.add('table-cell-plus');
 
-addClassToPlusCellsInFigures();
+wps_addClassToPlusCellsInFigures();
