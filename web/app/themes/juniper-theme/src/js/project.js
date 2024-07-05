@@ -218,3 +218,33 @@ Array.prototype.removeUndefined = function () {
 Element.prototype.appendBefore = function (element, parentNode = null) {
     element.parentNode.insertBefore(this, element);
 };
+
+// highlight classes
+function wps_addClassToPlusCellsInFigures() {
+    document.querySelectorAll('figure.wp-block-table').forEach((figure) => wps_handleFigures(figure));
+}
+
+const wps_handleFigures = (figure) => {
+    let items = figure.getElementsByTagName('table');
+    for (let i = 0; i < items.length; i++){
+        wps_handleTable(items[i]);
+    }
+};
+
+const wps_handleTable = (table) => {
+    let items = table.getElementsByTagName('td');
+    for (var i = 0; i < items.length; i++) {
+        wps_handleTableCell(items[i]);
+    }
+}
+
+const wps_handleTableCell = (cell) => {
+    if (wps_containsPlus(cell.textContent)) {
+        wps_appendClass(cell);
+    }
+}
+
+const wps_containsPlus = (text) => /\+/.test(text);
+const wps_appendClass = (cell) => cell.classList.add('table-cell-plus');
+
+wps_addClassToPlusCellsInFigures();
