@@ -1461,15 +1461,15 @@ body.page-id-14412{
         width: 100%;
         max-height: 800px;
         overflow: auto;
-        padding-left: 10px;
-        padding-right: 10px;
         //box-shadow: -1px 6px 20px inset rgba(0, 0, 0, 0.5);
-        box-shadow: inset -10px 0px 10px -10px rgba(0, 0, 0, 0.5);
+        //box-shadow: inset -10px 0px 10px -10px rgba(0, 0, 0, 0.5);
         //box-shadow: inset 10px 0px 10px -10px rgba(0, 0, 0, 0.5);
+        position: relative;
 
         table {
             position: relative;
             min-width: 1024px;
+            margin-left: 10px;
 
             thead {
                 position: sticky;
@@ -1512,6 +1512,31 @@ body.page-id-14412{
                 font-size: 24px;
                 text-align: center;
             }
+
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 100%;
+                width: 15px;
+                z-index: 9999;
+                box-shadow: 8px -1px 10px -13px inset rgba(0, 0, 0, 0.8);
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 100%;
+                width: 15px;
+                z-index: 9999;
+                box-shadow: -8px -1px 10px -13px inset rgba(0, 0, 0, 0.8);
+            }
+
         }
     }
 }
