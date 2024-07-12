@@ -297,6 +297,7 @@ const customMusterbestellung = () => {
     initializeMusterbestellung()
     attachSampleAddButtonEventListeners()
     listenAndHandleCartSampleRmoveButton()
+    fetchAndUpdateMusterbestellung(false)
 }
 
 addEventListener('DOMContentLoaded', customMusterbestellung)

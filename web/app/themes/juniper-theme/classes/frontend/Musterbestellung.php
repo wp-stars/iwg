@@ -220,8 +220,6 @@ function manageSampleboxProductInCart( $sampleItemsNeeded ): void {
 	}
 
 	unset( $sampleCookieProducts );
-
-	WC()->cart->set_session();
 }
 
 function cartItemIsSample( mixed $cartItem ): bool {
@@ -245,7 +243,7 @@ function updateMusterbestellungProducts( WP_REST_Request $request ): WP_REST_Res
 
 	$cartNeedsUpdate = ! empty( $removedProductIds ) && ! empty( $addedProductIds );
 
-	manageSampleboxProductInCart( ! empty( $updated￥ProductIds ) );
+	manageSampleboxProductInCart( ! empty( $updatedProductIds ) );
 
 	// just return on no updates needed
 	if ( ! $cartNeedsUpdate ) {
@@ -303,13 +301,10 @@ function generateProductFrontendElement( string $id ): stdClass {
 }
 
 add_filter( 'woocommerce_add_cart_item_data', 'add_musterbestellung_data_to_cart_item', 10, 3 );
-
 function add_musterbestellung_data_to_cart_item( $cart_item_data, $product_id, $variation_id ) {
 	if ( ! getSampleProductCookieData() ) {
 		return $cart_item_data;
 	}
-
-	manageSampleboxProductInCart( true );
 
 	// Decode the JSON from the cookie
 	$musterbestellungProducts = getSampleProductCookieData();
