@@ -4425,14 +4425,20 @@ const Filter = data => {
     });
   }
   function applyFilter(filter) {
-    setFilteredPosts(applyFilterReturn(filter));
+    new Promise(resolve => {
+      resolve(applyFilterReturn(filter));
+    }).then(data => setFilteredPosts(data));
   }
   function applyFilterReturn(filter) {
-    let filterOptions = Object.entries(filter).filter(keyValue => keyValue[1] !== '');
+    let filterOptions = Object.entries(filter).filter(keyValue => keyValue[1] !== "");
     let toFilterData = allPosts;
 
     // filter out false and empty values
     filterOptions = filterOptions.filter(filter => filter[1] && filter[1].length !== 0);
+    console.log(filterOptions);
+    if (filterOptions.length === 0) {
+      return toFilterData;
+    }
     for (const filterOption of filterOptions) {
       const filterOptionName = filterOption[0];
       const filterValue = filterOption[1];
@@ -4447,11 +4453,7 @@ const Filter = data => {
           toFilterData = toFilterData.filter(_utils__WEBPACK_IMPORTED_MODULE_1__.postIsAvailableOnline);
           break;
         default:
-          if ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.isArray)(filterValue)) {
-            toFilterData = toFilterData.filter(post => filterValue.some(singleValue => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.postInSelection)(filterOptionName, singleValue.value, post)));
-          } else {
-            toFilterData = toFilterData.filter(post => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.postInSelection)(filterOptionName, filterValue.value, post));
-          }
+          toFilterData = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.isArray)(filterValue) ? toFilterData.filter(post => filterValue.some(singleValue => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.postInSelection)(filterOptionName, singleValue.value, post))) : toFilterData.filter(post => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.postInSelection)(filterOptionName, filterValue.value, post));
       }
     }
     return toFilterData;
@@ -4807,7 +4809,7 @@ const FilterDropdown = filterEntry => {
       data
     }) => {
       const color = chroma_js__WEBPACK_IMPORTED_MODULE_1___default()(data.color);
-      const optionNameHidden = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.hideOptionName)(data.slug, data.parent);
+      const optionNameHidden = data.renderOptionText;
       const backgroundIsWhite = chroma_js__WEBPACK_IMPORTED_MODULE_1___default().contrast(color, 'white') < 1.1;
       const needsBorder = backgroundIsWhite && optionNameHidden;
       const makeBackgroundBlandGray = backgroundIsWhite && !needsBorder;

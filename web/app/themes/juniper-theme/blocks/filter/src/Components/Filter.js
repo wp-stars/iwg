@@ -63,16 +63,21 @@ const Filter = (data) => {
     }
 
     function applyFilter(filter) {
-        setFilteredPosts(applyFilterReturn(filter))
+        new Promise(resolve => { resolve(applyFilterReturn(filter)) }).then((data) => setFilteredPosts(data))
     }
 
     function applyFilterReturn(filter) {
-        let filterOptions = Object.entries(filter).filter(keyValue => keyValue[1] !== '')
-
+        let filterOptions = Object.entries(filter).filter(keyValue => keyValue[1] !== "")
         let toFilterData = allPosts
 
         // filter out false and empty values
         filterOptions = filterOptions.filter((filter) => filter[1] && filter[1].length !== 0)
+
+        console.log(filterOptions)
+
+        if(filterOptions.length === 0) {
+            return toFilterData
+        }
 
         for (const filterOption of filterOptions) {
             const filterOptionName = filterOption[0]
@@ -89,11 +94,9 @@ const Filter = (data) => {
                     toFilterData = toFilterData.filter(postIsAvailableOnline)
                     break
                 default:
-                    if (isArray(filterValue)) {
-                        toFilterData = toFilterData.filter((post) => filterValue.some((singleValue) => postInSelection(filterOptionName, singleValue.value, post)))
-                    } else {
-                        toFilterData = toFilterData.filter((post) => postInSelection(filterOptionName, filterValue.value, post))
-                    }
+                        toFilterData = isArray(filterValue)
+                            ? toFilterData.filter((post) => filterValue.some((singleValue) => postInSelection(filterOptionName, singleValue.value, post)))
+                            : toFilterData.filter((post) => postInSelection(filterOptionName, filterValue.value, post))
             }
         }
 

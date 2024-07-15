@@ -1,6 +1,6 @@
 import translationObject from "../../../TranslationObject";
 // import colorCodes from "../../../ColorCodes";
-import {getUrlParamValue, hideOptionName} from "../../../utils";
+import {getUrlParamValue} from "../../../utils";
 import convert from "color-convert";
 
 /**

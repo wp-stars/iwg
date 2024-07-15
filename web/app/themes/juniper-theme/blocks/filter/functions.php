@@ -8,8 +8,7 @@ use blocks\filter\prebuildCache\PrebuildCache;
 use stdClass;
 use WP_Post;
 
-add_action(
-	'wp_enqueue_scripts', function () {
+add_action( 'wp_enqueue_scripts', function () {
 	if ( ! has_block( 'acf/filter' ) ) {
 		return;
 	}
@@ -22,9 +21,8 @@ add_action(
 	wp_enqueue_style( 'filter-css', $theme_path . '/blocks/filter/style.css' );
 	wp_enqueue_script( 'filter-js', $theme_path . '/blocks/filter/script.js', [], false, true );
 
-	wp_enqueue_script( 'filterBlock', $theme_path . '/blocks/filter/build/frontend.js', [ 'wp-blocks' ], false, true );
-}
-);
+	wp_enqueue_script( 'filterBlock', $theme_path . '/blocks/filter/build/frontend.js', [ 'wp-blocks' ], filemtime( __DIR__ . '/build/frontend.js') ,true );
+});
 
 add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
 	$filter_options = $context['fields']['filter_options'] ?: [];
@@ -41,12 +39,12 @@ add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
 		                    ] );
 
 		// mapping ACF
-		$terms = array_map(function($term) {
-			$term->background_color = get_field('background_color', "{$term->taxonomy}_{$term->term_id}" ) ?: '#ffffff';
+		$terms = array_map( function ( $term ) {
+			$term->background_color   = get_field( 'background_color', "{$term->taxonomy}_{$term->term_id}" ) ?: '#ffffff';
 			$term->render_option_text = get_field( 'render_option_text', "{$term->taxonomy}_{$term->term_id}" ) ?? true;
 
 			return $term;
-		}, $terms);
+		}, $terms );
 
 		$context['fields']['filter_options'][ $key ]['tax_options'] = $terms;
 	}
@@ -54,7 +52,7 @@ add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
 	$post_mock_card     = do_shortcode( '[wps_get_mocked_card encoding=\'ISO-8859-1\']' );
 	$data_arr['mocked'] = base64_encode( $post_mock_card );
 
-	$nocache = isset( $_GET['nocache'] ) && $_GET['nocache'] == 1;
+	$nocache             = isset( $_GET['nocache'] ) && $_GET['nocache'] == 1;
 	$data_arr['nocache'] = $nocache;
 
 	$post_type                 = get_post_type_object( $context['fields']['post_type'] );

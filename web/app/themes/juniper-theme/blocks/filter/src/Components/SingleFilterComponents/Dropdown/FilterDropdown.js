@@ -6,7 +6,7 @@ import Select, {components} from 'react-select';
 
 import translationObject from "../../../TranslationObject";
 import prepareDropdownOptions, {getDefaultSelectionFromUrl, preparePlaceholder} from "./utils";
-import {clone, hideOptionName} from "../../../utils";
+import {clone} from "../../../utils";
 
 const FilterDropdown = (filterEntry) => {
 
@@ -85,7 +85,7 @@ const FilterDropdown = (filterEntry) => {
         multiValueLabel: (styles, {data}) => {
             const color = chroma(data.color)
 
-            const optionNameHidden = hideOptionName(data.slug, data.parent)
+            const optionNameHidden = data.renderOptionText
 
             const backgroundIsWhite = chroma.contrast(color, 'white') < 1.1
 
@@ -107,8 +107,6 @@ const FilterDropdown = (filterEntry) => {
 
                 paddingRight: '1rem',
                 paddingLeft: '1rem',
-
-
             }
         },
 
