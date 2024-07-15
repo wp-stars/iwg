@@ -19,10 +19,10 @@ add_action(
 
 	//iwg/web/app/themes/juniper-theme/blocks/filter/build
 
-	wp_enqueue_style( 'filter-css', $theme_path . '/blocks/filter/style.css', [], $time );
-	wp_enqueue_script( 'filter-js', $theme_path . '/blocks/filter/script.js', [], $time, true );
+	wp_enqueue_style( 'filter-css', $theme_path . '/blocks/filter/style.css' );
+	wp_enqueue_script( 'filter-js', $theme_path . '/blocks/filter/script.js', [], false, true );
 
-	wp_enqueue_script( 'filterBlock', $theme_path . '/blocks/filter/build/frontend.js', [ 'wp-blocks' ], filemtime( __DIR__ . '/blocks/filter/build/frontend.js' ), true );
+	wp_enqueue_script( 'filterBlock', $theme_path . '/blocks/filter/build/frontend.js', [ 'wp-blocks' ], false, true );
 }
 );
 
@@ -43,9 +43,7 @@ add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
 		// mapping ACF
 		$terms = array_map(function($term) {
 			$term->background_color = get_field('background_color', "{$term->taxonomy}_{$term->term_id}" ) ?: '#ffffff';
-			$term->render_option_text = get_field( 'render_option_text', "{$term->taxonomy}_{$term->term_id}" );
-
-			$term->render_option_text = $term->render_option_text ?? true;
+			$term->render_option_text = get_field( 'render_option_text', "{$term->taxonomy}_{$term->term_id}" ) ?? true;
 
 			return $term;
 		}, $terms);

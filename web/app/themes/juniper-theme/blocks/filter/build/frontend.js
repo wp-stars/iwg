@@ -5094,7 +5094,6 @@ class FilterEntry {
     instance.label = requestObj.label;
     instance.name = requestObj.name;
     instance.onChange = requestObj.onChange;
-    console.log(requestObj.tax_options);
 
     // noinspection JSUnresolvedReference
     instance.options = requestObj.tax_options.map(FilterOption.makeFromRaw);
