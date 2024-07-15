@@ -10,17 +10,22 @@ import {
 import FilterTextSearch from "./SingleFilterComponents/Text/FilterTextSearch";
 import FilterCheckbox from "./SingleFilterComponents/Checkbox/FilterCheckbox";
 import translationObject from "../TranslationObject";
+import {FilterEntry, FilterTypes} from "../FilterEntry";
 
 const Filter = (data) => {
     const title = data.title ?? '';
 
     const postType = data.postType ?? 'product'
 
+    // noinspection JSUnresolvedReference
     const endpoint = data.pullEndpoint
 
+    // noinspection JSUnresolvedReference
     const nocache = data.nocache ?? false
 
+    // noinspection JSUnresolvedReference
     const sample_available = data.sample_available
+    // noinspection JSUnresolvedReference
     const online_available = data.online_available
 
     const show_sample_available_filter = sample_available === 'filter'
@@ -32,7 +37,8 @@ const Filter = (data) => {
     const postsPerPage = 6
 
     // mocked card render
-    const mockedCard = data.mocked
+    // noinspection JSUnresolvedReference
+    const mockedCard = data.mocked ?? ''
 
     // filter options that get displayed
     const [filterOptions, setFilterOptions] = useState([])
@@ -57,6 +63,10 @@ const Filter = (data) => {
     }
 
     function applyFilter(filter) {
+        setFilteredPosts(applyFilterReturn(filter))
+    }
+
+    function applyFilterReturn(filter) {
         let filterOptions = Object.entries(filter).filter(keyValue => keyValue[1] !== '')
 
         let toFilterData = allPosts
@@ -87,7 +97,7 @@ const Filter = (data) => {
             }
         }
 
-        setFilteredPosts(toFilterData)
+        return toFilterData
     }
 
     function setUpFilterPresets() {
@@ -108,25 +118,30 @@ const Filter = (data) => {
     }
 
     function setUpFilters() {
-        const filterOptions = data.filterOptions ?? []
+        // noinspection JSUnresolvedReference
+        let filterOptions = data.filterOptions ?? []
+
+        const defaultType = FilterTypes.DROPDOWN
+
+        filterOptions = filterOptions.map((raw) => FilterEntry.makeFromRaw(raw.type ?? defaultType, raw))
 
         const preparedOptions = filterOptions.map((filterOption) => {
             filterOption.onChange = (selected) => {
-                applyValueToFilter(filterOption.filter_choices, selected)
+                applyValueToFilter(filterOption.filterChoice, selected)
             }
 
             filterOption.label = translationObject[filterOption.name]
                 ? translationObject[filterOption.name]
                 : filterOption.label
 
-            filterOption.url = filterOption.filter_choices.replaceAll('_', '-')
+            filterOption.url = filterOption.filterChoice.replaceAll('_', '-')
 
             return filterOption
         })
 
         // move checkboxes to the back
         preparedOptions.sort((filterOption) => {
-            return filterOption.type === 'checkbox' ? 1 : -1
+            return filterOption.filterType === FilterTypes.CHECKBOX ? 1 : -1
         })
 
         setFilterOptions(preparedOptions)
@@ -221,13 +236,8 @@ const Filter = (data) => {
                 <div className={"grid grid-cols-1 md:grid-cols-3 md:mb-10 md:gap-7 filter-grid flex-wrap"}>
                     {allPosts?.length === 0 && [...Array(6).keys()].map(() => renderMock(mockedCard))}
                     {filteredPosts?.length ?
-                        filteredPosts.map((post, index) => {
-                            const showDirectly = index < postsPerPage
-                            return renderPost(post, index, false, refreshSlick)
-                        })
-                        : <div className={'w-full text-center col-span-3'}>
-                            {translationObject.no_results}
-                        </div>}
+                        filteredPosts.map((post, index) => renderPost(post, index, false, refreshSlick))
+                        : <div className={'w-full text-center col-span-3'}> {translationObject.no_results} </div>}
                 </div>
             </div>
         </div>

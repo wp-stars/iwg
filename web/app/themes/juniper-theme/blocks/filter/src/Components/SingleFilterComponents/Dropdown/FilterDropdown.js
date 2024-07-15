@@ -8,19 +8,20 @@ import translationObject from "../../../TranslationObject";
 import prepareDropdownOptions, {getDefaultSelectionFromUrl, preparePlaceholder} from "./utils";
 import {clone, hideOptionName} from "../../../utils";
 
-const FilterDropdown = (data) => {
+const FilterDropdown = (filterEntry) => {
 
-    data = data.data ? data.data : data
+    /** @type { FilterEntry } */
+    filterEntry = filterEntry.data ? filterEntry.data : filterEntry
 
-    const key = data.key
-    const label = data.label
-    const placeholder = preparePlaceholder(data.label, translationObject.select_label)
-    const urlParam = data.url ?? ''
-    const onChange = data.onChange
+    const key = filterEntry.key
+    const label = filterEntry.label
+    const placeholder = preparePlaceholder(filterEntry.label, translationObject.select_label)
+    const urlParam = filterEntry.url ?? ''
+    const onChange = filterEntry.onChange
 
-    const multiSelection = data.multiSelect ?? true
+    const multiSelection = filterEntry.multiSelect ?? true
 
-    const taxOptionsRaw = clone(data.tax_options) ?? []
+    const taxOptionsRaw = clone(filterEntry.options) ?? []
 
     const _options = prepareDropdownOptions(taxOptionsRaw, label)
     const _preselectedValues = getDefaultSelectionFromUrl(urlParam, _options)

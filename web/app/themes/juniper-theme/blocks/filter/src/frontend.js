@@ -1,7 +1,7 @@
 import React from "react";
 
 import ReactDOM from 'react-dom';
-import Filter from "./newComponents/Filter";
+import Filter from "./Components/Filter";
 
 const setupFilters = () => {
     const filterNew = document.querySelectorAll('.filter-block')

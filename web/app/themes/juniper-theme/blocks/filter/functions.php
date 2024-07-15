@@ -40,6 +40,16 @@ add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
 			                    'hide_empty' => false, // Set to true if you want to exclude terms with no posts.
 		                    ] );
 
+		// mapping ACF
+		$terms = array_map(function($term) {
+			$term->background_color = get_field('background_color', "{$term->taxonomy}_{$term->term_id}" ) ?: '#ffffff';
+			$term->render_option_text = get_field( 'render_option_text', "{$term->taxonomy}_{$term->term_id}" );
+
+			$term->render_option_text = $term->render_option_text ?? true;
+
+			return $term;
+		}, $terms);
+
 		$context['fields']['filter_options'][ $key ]['tax_options'] = $terms;
 	}
 

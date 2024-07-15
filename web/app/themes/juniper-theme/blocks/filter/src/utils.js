@@ -1,7 +1,7 @@
 import React from "react";
-import FilterDropdown from "./newComponents/SingleFilterComponents/Dropdown/FilterDropdown";
+import FilterDropdown from "./Components/SingleFilterComponents/Dropdown/FilterDropdown";
 import axios from "axios";
-import SingleProduct from "./newComponents/ProductComponent/SingleProduct";
+import SingleProduct from "./Components/ProductComponent/SingleProduct";
 
 export function isIterable(obj) {
     // checks for null and undefined
@@ -84,7 +84,7 @@ export function getUrlParamValue(param) {
 }
 
 export function filterOptionToElement(filterOption) {
-    return <FilterDropdown data={filterOption}/>
+    return <FilterDropdown data={filterOption} />
 }
 
 export function postApplysToTax(post, tax, value) {
@@ -127,8 +127,4 @@ export function postIsAvailableOnline(post) {
 
 export function postHasSampleAvailable(post) {
     return post.taxonomies["purchasability"]?.some(term => term.slug === 'muster-verfuegbar' || term.slug === 'sample-available-en')
-}
-
-export function hideOptionName(option, parent) {
-    return parent !== undefined && (parent.slug === 'weisstoene' || parent.slug === 'white-tones') && option?.parent > 0
 }

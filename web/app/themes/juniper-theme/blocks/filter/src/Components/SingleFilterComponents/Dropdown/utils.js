@@ -1,9 +1,13 @@
 import translationObject from "../../../TranslationObject";
-import colorCodes from "../../../ColorCodes";
+// import colorCodes from "../../../ColorCodes";
 import {getUrlParamValue, hideOptionName} from "../../../utils";
 import convert from "color-convert";
 
-
+/**
+ * @param rawOptions {FilterOption[]}
+ * @param label {string}
+ * @return {*[]}
+ */
 export default function prepareDropdownOptions(rawOptions, label) {
     const cateogoryOptions = []
 
@@ -13,7 +17,7 @@ export default function prepareDropdownOptions(rawOptions, label) {
         .filter((tax, index, self) => self.indexOf(tax) === index)
         .sort(sortByTermOrder)
 
-    const parentTaxms = rawOptions.filter((tax) => parents.includes(tax.term_id))
+    const parentTaxms = rawOptions.filter((tax) => parents.includes(tax.termId))
 
     parentTaxms.forEach((parent) => {
         const category = generateCategoryOfParent(parent, rawOptions);
@@ -28,7 +32,7 @@ export default function prepareDropdownOptions(rawOptions, label) {
     const others = generateCategoryBaseConstruct(othersLabel);
 
     others.options = rawOptions
-        .filter(tax => !tax.parent && !parents.includes(tax.term_id))
+        .filter(tax => !tax.parent && !parents.includes(tax.termId))
         .map(mapToOptionObject)
         .sort(sortByTermOrder)
 
@@ -37,19 +41,24 @@ export default function prepareDropdownOptions(rawOptions, label) {
     return cateogoryOptions
 }
 
+/**
+ * @param parent { FilterOption }
+ * @param rawOptions { FilterOption[] }
+ * @return {{options: *[], label: string}}
+ */
 function generateCategoryOfParent(parent, rawOptions) {
     const newCategory = generateCategoryBaseConstruct(parent.name);
 
     parent.name = `${translationObject.all_label} ${parent.name}`
 
     const clean_category_options = rawOptions
-        .filter((tax) => tax.parent === parent.term_id)
+        .filter((tax) => tax.parent === parent.termId)
         .sort(sortByTermOrder)
-        .map(tax => mapToOptionObject(tax, parent))
+        .map(mapToOptionObject)
 
     const parent_category_option = rawOptions
-        .filter((tax) => tax.term_id === parent.term_id)
-        .map(tax => mapToOptionObject(tax, parent))
+        .filter((tax) => tax.termId === parent.termId)
+        .map(mapToOptionObject)
 
     newCategory.options = parent_category_option.concat(clean_category_options)
 
@@ -64,13 +73,13 @@ function generateCategoryBaseConstruct(name) {
     };
 }
 
-function mapToOptionObject(tax, parent) {
-    const colorCode = colorCodes.getEntryWithSlugLike(tax.slug)
+function mapToOptionObject(tax) {
+    const colorCode = tax.backgroundColor
     const colorStyle = generateGradientCssTagForColor(colorCode)
 
-    const optionLabel = !hideOptionName(tax, parent) ? tax.name : '  '
+    const optionLabel = tax.renderOptionText ? tax.name : '  '
 
-    return {label: optionLabel, value: tax.term_id, colorStyle: colorStyle, slug: tax.slug, color: colorCode, parent: parent};
+    return new DropdownOption(optionLabel, tax.termId, colorStyle, tax.slug, colorCode, tax.parent, tax.renderOptionText)
 }
 
 function generateGradientCssTagForColor(baseColor) {
@@ -116,8 +125,33 @@ export function preparePlaceholder(label, selectLabel) {
     return selectLabel.includes('%s') ? selectLabel.replaceAll('%s', label) : `${label} ${selectLabel}`
 }
 
+/**
+ * @param termA
+ * @param termB
+ * @return {number}
+ */
 function sortByTermOrder(termA, termB) {
-    const a_bigger_b = parseInt(termA.term_order) > parseInt(termB.term_order)
+    const a_bigger_b = parseInt(termA.termOrder) > parseInt(termB.termOrder)
 
     return a_bigger_b ? 1 : -1;
+}
+
+class DropdownOption {
+    label = ''
+    value = ''
+    colorStyle = ''
+    slug = ''
+    color = ''
+    parent = 0
+    renderText = true
+
+    constructor(label, value, colorStyle, slug, color, parent, renderText) {
+        this.label = label;
+        this.value = value;
+        this.colorStyle = colorStyle;
+        this.slug = slug;
+        this.color = color;
+        this.parent = parent;
+        this.renderText = renderText
+    }
 }

@@ -4356,118 +4356,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./src/ColorCodes.js":
-/*!***************************!*\
-  !*** ./src/ColorCodes.js ***!
-  \***************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-class ColorCodeEntry {
-  baseColor;
-  slugs;
-  constructor(base, slugs) {
-    this.baseColor = base;
-    this.slugs = slugs;
-  }
-}
-class ColorCodes {
-  /** @type ColorCodeEntry[]  */
-  colorCodeEntries = [];
-
-  /**
-   * @param entry {ColorCodeEntry}
-   */
-  addEntry(entry) {
-    this.colorCodeEntries.push(entry);
-  }
-
-  /**
-   * @param slug {String}
-   * @returns {String}
-   */
-  getEntryWithSlug(slug) {
-    const foundEntry = this.colorCodeEntries.find(entry => entry.slug === slug);
-    return foundEntry !== undefined ? foundEntry.baseColor : '#ffffff';
-  }
-
-  /**
-   * @param slug {String}
-   * @returns {String}
-   */
-  getEntryWithSlugLike(slug) {
-    const foundEntryParamSlugInc = this.colorCodeEntries.find(entry => entry.slugs.find(entrySlugs => slug.includes(entrySlugs)) !== undefined);
-    const foundEntrySlugInc = this.colorCodeEntries.find(entry => entry.slugs.find(entrySlugs => entrySlugs.includes(slug)) !== undefined);
-    const foundEntry = foundEntryParamSlugInc === undefined ? foundEntrySlugInc : foundEntryParamSlugInc;
-    return foundEntry !== undefined ? foundEntry.baseColor : '#ffffff';
-  }
-}
-const codeEntries = new ColorCodes();
-codeEntries.addEntry(new ColorCodeEntry('#faf8f4', ["arega-pure-100", "arega-pure-380", "arega-pure-390", "white-arega-pure-100", "white-arega-pure-380", "white-arega-pure-390"]));
-codeEntries.addEntry(new ColorCodeEntry('#e9e4df', ["rhodega-pure-c2", "rhodega-pure-k3", "white-rhodega-pure-c2", "white-rhodega-pure-k3"]));
-codeEntries.addEntry(new ColorCodeEntry('#e8e1d6', ["rhodega-blend-pt", "rhodega-blend-ru", "rhodega-pure-for-pen-100", "white-rhodega-blend-pt", "white-rhodega-blend-ru", "white-rhodega-pure-for-pen-100"]));
-codeEntries.addEntry(new ColorCodeEntry('#dfd8ce', ["platega-blend-rh", "platega-pure-k", "white-platega-blend-r", "white-platega-pure-k"]));
-codeEntries.addEntry(new ColorCodeEntry('#ded8d0', ["pallega-blend-co", "pallega-blend-f", "pallega-plend-n", "pallega-pure-f", "white-pallega-blend-c", "white-pallega-blend-f", "white-pallega-plend-n", "white-pallega-pure-f"]));
-codeEntries.addEntry(new ColorCodeEntry('#d8d3ca', ["pallega-pure-ec", "pallega-pure-h", "pallega-pure-t", "white-pallega-pure-e", "white-pallega-pure-h", "white-pallega-pure-t"]));
-codeEntries.addEntry(new ColorCodeEntry('#bfbab3', ["ruthega-pure-for-pen", "ruthega-pure-hs", "ruthega-pure-", "white-ruthega-pure-for-pe", "white-ruthega-pure-hs", "white-ruthega-pure-"]));
-codeEntries.addEntry(new ColorCodeEntry('#9b9792', ["rhodega-pure-black-100", "white-rhodega-pure-black-10"]));
-codeEntries.addEntry(new ColorCodeEntry('#858380', ["ruthega-pure-black-for-pen", "ruthega-pure-hs2-0-blac", "white-ruthega-pure-hs2-0-blac", "whiteruthega-pure-black-for-pe"]));
-codeEntries.addEntry(new ColorCodeEntry('#f9f3e0', ["0n", "aurega-for-pen-0n", "aurega-pure-240kp-0"]));
-codeEntries.addEntry(new ColorCodeEntry('#eee1c2', ["1n", "aurega-pure-1114m", "aurega-pure-111", "aurega-pure-11", "aurega-pure-1n1", "aurega-pure-1n14", "aurega-pure-218", "aurega-pure-240kp-1"]));
-codeEntries.addEntry(new ColorCodeEntry('#e5ce99', ["2n", "aurega-blend-cu-118c", "aurega-blend-pd-900", "aurega-for-pen-2", "aurega-pure-21", "aurega-pure-218", "aurega-pure-240kp-2", "aurega-pure-2n1", "aurega-pure-de"]));
-codeEntries.addEntry(new ColorCodeEntry('#e9d49e', ["3n", "aurega-for-pen-", "aurega-pure-210g", "aurega-pure-210", "aurega-pure-240kp-3", "aurega-pure-auroprin", "aurega-yellow-for-pen "]));
-codeEntries.addEntry(new ColorCodeEntry('#ebd2b7', ["4n", "aurega-blend-pd-2001-t", "aurega-pure-240kp-4", "aurega-rose-1-for-pe", "aurega-rose-3-for-pe"]));
-codeEntries.addEntry(new ColorCodeEntry('#efd0bd', ["5n", "aurega-blend-cu-63", "aurega-blend-cu-64", "aurega-pure-240kp-5n"]));
-codeEntries.addEntry(new ColorCodeEntry('#f0c8a7', ["6n", "aurega-pure-240kp-6n"]));
-codeEntries.addEntry(new ColorCodeEntry('#ddbc6a', ["9n", "aurega-pure-240kp-9n"]));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (codeEntries);
-
-/***/ }),
-
-/***/ "./src/TranslationObject.js":
+/***/ "./src/Components/Filter.js":
 /*!**********************************!*\
-  !*** ./src/TranslationObject.js ***!
+  !*** ./src/Components/Filter.js ***!
   \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-var _translation;
-const translationObject = (_translation = translation) !== null && _translation !== void 0 ? _translation : {
-  loading: '',
-  no_results: '',
-  all_label: '',
-  others_label: '',
-  open_filter: '',
-  select_label: '',
-  select: '',
-  results_label: '',
-  metals_accessories: '',
-  colors: '',
-  product_category: '',
-  checkbox: '',
-  product_search: '',
-  load_more: '',
-  choose: '',
-  filter_delete_button: '',
-  filter_sample_available: '',
-  filter_online_available: ''
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (translationObject);
-
-/***/ }),
-
-/***/ "./src/newComponents/Filter.js":
-/*!*************************************!*\
-  !*** ./src/newComponents/Filter.js ***!
-  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4478,9 +4370,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils.js");
-/* harmony import */ var _SingleFilterComponents_Text_FilterTextSearch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SingleFilterComponents/Text/FilterTextSearch */ "./src/newComponents/SingleFilterComponents/Text/FilterTextSearch.js");
-/* harmony import */ var _SingleFilterComponents_Checkbox_FilterCheckbox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SingleFilterComponents/Checkbox/FilterCheckbox */ "./src/newComponents/SingleFilterComponents/Checkbox/FilterCheckbox.js");
+/* harmony import */ var _SingleFilterComponents_Text_FilterTextSearch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SingleFilterComponents/Text/FilterTextSearch */ "./src/Components/SingleFilterComponents/Text/FilterTextSearch.js");
+/* harmony import */ var _SingleFilterComponents_Checkbox_FilterCheckbox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SingleFilterComponents/Checkbox/FilterCheckbox */ "./src/Components/SingleFilterComponents/Checkbox/FilterCheckbox.js");
 /* harmony import */ var _TranslationObject__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../TranslationObject */ "./src/TranslationObject.js");
+/* harmony import */ var _FilterEntry__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../FilterEntry */ "./src/FilterEntry.js");
+
 
 
 
@@ -4488,12 +4382,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Filter = data => {
-  var _data$title, _data$postType, _data$nocache;
+  var _data$title, _data$postType, _data$nocache, _data$mocked;
   const title = (_data$title = data.title) !== null && _data$title !== void 0 ? _data$title : '';
   const postType = (_data$postType = data.postType) !== null && _data$postType !== void 0 ? _data$postType : 'product';
+
+  // noinspection JSUnresolvedReference
   const endpoint = data.pullEndpoint;
+
+  // noinspection JSUnresolvedReference
   const nocache = (_data$nocache = data.nocache) !== null && _data$nocache !== void 0 ? _data$nocache : false;
+
+  // noinspection JSUnresolvedReference
   const sample_available = data.sample_available;
+  // noinspection JSUnresolvedReference
   const online_available = data.online_available;
   const show_sample_available_filter = sample_available === 'filter';
   const show_online_available_filter = online_available === 'filter';
@@ -4502,7 +4403,8 @@ const Filter = data => {
   const postsPerPage = 6;
 
   // mocked card render
-  const mockedCard = data.mocked;
+  // noinspection JSUnresolvedReference
+  const mockedCard = (_data$mocked = data.mocked) !== null && _data$mocked !== void 0 ? _data$mocked : '';
 
   // filter options that get displayed
   const [filterOptions, setFilterOptions] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
@@ -4523,6 +4425,9 @@ const Filter = data => {
     });
   }
   function applyFilter(filter) {
+    setFilteredPosts(applyFilterReturn(filter));
+  }
+  function applyFilterReturn(filter) {
     let filterOptions = Object.entries(filter).filter(keyValue => keyValue[1] !== '');
     let toFilterData = allPosts;
 
@@ -4549,7 +4454,7 @@ const Filter = data => {
           }
       }
     }
-    setFilteredPosts(toFilterData);
+    return toFilterData;
   }
   function setUpFilterPresets() {
     setFilterSelected(prevFilter => ({
@@ -4568,19 +4473,25 @@ const Filter = data => {
   }
   function setUpFilters() {
     var _data$filterOptions;
-    const filterOptions = (_data$filterOptions = data.filterOptions) !== null && _data$filterOptions !== void 0 ? _data$filterOptions : [];
+    // noinspection JSUnresolvedReference
+    let filterOptions = (_data$filterOptions = data.filterOptions) !== null && _data$filterOptions !== void 0 ? _data$filterOptions : [];
+    const defaultType = _FilterEntry__WEBPACK_IMPORTED_MODULE_5__.FilterTypes.DROPDOWN;
+    filterOptions = filterOptions.map(raw => {
+      var _raw$type;
+      return _FilterEntry__WEBPACK_IMPORTED_MODULE_5__.FilterEntry.makeFromRaw((_raw$type = raw.type) !== null && _raw$type !== void 0 ? _raw$type : defaultType, raw);
+    });
     const preparedOptions = filterOptions.map(filterOption => {
       filterOption.onChange = selected => {
-        applyValueToFilter(filterOption.filter_choices, selected);
+        applyValueToFilter(filterOption.filterChoice, selected);
       };
       filterOption.label = _TranslationObject__WEBPACK_IMPORTED_MODULE_4__["default"][filterOption.name] ? _TranslationObject__WEBPACK_IMPORTED_MODULE_4__["default"][filterOption.name] : filterOption.label;
-      filterOption.url = filterOption.filter_choices.replaceAll('_', '-');
+      filterOption.url = filterOption.filterChoice.replaceAll('_', '-');
       return filterOption;
     });
 
     // move checkboxes to the back
     preparedOptions.sort(filterOption => {
-      return filterOption.type === 'checkbox' ? 1 : -1;
+      return filterOption.filterType === _FilterEntry__WEBPACK_IMPORTED_MODULE_5__.FilterTypes.CHECKBOX ? 1 : -1;
     });
     setFilterOptions(preparedOptions);
   }
@@ -4655,21 +4566,18 @@ const Filter = data => {
     className: 'mt-5 relative isolate'
   }, loading && (0,_utils__WEBPACK_IMPORTED_MODULE_1__.loadingElement)(), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "grid grid-cols-1 md:grid-cols-3 md:mb-10 md:gap-7 filter-grid flex-wrap"
-  }, allPosts?.length === 0 && [...Array(6).keys()].map(() => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.renderMock)(mockedCard)), filteredPosts?.length ? filteredPosts.map((post, index) => {
-    const showDirectly = index < postsPerPage;
-    return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.renderPost)(post, index, false, _utils__WEBPACK_IMPORTED_MODULE_1__.refreshSlick);
-  }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, allPosts?.length === 0 && [...Array(6).keys()].map(() => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.renderMock)(mockedCard)), filteredPosts?.length ? filteredPosts.map((post, index) => (0,_utils__WEBPACK_IMPORTED_MODULE_1__.renderPost)(post, index, false, _utils__WEBPACK_IMPORTED_MODULE_1__.refreshSlick)) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: 'w-full text-center col-span-3'
-  }, _TranslationObject__WEBPACK_IMPORTED_MODULE_4__["default"].no_results))));
+  }, " ", _TranslationObject__WEBPACK_IMPORTED_MODULE_4__["default"].no_results, " "))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Filter);
 
 /***/ }),
 
-/***/ "./src/newComponents/Icons.js":
-/*!************************************!*\
-  !*** ./src/newComponents/Icons.js ***!
-  \************************************/
+/***/ "./src/Components/Icons.js":
+/*!*********************************!*\
+  !*** ./src/Components/Icons.js ***!
+  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4709,10 +4617,10 @@ const PlusButtonIcon = () => {
 
 /***/ }),
 
-/***/ "./src/newComponents/ProductComponent/SingleProduct.js":
-/*!*************************************************************!*\
-  !*** ./src/newComponents/ProductComponent/SingleProduct.js ***!
-  \*************************************************************/
+/***/ "./src/Components/ProductComponent/SingleProduct.js":
+/*!**********************************************************!*\
+  !*** ./src/Components/ProductComponent/SingleProduct.js ***!
+  \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4764,10 +4672,10 @@ function SingleProduct(data) {
 
 /***/ }),
 
-/***/ "./src/newComponents/SingleFilterComponents/Checkbox/FilterCheckbox.js":
-/*!*****************************************************************************!*\
-  !*** ./src/newComponents/SingleFilterComponents/Checkbox/FilterCheckbox.js ***!
-  \*****************************************************************************/
+/***/ "./src/Components/SingleFilterComponents/Checkbox/FilterCheckbox.js":
+/*!**************************************************************************!*\
+  !*** ./src/Components/SingleFilterComponents/Checkbox/FilterCheckbox.js ***!
+  \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4810,10 +4718,10 @@ const FilterCheckbox = data => {
 
 /***/ }),
 
-/***/ "./src/newComponents/SingleFilterComponents/Dropdown/FilterDropdown.js":
-/*!*****************************************************************************!*\
-  !*** ./src/newComponents/SingleFilterComponents/Dropdown/FilterDropdown.js ***!
-  \*****************************************************************************/
+/***/ "./src/Components/SingleFilterComponents/Dropdown/FilterDropdown.js":
+/*!**************************************************************************!*\
+  !*** ./src/Components/SingleFilterComponents/Dropdown/FilterDropdown.js ***!
+  \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4828,7 +4736,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/index-a301f526.esm.js");
 /* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
 /* harmony import */ var _TranslationObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../TranslationObject */ "./src/TranslationObject.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./src/newComponents/SingleFilterComponents/Dropdown/utils.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./src/Components/SingleFilterComponents/Dropdown/utils.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../utils */ "./src/utils.js");
 
 
@@ -4837,16 +4745,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const FilterDropdown = data => {
-  var _data$url, _data$multiSelect, _clone;
-  data = data.data ? data.data : data;
-  const key = data.key;
-  const label = data.label;
-  const placeholder = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.preparePlaceholder)(data.label, _TranslationObject__WEBPACK_IMPORTED_MODULE_2__["default"].select_label);
-  const urlParam = (_data$url = data.url) !== null && _data$url !== void 0 ? _data$url : '';
-  const onChange = data.onChange;
-  const multiSelection = (_data$multiSelect = data.multiSelect) !== null && _data$multiSelect !== void 0 ? _data$multiSelect : true;
-  const taxOptionsRaw = (_clone = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.clone)(data.tax_options)) !== null && _clone !== void 0 ? _clone : [];
+const FilterDropdown = filterEntry => {
+  var _filterEntry$url, _filterEntry$multiSel, _clone;
+  /** @type { FilterEntry } */
+  filterEntry = filterEntry.data ? filterEntry.data : filterEntry;
+  const key = filterEntry.key;
+  const label = filterEntry.label;
+  const placeholder = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.preparePlaceholder)(filterEntry.label, _TranslationObject__WEBPACK_IMPORTED_MODULE_2__["default"].select_label);
+  const urlParam = (_filterEntry$url = filterEntry.url) !== null && _filterEntry$url !== void 0 ? _filterEntry$url : '';
+  const onChange = filterEntry.onChange;
+  const multiSelection = (_filterEntry$multiSel = filterEntry.multiSelect) !== null && _filterEntry$multiSel !== void 0 ? _filterEntry$multiSel : true;
+  const taxOptionsRaw = (_clone = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.clone)(filterEntry.options)) !== null && _clone !== void 0 ? _clone : [];
   const _options = (0,_utils__WEBPACK_IMPORTED_MODULE_3__["default"])(taxOptionsRaw, label);
   const _preselectedValues = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.getDefaultSelectionFromUrl)(urlParam, _options);
   const colourStyles = {
@@ -4973,10 +4882,10 @@ const FilterDropdown = data => {
 
 /***/ }),
 
-/***/ "./src/newComponents/SingleFilterComponents/Dropdown/utils.js":
-/*!********************************************************************!*\
-  !*** ./src/newComponents/SingleFilterComponents/Dropdown/utils.js ***!
-  \********************************************************************/
+/***/ "./src/Components/SingleFilterComponents/Dropdown/utils.js":
+/*!*****************************************************************!*\
+  !*** ./src/Components/SingleFilterComponents/Dropdown/utils.js ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4987,33 +4896,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   preparePlaceholder: () => (/* binding */ preparePlaceholder)
 /* harmony export */ });
 /* harmony import */ var _TranslationObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../TranslationObject */ "./src/TranslationObject.js");
-/* harmony import */ var _ColorCodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../ColorCodes */ "./src/ColorCodes.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../utils */ "./src/utils.js");
-/* harmony import */ var color_convert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! color-convert */ "./node_modules/color-convert/index.js");
-/* harmony import */ var color_convert__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(color_convert__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils */ "./src/utils.js");
+/* harmony import */ var color_convert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! color-convert */ "./node_modules/color-convert/index.js");
+/* harmony import */ var color_convert__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(color_convert__WEBPACK_IMPORTED_MODULE_2__);
+
+// import colorCodes from "../../../ColorCodes";
 
 
 
-
+/**
+ * @param rawOptions {FilterOption[]}
+ * @param label {string}
+ * @return {*[]}
+ */
 function prepareDropdownOptions(rawOptions, label) {
   const cateogoryOptions = [];
   const parents = rawOptions.filter(tax => tax.parent).map(tax => tax.parent).filter((tax, index, self) => self.indexOf(tax) === index).sort(sortByTermOrder);
-  const parentTaxms = rawOptions.filter(tax => parents.includes(tax.term_id));
+  const parentTaxms = rawOptions.filter(tax => parents.includes(tax.termId));
   parentTaxms.forEach(parent => {
     const category = generateCategoryOfParent(parent, rawOptions);
     cateogoryOptions.push(category);
   });
   const othersLabel = parentTaxms.length > 0 ? `${_TranslationObject__WEBPACK_IMPORTED_MODULE_0__["default"].others_label} ${label}` : '';
   const others = generateCategoryBaseConstruct(othersLabel);
-  others.options = rawOptions.filter(tax => !tax.parent && !parents.includes(tax.term_id)).map(mapToOptionObject).sort(sortByTermOrder);
+  others.options = rawOptions.filter(tax => !tax.parent && !parents.includes(tax.termId)).map(mapToOptionObject).sort(sortByTermOrder);
   cateogoryOptions.push(others);
   return cateogoryOptions;
 }
+
+/**
+ * @param parent { FilterOption }
+ * @param rawOptions { FilterOption[] }
+ * @return {{options: *[], label: string}}
+ */
 function generateCategoryOfParent(parent, rawOptions) {
   const newCategory = generateCategoryBaseConstruct(parent.name);
   parent.name = `${_TranslationObject__WEBPACK_IMPORTED_MODULE_0__["default"].all_label} ${parent.name}`;
-  const clean_category_options = rawOptions.filter(tax => tax.parent === parent.term_id).sort(sortByTermOrder).map(tax => mapToOptionObject(tax, parent));
-  const parent_category_option = rawOptions.filter(tax => tax.term_id === parent.term_id).map(tax => mapToOptionObject(tax, parent));
+  const clean_category_options = rawOptions.filter(tax => tax.parent === parent.termId).sort(sortByTermOrder).map(mapToOptionObject);
+  const parent_category_option = rawOptions.filter(tax => tax.termId === parent.termId).map(mapToOptionObject);
   newCategory.options = parent_category_option.concat(clean_category_options);
   return newCategory;
 }
@@ -5023,26 +4943,19 @@ function generateCategoryBaseConstruct(name) {
     options: []
   };
 }
-function mapToOptionObject(tax, parent) {
-  const colorCode = _ColorCodes__WEBPACK_IMPORTED_MODULE_1__["default"].getEntryWithSlugLike(tax.slug);
+function mapToOptionObject(tax) {
+  const colorCode = tax.backgroundColor;
   const colorStyle = generateGradientCssTagForColor(colorCode);
-  const optionLabel = !(0,_utils__WEBPACK_IMPORTED_MODULE_2__.hideOptionName)(tax, parent) ? tax.name : '  ';
-  return {
-    label: optionLabel,
-    value: tax.term_id,
-    colorStyle: colorStyle,
-    slug: tax.slug,
-    color: colorCode,
-    parent: parent
-  };
+  const optionLabel = tax.renderOptionText ? tax.name : '  ';
+  return new DropdownOption(optionLabel, tax.termId, colorStyle, tax.slug, colorCode, tax.parent, tax.renderOptionText);
 }
 function generateGradientCssTagForColor(baseColor) {
-  const colorCodes = color_convert__WEBPACK_IMPORTED_MODULE_3___default().hex.rgb(baseColor);
+  const colorCodes = color_convert__WEBPACK_IMPORTED_MODULE_2___default().hex.rgb(baseColor);
   const colorCodesJoin = colorCodes.join(',');
   return `linear-gradient(90deg, rgba(${colorCodesJoin},0) 0%, rgba(${colorCodesJoin},0.7581232322030375) 35%, rgba(${colorCodesJoin},1) 59%)`;
 }
 function getDefaultSelectionFromUrl(urlParam, preparedOptions) {
-  const urlParamValueRaw = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.getUrlParamValue)(urlParam);
+  const urlParamValueRaw = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getUrlParamValue)(urlParam);
   const urlParamValues = urlParamValueRaw.split(',');
   const preSelectedOptions = preparedOptions.map(optionCategory => {
     const filterCategoryOptions = optionCategory.options;
@@ -5068,17 +4981,41 @@ function getDefaultSelectionFromUrl(urlParam, preparedOptions) {
 function preparePlaceholder(label, selectLabel) {
   return selectLabel.includes('%s') ? selectLabel.replaceAll('%s', label) : `${label} ${selectLabel}`;
 }
+
+/**
+ * @param termA
+ * @param termB
+ * @return {number}
+ */
 function sortByTermOrder(termA, termB) {
-  const a_bigger_b = parseInt(termA.term_order) > parseInt(termB.term_order);
+  const a_bigger_b = parseInt(termA.termOrder) > parseInt(termB.termOrder);
   return a_bigger_b ? 1 : -1;
+}
+class DropdownOption {
+  label = '';
+  value = '';
+  colorStyle = '';
+  slug = '';
+  color = '';
+  parent = 0;
+  renderText = true;
+  constructor(label, value, colorStyle, slug, color, parent, renderText) {
+    this.label = label;
+    this.value = value;
+    this.colorStyle = colorStyle;
+    this.slug = slug;
+    this.color = color;
+    this.parent = parent;
+    this.renderText = renderText;
+  }
 }
 
 /***/ }),
 
-/***/ "./src/newComponents/SingleFilterComponents/Text/FilterTextSearch.js":
-/*!***************************************************************************!*\
-  !*** ./src/newComponents/SingleFilterComponents/Text/FilterTextSearch.js ***!
-  \***************************************************************************/
+/***/ "./src/Components/SingleFilterComponents/Text/FilterTextSearch.js":
+/*!************************************************************************!*\
+  !*** ./src/Components/SingleFilterComponents/Text/FilterTextSearch.js ***!
+  \************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5088,7 +5025,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Icons */ "./src/newComponents/Icons.js");
+/* harmony import */ var _Icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Icons */ "./src/Components/Icons.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../utils */ "./src/utils.js");
 
 
@@ -5127,6 +5064,132 @@ const FilterTextSearch = data => {
 
 /***/ }),
 
+/***/ "./src/FilterEntry.js":
+/*!****************************!*\
+  !*** ./src/FilterEntry.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   FilterEntry: () => (/* binding */ FilterEntry),
+/* harmony export */   FilterOption: () => (/* binding */ FilterOption),
+/* harmony export */   FilterTypes: () => (/* binding */ FilterTypes)
+/* harmony export */ });
+class FilterEntry {
+  filterType = '';
+  filterChoice = '';
+  label = '';
+  name = '';
+  onChange = () => {};
+  options = [];
+  url = '';
+  static makeFromRaw(type, requestObj) {
+    const instance = new FilterEntry();
+    instance.filterType = FilterTypes.toFilterType(type);
+
+    // noinspection JSUnresolvedReference
+    instance.filterChoice = requestObj.filter_choices;
+    instance.label = requestObj.label;
+    instance.name = requestObj.name;
+    instance.onChange = requestObj.onChange;
+    console.log(requestObj.tax_options);
+
+    // noinspection JSUnresolvedReference
+    instance.options = requestObj.tax_options.map(FilterOption.makeFromRaw);
+    instance.url = requestObj.url;
+    return instance;
+  }
+}
+class FilterOption {
+  key = '';
+  count = 0;
+  description = '';
+  filter = '';
+  name = '';
+  order = '';
+  parent = 0;
+  slug = '';
+  taxonomy = '';
+  termGroup = 0;
+  termId = 0;
+  termOrder = '';
+  termTaxonomyId = 0;
+  backgroundColor = '';
+  renderOptionText = true;
+  static makeFromRaw(requestObj) {
+    const instance = new FilterOption();
+    instance.key = requestObj.key;
+    instance.count = requestObj.count;
+    instance.description = requestObj.description;
+    instance.filter = requestObj.filter;
+    instance.name = requestObj.name;
+    instance.order = requestObj.order;
+    instance.parent = requestObj.parent;
+    instance.slug = requestObj.slug;
+    instance.taxonomy = requestObj.taxonomy;
+    // noinspection JSUnresolvedReference
+    instance.termGroup = requestObj.term_group;
+    instance.termId = requestObj.term_id;
+    // noinspection JSUnresolvedReference
+    instance.termOrder = requestObj.term_order;
+    instance.termTaxonomyId = requestObj.term_taxonomy_id;
+
+    // noinspection JSUnresolvedReference
+    instance.backgroundColor = requestObj.background_color;
+    // noinspection JSUnresolvedReference
+    instance.renderOptionText = requestObj.render_option_text;
+    return instance;
+  }
+}
+const FilterTypes = {
+  CHECKBOX: 'checkbox',
+  DROPDOWN: 'dropdown',
+  TEXT: 'text',
+  toFilterType: string => FilterTypes.validFilterType(string) ? FilterTypes[string] : null,
+  validFilterType: string => !!FilterTypes.getFilterTypeIndex(string),
+  getFilterTypeIndex: string => !!Object.values(FilterTypes).indexOf(string)
+};
+
+/***/ }),
+
+/***/ "./src/TranslationObject.js":
+/*!**********************************!*\
+  !*** ./src/TranslationObject.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var _translation;
+const translationObject = (_translation = translation) !== null && _translation !== void 0 ? _translation : {
+  loading: '',
+  no_results: '',
+  all_label: '',
+  others_label: '',
+  open_filter: '',
+  select_label: '',
+  select: '',
+  results_label: '',
+  metals_accessories: '',
+  colors: '',
+  product_category: '',
+  checkbox: '',
+  product_search: '',
+  load_more: '',
+  choose: '',
+  filter_delete_button: '',
+  filter_sample_available: '',
+  filter_online_available: ''
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (translationObject);
+
+/***/ }),
+
 /***/ "./src/utils.js":
 /*!**********************!*\
   !*** ./src/utils.js ***!
@@ -5139,7 +5202,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   clone: () => (/* binding */ clone),
 /* harmony export */   filterOptionToElement: () => (/* binding */ filterOptionToElement),
 /* harmony export */   getUrlParamValue: () => (/* binding */ getUrlParamValue),
-/* harmony export */   hideOptionName: () => (/* binding */ hideOptionName),
 /* harmony export */   isArray: () => (/* binding */ isArray),
 /* harmony export */   isIterable: () => (/* binding */ isIterable),
 /* harmony export */   loadInPostsFromPage: () => (/* binding */ loadInPostsFromPage),
@@ -5156,10 +5218,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _newComponents_SingleFilterComponents_Dropdown_FilterDropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./newComponents/SingleFilterComponents/Dropdown/FilterDropdown */ "./src/newComponents/SingleFilterComponents/Dropdown/FilterDropdown.js");
+/* harmony import */ var _Components_SingleFilterComponents_Dropdown_FilterDropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Components/SingleFilterComponents/Dropdown/FilterDropdown */ "./src/Components/SingleFilterComponents/Dropdown/FilterDropdown.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _newComponents_ProductComponent_SingleProduct__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./newComponents/ProductComponent/SingleProduct */ "./src/newComponents/ProductComponent/SingleProduct.js");
+/* harmony import */ var _Components_ProductComponent_SingleProduct__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Components/ProductComponent/SingleProduct */ "./src/Components/ProductComponent/SingleProduct.js");
 
 
 
@@ -5194,7 +5256,7 @@ async function loadInPostsFromPage(endpointUrl = '', postType = 'product', pageN
   return responseData.data;
 }
 function renderPost(post, index, showDirectly = false, whenInView = () => {}) {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_newComponents_ProductComponent_SingleProduct__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Components_ProductComponent_SingleProduct__WEBPACK_IMPORTED_MODULE_3__["default"], {
     index: index,
     htmlEnc: post.html,
     showDirectly: showDirectly,
@@ -5202,7 +5264,7 @@ function renderPost(post, index, showDirectly = false, whenInView = () => {}) {
   });
 }
 function renderMock(mockHtml) {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_newComponents_ProductComponent_SingleProduct__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Components_ProductComponent_SingleProduct__WEBPACK_IMPORTED_MODULE_3__["default"], {
     index: Math.random(),
     htmlEnc: mockHtml,
     showDirectly: true,
@@ -5239,7 +5301,7 @@ function getUrlParamValue(param) {
   return foundValue ? decodeURIComponent(foundValue.value) : '';
 }
 function filterOptionToElement(filterOption) {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_newComponents_SingleFilterComponents_Dropdown_FilterDropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Components_SingleFilterComponents_Dropdown_FilterDropdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
     data: filterOption
   });
 }
@@ -5267,9 +5329,6 @@ function postIsAvailableOnline(post) {
 }
 function postHasSampleAvailable(post) {
   return post.taxonomies["purchasability"]?.some(term => term.slug === 'muster-verfuegbar' || term.slug === 'sample-available-en');
-}
-function hideOptionName(option, parent) {
-  return parent !== undefined && (parent.slug === 'weisstoene' || parent.slug === 'white-tones') && option?.parent > 0;
 }
 
 /***/ }),
@@ -19117,7 +19176,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "react-dom");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _newComponents_Filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./newComponents/Filter */ "./src/newComponents/Filter.js");
+/* harmony import */ var _Components_Filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Components/Filter */ "./src/Components/Filter.js");
 
 
 
@@ -19127,7 +19186,7 @@ const setupFilters = () => {
   filterNew.forEach(div => {
     let data = JSON.parse(div.dataset.initialData);
     const root = react_dom__WEBPACK_IMPORTED_MODULE_1___default().createRoot(div);
-    root.render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_newComponents_Filter__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    root.render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Components_Filter__WEBPACK_IMPORTED_MODULE_2__["default"], {
       ...data
     }));
     div.classList.remove('filter-block');
