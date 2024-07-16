@@ -1,30 +1,37 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 import chroma from 'chroma-js';
 
 import Select, {components} from 'react-select';
 
 import translationObject from "../../../TranslationObject";
-import prepareDropdownOptions, {getDefaultSelectionFromUrl, preparePlaceholder} from "./utils";
+import prepareDropdownOptions, {getDefaultSelectionFromUrl, OptionAvailableHandler, preparePlaceholder} from "./utils";
 import {clone} from "../../../utils";
 
 const FilterDropdown = (filterEntry) => {
-
     /** @type { FilterEntry } */
-    filterEntry = filterEntry.data ? filterEntry.data : filterEntry
+    const filterEntryData = filterEntry.data ? filterEntry.data : filterEntry
 
-    const key = filterEntry.key
-    const label = filterEntry.label
-    const placeholder = preparePlaceholder(filterEntry.label, translationObject.select_label)
-    const urlParam = filterEntry.url ?? ''
-    const onChange = filterEntry.onChange
+    const key = filterEntryData.key
+    const label = filterEntryData.label
+    const placeholder = preparePlaceholder(filterEntryData.label, translationObject.select_label)
+    const urlParam = filterEntryData.url ?? ''
+    const onChange = filterEntryData.onChange
 
-    const multiSelection = filterEntry.multiSelect ?? true
+    const multiSelection = filterEntryData.multiSelect ?? true
 
-    const taxOptionsRaw = clone(filterEntry.options) ?? []
+    const taxOptionsRaw = clone(filterEntryData.options) ?? []
 
-    const _options = prepareDropdownOptions(taxOptionsRaw, label)
-    const _preselectedValues = getDefaultSelectionFromUrl(urlParam, _options)
+    const filterSelected = filterEntry.filterSelected
+    const filterPosts = filterEntry.filterPosts
+
+    // noinspection JSUnresolvedReference
+    const optionAvailable = filterEntryData.optionAvailable ?? ((option) => {return option})
+
+    const optionAvailableHandler = new OptionAvailableHandler(filterSelected, filterPosts, optionAvailable);
+
+    const _options = prepareDropdownOptions(taxOptionsRaw, label, optionAvailableHandler)
+    const _preselectedValue = getDefaultSelectionFromUrl(urlParam, _options)
 
     const colourStyles = {
         control: (styles) => ({...styles, backgroundColor: 'white'}),
@@ -70,7 +77,6 @@ const FilterDropdown = (filterEntry) => {
                 fontWeight: '700',
             }
         }),
-
         multiValue: (styles, {data}) => {
             const color = chroma(data.color);
 
@@ -81,7 +87,6 @@ const FilterDropdown = (filterEntry) => {
                 borderRadius: '3px',
             };
         },
-
         multiValueLabel: (styles, {data}) => {
             const color = chroma(data.color)
 
@@ -109,7 +114,6 @@ const FilterDropdown = (filterEntry) => {
                 paddingLeft: '1rem',
             }
         },
-
         multiValueRemove: (styles, {data}) => {
             const color = chroma(data.color)
 
@@ -134,7 +138,7 @@ const FilterDropdown = (filterEntry) => {
     }))
 
     useEffect(() => {
-        onChange(_preselectedValues)
+        onChange(_preselectedValue)
     }, []);
 
     const Option = (props) => {
@@ -149,7 +153,7 @@ const FilterDropdown = (filterEntry) => {
         <label>{label}</label>
         <Select
             isMulti={multiSelection}
-            defaultValue={_preselectedValues}
+            defaultValue={_preselectedValue}
             name={label}
             options={_options}
             onChange={(newValue) => {

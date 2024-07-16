@@ -1,11 +1,14 @@
+import React, {useState} from "react";
+
 export class FilterEntry {
     filterType = ''
     filterChoice = ''
     label = ''
     name = ''
-    onChange = (() => {})
+    onChange = ((selected) => {})
     options = []
     url = ''
+    optionAvailable = (() => true)
 
     static makeFromRaw(type, requestObj) {
         const instance = new FilterEntry();
@@ -17,6 +20,12 @@ export class FilterEntry {
         instance.label = requestObj.label
         instance.name = requestObj.name
         instance.onChange = requestObj.onChange
+
+        // append filterChoice to FilterOption
+        requestObj.tax_options = requestObj.tax_options.map((option) => {
+            option.filter_choice = instance.filterChoice
+            return option
+        })
 
         // noinspection JSUnresolvedReference
         instance.options = requestObj.tax_options.map(FilterOption.makeFromRaw)
@@ -43,6 +52,7 @@ export class FilterOption {
     termTaxonomyId = 0
     backgroundColor = ''
     renderOptionText = true
+    filterChoice = ''
 
     static makeFromRaw(requestObj) {
         const instance = new FilterOption()
@@ -67,6 +77,8 @@ export class FilterOption {
         instance.backgroundColor = requestObj.background_color
         // noinspection JSUnresolvedReference
         instance.renderOptionText = requestObj.render_option_text
+        // noinspection JSUnresolvedReference
+        instance.filterChoice = requestObj.filter_choice
 
         return instance
     }

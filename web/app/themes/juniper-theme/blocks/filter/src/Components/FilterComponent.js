@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
 import {
     filterOptionToElement, isArray, loadingElement, loadInPostsFromPage, postHasSampleAvailable,
     postInSelection,
@@ -10,9 +10,10 @@ import {
 import FilterTextSearch from "./SingleFilterComponents/Text/FilterTextSearch";
 import FilterCheckbox from "./SingleFilterComponents/Checkbox/FilterCheckbox";
 import translationObject from "../TranslationObject";
-import {FilterEntry, FilterTypes} from "../FilterEntry";
+import {FilterEntry, FilterEnvStorage, FilterTypes} from "../FilterEntry";
+import FilterDropdown from "./SingleFilterComponents/Dropdown/FilterDropdown";
 
-const Filter = (data) => {
+const FilterComponent = (data) => {
     const title = data.title ?? '';
 
     const postType = data.postType ?? 'product'
@@ -34,7 +35,7 @@ const Filter = (data) => {
     const always_filter_sample_available = sample_available === 'outright'
     const always_filter_online_available = online_available === 'outright'
 
-    const postsPerPage = 6
+    const FilterContext = createContext(null)
 
     // mocked card render
     // noinspection JSUnresolvedReference
@@ -42,15 +43,19 @@ const Filter = (data) => {
 
     // filter options that get displayed
     const [filterOptions, setFilterOptions] = useState([])
+
     // selection of the filter (what to filter for)
     const [filterSelected, setFilterSelected] = useState({})
 
     // all posts that exist
     const [allPosts, setAllPosts] = useState([])
+
     // posts after being run through the filter
     const [filteredPosts, setFilteredPosts] = useState([])
 
     const [loading, isLoading] = useState(true);
+
+
 
     function loadPosts() {
         isLoading(true)
@@ -62,20 +67,15 @@ const Filter = (data) => {
         })
     }
 
-    function applyFilter(filter) {
-        new Promise(resolve => { resolve(applyFilterReturn(filter)) }).then((data) => setFilteredPosts(data))
-    }
-
-    function applyFilterReturn(filter) {
+    function applyFilterReturn(filter, postsToFilter = null) {
         let filterOptions = Object.entries(filter).filter(keyValue => keyValue[1] !== "")
-        let toFilterData = allPosts
+
+        let toFilterData = postsToFilter ?? allPosts
 
         // filter out false and empty values
         filterOptions = filterOptions.filter((filter) => filter[1] && filter[1].length !== 0)
 
-        console.log(filterOptions)
-
-        if(filterOptions.length === 0) {
+        if (filterOptions.length === 0) {
             return toFilterData
         }
 
@@ -94,9 +94,9 @@ const Filter = (data) => {
                     toFilterData = toFilterData.filter(postIsAvailableOnline)
                     break
                 default:
-                        toFilterData = isArray(filterValue)
-                            ? toFilterData.filter((post) => filterValue.some((singleValue) => postInSelection(filterOptionName, singleValue.value, post)))
-                            : toFilterData.filter((post) => postInSelection(filterOptionName, filterValue.value, post))
+                    toFilterData = isArray(filterValue)
+                        ? toFilterData.filter((post) => filterValue.some((singleValue) => postInSelection(filterOptionName, singleValue.value, post)))
+                        : toFilterData.filter((post) => postInSelection(filterOptionName, filterValue.value, post))
             }
         }
 
@@ -111,6 +111,11 @@ const Filter = (data) => {
         }))
     }
 
+    function applyFilter(filter) {
+        const filteredPosts = applyFilterReturn(filter)
+        setFilteredPosts(filteredPosts)
+    }
+
     function applyValueToFilter(filterKey, filterValue) {
         setFilterSelected((prevFilter) => {
             return {
@@ -118,6 +123,13 @@ const Filter = (data) => {
                 [filterKey]: filterValue
             }
         })
+    }
+
+    const directFilterRun = (filterKey, filterValue, prevFilter, toFilterValues) => {
+        return applyFilterReturn({
+            ...prevFilter,
+            [filterKey]: filterValue
+        }, toFilterValues)
     }
 
     function setUpFilters() {
@@ -139,6 +151,14 @@ const Filter = (data) => {
 
             filterOption.url = filterOption.filterChoice.replaceAll('_', '-')
 
+            filterOption.optionAvailable = (option, filterSelected, filterPosts) => {
+                if(filterPosts <= 0) {
+                    return true
+                }
+
+                return directFilterRun(filterOption.filterChoice, option, filterSelected, filterPosts).length > 0
+            }
+
             return filterOption
         })
 
@@ -158,7 +178,7 @@ const Filter = (data) => {
         applyFilter(filterSelected)
     }, [allPosts]);
 
-    useEffect(async() => {
+    useEffect(async () => {
         setUpFilters()
         setUpFilterPresets()
         loadPosts()
@@ -168,7 +188,7 @@ const Filter = (data) => {
     useEffect(rerenderSlick, [filteredPosts]);
 
     return (
-        <div className={"w-full container"}>
+        <div className={'w-full container'}>
             <div className={""}>
                 <h1
                     data-aos={'fade-up'}
@@ -195,7 +215,11 @@ const Filter = (data) => {
                      data-aos-delay={'100'}
                      data-aos-offset={0}
                      className={'grid grid-cols-1 md:grid-cols-3 relative z-10 sm:gap-7 mt-6 sm:mt-0'}>
-                    {filterOptions.map(filterOptionToElement)}
+                    {filterOptions.map((filter) => <FilterDropdown
+                        data={filter}
+                        filterSelected={filterSelected}
+                        filterPosts={filteredPosts}
+                    /> )}
                 </div>
 
                 <div data-aos={'fade-up'}
@@ -247,4 +271,4 @@ const Filter = (data) => {
     )
 }
 
-export default Filter;
+export default FilterComponent;

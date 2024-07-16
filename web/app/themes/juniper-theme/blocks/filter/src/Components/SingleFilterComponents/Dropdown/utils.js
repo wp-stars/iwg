@@ -1,14 +1,16 @@
 import translationObject from "../../../TranslationObject";
 // import colorCodes from "../../../ColorCodes";
-import {getUrlParamValue} from "../../../utils";
+import {clone, getUrlParamValue} from "../../../utils";
 import convert from "color-convert";
+import {FilterEnvStorage} from "../../../FilterEntry";
 
 /**
  * @param rawOptions {FilterOption[]}
  * @param label {string}
+ * @param optionAvailaleHandler { OptionAvailableHandler }
  * @return {*[]}
  */
-export default function prepareDropdownOptions(rawOptions, label) {
+export default function prepareDropdownOptions(rawOptions, label, optionAvailaleHandler) {
     const cateogoryOptions = []
 
     const parents = rawOptions
@@ -20,7 +22,7 @@ export default function prepareDropdownOptions(rawOptions, label) {
     const parentTaxms = rawOptions.filter((tax) => parents.includes(tax.termId))
 
     parentTaxms.forEach((parent) => {
-        const category = generateCategoryOfParent(parent, rawOptions);
+        const category = generateCategoryOfParent(parent, rawOptions, optionAvailaleHandler);
 
         cateogoryOptions.push(category);
     })
@@ -35,6 +37,7 @@ export default function prepareDropdownOptions(rawOptions, label) {
         .filter(tax => !tax.parent && !parents.includes(tax.termId))
         .map(mapToOptionObject)
         .sort(sortByTermOrder)
+        .filter((option) => optionAvailaleHandler.optionIsAvailable(option))
 
     cateogoryOptions.push(others);
 
@@ -44,9 +47,10 @@ export default function prepareDropdownOptions(rawOptions, label) {
 /**
  * @param parent { FilterOption }
  * @param rawOptions { FilterOption[] }
+ * @param optionAvailableHandler { OptionAvailableHandler }
  * @return {{options: *[], label: string}}
  */
-function generateCategoryOfParent(parent, rawOptions) {
+function generateCategoryOfParent(parent, rawOptions, optionAvailableHandler) {
     const newCategory = generateCategoryBaseConstruct(parent.name);
 
     parent.name = `${translationObject.all_label} ${parent.name}`
@@ -61,6 +65,8 @@ function generateCategoryOfParent(parent, rawOptions) {
         .map(mapToOptionObject)
 
     newCategory.options = parent_category_option.concat(clean_category_options)
+
+    newCategory.options = newCategory.options.filter((option) => optionAvailableHandler.optionIsAvailable(option))
 
     return newCategory;
 }
@@ -79,7 +85,7 @@ function mapToOptionObject(tax) {
 
     const optionLabel = tax.renderOptionText ? tax.name : '  '
 
-    return new DropdownOption(optionLabel, tax.termId, colorStyle, tax.slug, colorCode, tax.parent, tax.renderOptionText)
+    return new DropdownOption(optionLabel, tax.termId, colorStyle, tax.slug, colorCode, tax.parent, tax.renderOptionText, tax.filterChoice)
 }
 
 function generateGradientCssTagForColor(baseColor) {
@@ -144,8 +150,9 @@ class DropdownOption {
     color = ''
     parent = 0
     renderText = true
+    filterChoice = ''
 
-    constructor(label, value, colorStyle, slug, color, parent, renderText) {
+    constructor(label, value, colorStyle, slug, color, parent, renderText, filterChoice) {
         this.label = label;
         this.value = value;
         this.colorStyle = colorStyle;
@@ -153,5 +160,27 @@ class DropdownOption {
         this.color = color;
         this.parent = parent;
         this.renderText = renderText
+        this.filterChoice = filterChoice
+    }
+}
+
+export class OptionAvailableHandler {
+    filterSelected
+    filterPosts
+    filterFunction
+
+    constructor(filterSelected, filterPosts, filterFunction) {
+        this.filterSelected = filterSelected;
+        this.filterPosts = filterPosts;
+        this.filterFunction = filterFunction;
+    }
+
+    optionIsAvailable(option) {
+        // ignore filter for own filterChoice
+        if(this.filterSelected[option.filterChoice]?.length > 0) {
+            return true
+        }
+
+        return this.filterFunction(option, this.filterSelected, this.filterPosts)
     }
 }

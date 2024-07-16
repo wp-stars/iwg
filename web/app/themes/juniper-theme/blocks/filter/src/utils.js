@@ -84,7 +84,7 @@ export function getUrlParamValue(param) {
 }
 
 export function filterOptionToElement(filterOption) {
-    return <FilterDropdown data={filterOption} />
+    return
 }
 
 export function postApplysToTax(post, tax, value) {
