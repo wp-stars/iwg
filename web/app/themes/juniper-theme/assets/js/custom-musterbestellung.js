@@ -136,7 +136,12 @@ const customMusterbestellung = () => {
         containers.forEach(container => {
             container.innerHTML = ''
 
+            if(numberOfProducts === 0) {
+                return;
+            }
+
             const fillerEntries = Array(Math.max(maxProductsAllowed - numberOfProducts, 0)).fill(null)
+
             const productsToShow = [
                 ...products,
                 ...fillerEntries
@@ -243,8 +248,6 @@ const customMusterbestellung = () => {
                 return
             }
 
-            console.log('caught cart container')
-
             cartItemsListContainerHolder = cartContainer.item(0)
 
             const cartItemContainers = cartItemsListContainerHolder.getElementsByClassName('wc-block-cart-items__row')
@@ -280,20 +283,6 @@ const customMusterbestellung = () => {
         cartListFetcherMutationObserver.observe(possibleCartContainment, {attributes: true, subtree: true})
     }
     
-    // Set up an observer to watch for cookie changes
-    // let lastCookie = document.cookie
-    // setInterval(() => {
-    //     const cookiesGotUpdated = document.cookie !== lastCookie
-    //
-    //     if (!cookiesGotUpdated || isUpdating) {
-    //         return
-    //     }
-    //
-    //     lastCookie = document.cookie
-    // fetchAndUpdateMusterbestellung(false)
-    // handleMusterbestellungSelectsUpdate()
-    // }, 1000) // Poll every 1000ms
-
     initializeMusterbestellung()
     attachSampleAddButtonEventListeners()
     listenAndHandleCartSampleRmoveButton()
