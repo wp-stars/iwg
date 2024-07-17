@@ -218,7 +218,7 @@ const FilterComponent = (data) => {
                     {filterOptions.map((filter) => <FilterDropdown
                         data={filter}
                         filterSelected={filterSelected}
-                        filterPosts={filteredPosts}
+                        filterPosts={allPosts}
                     /> )}
                 </div>
 

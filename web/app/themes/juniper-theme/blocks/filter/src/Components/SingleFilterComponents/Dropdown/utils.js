@@ -177,10 +177,14 @@ export class OptionAvailableHandler {
 
     optionIsAvailable(option) {
         // ignore filter for own filterChoice
-        if(this.filterSelected[option.filterChoice]?.length > 0) {
-            return true
-        }
+        // if(this.filterSelected[option.filterChoice]?.length > 0) {
+        //     return true
+        // }
 
-        return this.filterFunction(option, this.filterSelected, this.filterPosts)
+        const localeFilter = clone(this.filterSelected)
+
+        localeFilter[option.filterChoice] = []
+
+        return this.filterFunction(option, localeFilter, this.filterPosts)
     }
 }
