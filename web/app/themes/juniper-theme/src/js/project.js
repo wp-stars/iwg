@@ -219,6 +219,13 @@ Element.prototype.appendBefore = function (element, parentNode = null) {
     element.parentNode.insertBefore(this, element);
 };
 
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
 // highlight classes
 function wps_addClassToPlusCellsInFigures() {
     document.querySelectorAll('figure.wp-block-table').forEach((figure) => wps_handleFigures(figure));
