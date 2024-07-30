@@ -750,18 +750,20 @@ add_filter( 'woocommerce_format_sale_price', function ( $price, $regular_price, 
 },          10, 3 );
 
 // delete cookie if the user made his order
-add_action('woocommerce_thankyou', function($order_id){
-    if ($order_id > 0 && isset($_COOKIE) && isset($_COOKIE['musterbestellungProducts'])) {
-        $order = wc_get_order( $order_id );
-        if($order instanceof WC_Order){
-            $user = $order->get_user();
-            if($user instanceof WP_User){
-                $order_user_id = $order->get_user_id();
-                $current_user_id = get_current_user_id();
-                if($order_user_id === $current_user_id){
-                    unset($_COOKIE['musterbestellungProducts']);
-                }
-            }
-        }
+add_action('woocommerce_checkout_order_processed', function($order_id, $posted_data, $order){
+    if(!$order instanceof WC_Order){
+        return;
     }
-});
+
+    $order_user_id = $order->get_user();
+    $current_user_id = get_current_user_id();
+
+    if($order_user_id !== $current_user_id) {
+        return;
+    }
+
+    if (isset($_COOKIE) && isset($_COOKIE['musterbestellungProducts'])) {
+        unset($_COOKIE['musterbestellungProducts']);
+    }
+
+}, 10, 3);
