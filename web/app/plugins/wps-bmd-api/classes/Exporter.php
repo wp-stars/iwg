@@ -226,17 +226,23 @@ class Exporter
         $xml->addAttribute('n1:DocumentTitle', 'Order');
         $xml->addAttribute('xsi:schemaLocation', 'http://www.bmd.at/xsd/ORDER/2.0/ http://www.bmd.at/xsd/ORDER/2.0/ORDER.xsd http://www.bmd.at/xsd/COMMONTYPES/2.0/ http://www.bmd.at/xsd/COMMONTYPES/2.0/COMMONTYPES.xsd');
 
+        $xml->addChild('bmd:Freifeld13', $this->data['n1:OrderingParty']['bmd:Address']['bmd:FirstName'], 'bmd');
+        $xml->addChild('bmd:Freifeld08', $this->data['n1:OrderingParty']['bmd:Address']['bmd:LastName'], 'bmd');
+
         // Ordering Party
         $ordering_party = $xml->addChild('n1:OrderingParty');
-
         $ordering_party->addChild('bmd:ExternalOrderingPartyID', $this->data['n1:OrderingParty']['bmd:ExternalOrderingPartyID'], 'bmd');
         $ordering_party->addChild('bmd:VATIdentificationNumber', $this->data['n1:OrderingParty']['bmd:VATIdentificationNumber'], 'bmd');
         $ordering_party->addChild('bmd:Email', $this->data['n1:OrderingParty']['bmd:Email'], 'bmd');
 
         $address = $ordering_party->addChild('bmd:Address', null, 'bmd');
         $address->addChild('bmd:Salutation', $this->data['n1:OrderingParty']['bmd:Address']['bmd:Salutation']);
-        $address->addChild('bmd:FirstName', $this->data['n1:OrderingParty']['bmd:Address']['bmd:FirstName']);
-        $address->addChild('bmd:LastName', $this->data['n1:OrderingParty']['bmd:Address']['bmd:LastName']);
+
+        //$address->addChild('bmd:FirstName', $this->data['n1:OrderingParty']['bmd:Address']['bmd:FirstName']);
+        //$address->addChild('bmd:LastName', $this->data['n1:OrderingParty']['bmd:Address']['bmd:LastName']);
+        $address->addChild('bmd:FirstName', '');
+        $address->addChild('bmd:LastName', $this->order->get_billing_company() ?? '');
+
         $address->addChild('bmd:AdditionalName', $this->data['n1:OrderingParty']['bmd:Address']['bmd:AdditionalName']);
         $address->addChild('bmd:AcademicTitle', $this->data['n1:OrderingParty']['bmd:Address']['bmd:AcademicTitle']);
         $address->addChild('bmd:Street', $this->data['n1:OrderingParty']['bmd:Address']['bmd:Street']);
@@ -252,8 +258,12 @@ class Exporter
         $invoice_recipient->addChild('bmd:Email', $this->data['n1:InvoiceRecipient']['bmd:Email'], 'bmd');
 
         $invoiceAddress = $invoice_recipient->addChild('bmd:Address', null, 'bmd');
-        $invoiceAddress->addChild('bmd:FirstName', $this->data['n1:InvoiceRecipient']['bmd:Address']['bmd:FirstName']);
-        $invoiceAddress->addChild('bmd:LastName', $this->data['n1:InvoiceRecipient']['bmd:Address']['bmd:LastName']);
+        //$invoiceAddress->addChild('bmd:FirstName', $this->data['n1:InvoiceRecipient']['bmd:Address']['bmd:FirstName']);
+        //$invoiceAddress->addChild('bmd:LastName', $this->data['n1:InvoiceRecipient']['bmd:Address']['bmd:LastName']);
+
+        $invoiceAddress->addChild('bmd:FirstName', '');
+        $invoiceAddress->addChild('bmd:LastName', $this->data['n1:InvoiceRecipient']['bmd:Address']['bmd:LastName'] ?? '');
+
         $invoiceAddress->addChild('bmd:Street', $this->data['n1:InvoiceRecipient']['bmd:Address']['bmd:Street']);
         $invoiceAddress->addChild('bmd:Town', $this->data['n1:InvoiceRecipient']['bmd:Address']['bmd:Town']);
         $invoiceAddress->addChild('bmd:ZIP', $this->data['n1:InvoiceRecipient']['bmd:Address']['bmd:ZIP']);
@@ -267,8 +277,12 @@ class Exporter
         $delivery_recipient->addChild('bmd:Email', $this->data['n1:DeliveryRecipient']['bmd:Email'], 'bmd');
 
         $deliveryAddress = $delivery_recipient->addChild('bmd:Address', null, 'bmd');
-        $deliveryAddress->addChild('bmd:FirstName', $this->data['n1:DeliveryRecipient']['bmd:Address']['bmd:FirstName']);
-        $deliveryAddress->addChild('bmd:LastName', $this->data['n1:DeliveryRecipient']['bmd:Address']['bmd:LastName']);
+        //$deliveryAddress->addChild('bmd:FirstName', $this->data['n1:DeliveryRecipient']['bmd:Address']['bmd:FirstName']);
+        //$deliveryAddress->addChild('bmd:LastName', $this->data['n1:DeliveryRecipient']['bmd:Address']['bmd:LastName']);
+
+        $deliveryAddress->addChild('bmd:FirstName', '');
+        $deliveryAddress->addChild('bmd:LastName', $this->data['n1:DeliveryRecipient']['bmd:Address']['bmd:LastName'] ?? '');
+
         $deliveryAddress->addChild('bmd:Street', $this->data['n1:DeliveryRecipient']['bmd:Address']['bmd:Street']);
         $deliveryAddress->addChild('bmd:Town', $this->data['n1:DeliveryRecipient']['bmd:Address']['bmd:Town']);
         $deliveryAddress->addChild('bmd:ZIP', $this->data['n1:DeliveryRecipient']['bmd:Address']['bmd:ZIP']);
