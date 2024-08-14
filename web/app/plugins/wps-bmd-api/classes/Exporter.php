@@ -226,8 +226,8 @@ class Exporter
         $xml->addAttribute('n1:DocumentTitle', 'Order');
         $xml->addAttribute('xsi:schemaLocation', 'http://www.bmd.at/xsd/ORDER/2.0/ http://www.bmd.at/xsd/ORDER/2.0/ORDER.xsd http://www.bmd.at/xsd/COMMONTYPES/2.0/ http://www.bmd.at/xsd/COMMONTYPES/2.0/COMMONTYPES.xsd');
 
-        $xml->addChild('bmd:Freifeld13', $this->data['n1:OrderingParty']['bmd:Address']['bmd:FirstName'], 'bmd');
-        $xml->addChild('bmd:Freifeld08', $this->data['n1:OrderingParty']['bmd:Address']['bmd:LastName'], 'bmd');
+        //$xml->addChild('bmd:Freifeld13', $this->data['n1:OrderingParty']['bmd:Address']['bmd:FirstName'], 'bmd');
+        //$xml->addChild('bmd:Freifeld08', $this->data['n1:OrderingParty']['bmd:Address']['bmd:LastName'], 'bmd');
 
         // Ordering Party
         $ordering_party = $xml->addChild('n1:OrderingParty');
@@ -294,6 +294,11 @@ class Exporter
         $xml->addChild('n1:DeliveryDateRequested', $this->data['n1:DeliveryDateRequested']);
         $xml->addChild('n1:GrossPrice', $this->data['n1:GrossPrice']);
         $xml->addChild('n1:DiscountPercentage', $this->data['n1:DiscountPercentage']);
+
+        // extended order fields
+        $extendedOrderFields = $xml->addChild('n1:ExtendedOrderFieldList');
+        $extendedOrderFields->addChild('MCA_AVE_AUFTRKOPF_FREIFELDA1', $this->data['n1:OrderingParty']['bmd:Address']['bmd:FirstName'], '');
+        $extendedOrderFields->addChild('MCA_AVE_AUFTRKOPF_FREIFELD8', $this->data['n1:OrderingParty']['bmd:Address']['bmd:LastName'], '');
 
         // Item List
         $item_list = $xml->addChild('n1:ItemList');
