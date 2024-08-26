@@ -29,10 +29,20 @@ class PrebuildCache {
 
 	private function __construct() {
 		try {
-			$this->load_cache_into_instance();
+			$this->load_cache_table_data_into_instance();
 		} catch ( Exception $e ) {
 			error_log( 'ERROR: UNABLE TO LOAD IN PRODUCT SEARCH CACHE!!!! ' . $e->getMessage());
 		}
+
+		add_action('save_post_product', function($product_id) {
+			error_log('save post product');
+
+			try {
+				$this->get_prebuild($product_id, true);
+			} catch ( Exception $e ) {
+				error_log('prebuild not generated');
+			}
+		}, 10, 1);
 	}
 
 	public function get_current_cache(): array {
@@ -42,7 +52,7 @@ class PrebuildCache {
 	/**
 	 * @throws Exception
 	 */
-	private function load_cache_into_instance(): void {
+	private function load_cache_table_data_into_instance(): void {
 		global $wpdb;
 
 		$query = $wpdb->prepare( "SELECT pregen_json.post_id AS post_id, pregen_json.meta_value AS pregen_json, pregen_time.meta_value AS pregen_time FROM (SELECT * FROM $wpdb->postmeta WHERE meta_key = %s) AS pregen_json ,(SELECT * FROM $wpdb->postmeta WHERE meta_key = %s) AS pregen_time WHERE pregen_json.post_id = pregen_time.post_id",
@@ -70,7 +80,12 @@ class PrebuildCache {
 		$pregen_cache_still_uptodate = $this->json_from_cache_still_uptodate( $id, self::$standard_ttl );
 		$pregen_exists               = $this->entry_exists( $id );
 
-		if ( $pregen_exists && $pregen_cache_still_uptodate) {
+		if( !$pregen_cache_still_uptodate ) {
+			$this->refill_entire_prebuild_cache_table();
+			$this->load_cache_table_data_into_instance();
+		}
+
+		if ( $pregen_exists ) {
 			return json_decode( $this->pull_pregen_entry_json( $id ) );
 		}
 
@@ -103,7 +118,7 @@ class PrebuildCache {
 		update_post_meta( $id, self::$FILTER_PREGEN_TIME_META_KEY, $now_date_time_formated );
 
 		// TODO: implement only generate new entry
-		$this->load_cache_into_instance();
+		$this->load_cache_table_data_into_instance();
 	}
 
 	private function entry_exists( int $id ): bool {
@@ -125,19 +140,19 @@ class PrebuildCache {
 
 		$post_obj     = new stdClass();
 		$post_obj->ID = $post->ID;
-		//		$post_obj->fields               = get_fields(json_encode($post));
+//		$post_obj->fields               = get_fields(json_encode($post));
 		$post_obj->excerpt           = htmlspecialchars( wp_trim_excerpt( '', $post ) );
 		$post_obj->post_title        = htmlspecialchars( $post->post_title );
 		$post_obj->post_name         = htmlspecialchars( $post->post_name );
 		$post_obj->date              = htmlspecialchars( $post->post_date );
 		$post_obj->featured_image    = htmlspecialchars( get_the_post_thumbnail_url( $post ) );
 		$post_obj->link              = htmlspecialchars( get_permalink( $post ) );
-		$post_obj->price             = (int) ( wc_get_product( $post->ID ) )->get_regular_price();
+		$post_obj->price             = (float) ( wc_get_product( $post->ID ) )->get_regular_price();
 		$post_obj->subheadline       = htmlspecialchars( $fields['wps_sp_subheadline'] ?? '' );
 		$post_obj->description_title = htmlspecialchars( $fields['wps_sp_description_title'] ?? '' );
 		$post_obj->description_text  = htmlspecialchars( $fields['wps_sp_description_text'] ?? '' );
-		//		$post_obj->features_text        = htmlspecialchars( $fields['wps_sp_features_text'] ?? '' );
-		//		$post_obj->areas_of_application = htmlspecialchars( $fields['wps_sp_areas_of_application_text'] ?? '' );
+//		$post_obj->features_text        = htmlspecialchars( $fields['wps_sp_features_text'] ?? '' );
+//		$post_obj->areas_of_application = htmlspecialchars( $fields['wps_sp_areas_of_application_text'] ?? '' );
 
 		$taxonomies = get_post_taxonomies( $post );
 
@@ -177,8 +192,18 @@ class PrebuildCache {
 		return json_encode( $post_obj );
 	}
 
-}
+	/**
+	 * @return void
+	 * @throws Exception
+	 */
+	private function refill_entire_prebuild_cache_table(): void {
+		array_map(fn($id) => $this->refill_prebuild( $id),
+			array_keys( $this->cache_loaded )
+		);
+	}
 
+}
+PrebuildCache::get_instance();
 /**
  * SELECT pregen_json.post_id AS post_id, pregen_json.meta_value AS pregen,  FROM (SELECT * FROM `wp_postmeta` WHERE meta_key = 'filter_pregen_json') AS pregen_json ,(SELECT * FROM `wp_postmeta` WHERE meta_key = 'filter_pregen_time') AS pregen_time WHERE pregen_json.post_id = pregen_time.post_id;
  */
