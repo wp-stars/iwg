@@ -35,6 +35,24 @@ if ( $related_products ) : ?>
 
 		<?php 
 			$product_count = 0;
+
+            global $post;
+
+            $product = wc_get_product( $post->ID);
+            if($product instanceof WC_Product){
+
+                $extraRelatedProducts = $product->get_cross_sell_ids();
+                //$extraRelatedProducts = $product->get_upsell_ids();
+
+                if(is_array($extraRelatedProducts) && count($extraRelatedProducts) > 0){
+                    foreach ($extraRelatedProducts as $extraRelatedProduct){
+                        if ($product_count >= 3) break;
+                        echo do_shortcode("[wps_get_product_card product_id='{$extraRelatedProduct}']");
+                        $product_count++;
+                    }
+                }
+            }
+
 			foreach ( $related_products as $related_product ) : 
 				if ($product_count >= 3) {
 					break;

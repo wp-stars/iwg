@@ -1512,33 +1512,5 @@ section.article-content figure.wp-block-table {
             font-size: 24px;
             text-align: center;
         }
-
-
-        /*
-        &::before {
-
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            width: 15px;
-            z-index: 9999;
-            box-shadow: 8px -1px 10px -13px inset rgba(0, 0, 0, 0.8);
-        }
-
-        &::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            height: 100%;
-            width: 15px;
-            z-index: 9999;
-            box-shadow: -8px -1px 10px -13px inset rgba(0, 0, 0, 0.8);
-        }
-        */
-
     }
 }
