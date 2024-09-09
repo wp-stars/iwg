@@ -54,3 +54,22 @@ section#content {
 .gform_button.button:focus{
     background: #444;
 }
+
+div.article-body div.wp-block-group__inner-container h3.wp-block-heading {
+    font-weight: 700;
+    font-size: 1.953rem;
+    line-height: 2.4rem;
+}
+
+div.wp-block-ls-slider div.swiper-container div.swiper-wrapper div.wp-block-group div figure.wp-block-image {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.woocommerce-gzd-legal-checkbox-text a {
+    text-decoration: underline;
+}
