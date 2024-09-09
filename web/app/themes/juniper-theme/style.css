@@ -54,3 +54,48 @@ section#content {
 .gform_button.button:focus{
     background: #444;
 }
+
+div.article-body div.wp-block-group__inner-container h3.wp-block-heading {
+    font-weight: 700;
+    font-size: 1.953rem;
+    line-height: 2.4rem;
+}
+
+div.wp-block-ls-slider div.swiper-container div.swiper-wrapper div.wp-block-group div figure.wp-block-image {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.woocommerce-gzd-legal-checkbox-text a {
+    text-decoration: underline;
+}
+
+.wp-block-button.is-style-big-primary-button a.wp-block-button__link,
+.wp-block-button.is-style-big-secondary-button a.wp-block-button__link {
+    border-radius: 4px;
+    background-color: #000;
+    border: solid 2px #000;
+    display: flex;
+    padding: 10px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-wrap: nowrap;
+}
+
+.wp-block-button.is-style-big-primary-button a.wp-block-button__link:hover,
+.wp-block-button.is-style-big-secondary-button a.wp-block-button__link:hover {
+    background-color: #4D4D4D;
+    border: solid 2px #4D4D4D;
+}
+
+.wp-block-button.is-style-big-primary-button a.wp-block-button__link:focus,
+.wp-block-button.is-style-big-secondary-button a.wp-block-button__link:focus {
+    background-color: #000;
+    border: solid 2px #fff;
+    outline: 2px solid #000;
+}
