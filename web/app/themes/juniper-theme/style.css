@@ -99,3 +99,9 @@ div.wp-block-ls-slider div.swiper-container div.swiper-wrapper div.wp-block-grou
     border: solid 2px #fff;
     outline: 2px solid #000;
 }
+
+@media  screen and (max-width: 768px) {
+    .mobile-hidden {
+        display: none !important;
+    }
+}
