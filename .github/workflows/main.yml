@@ -1,25 +1,27 @@
-name: Deploy to Remote Server for Staging
+name: Deployment - staging
+
+concurrency: staging
+
 on:
   push:
-    branches: [ 'staging' ]
+    branches:
+      - staging
 
 jobs:
-  deploy:
+  deployment:
     runs-on: ubuntu-latest
-
+    environment: production
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout current Production
+        uses: actions/checkout@v3
 
-      - name: Replace Borlabs Cookie Password in auth.json
-        run: |
-          sed -i 's/"password": ""/"password": "${{ secrets.BORLABS_COOKIE_PASSWORD }}"/g' auth.json       
-
-      - name: Configure SSH Key
-        run: |
-          echo "${{ secrets.DEPLOY_KEY }}" > deploy_key
-          chmod 600 ./deploy_key
-
-      - name: Deploy to Remote Server
-        run: |
-          ssh -i ./deploy_key -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} 'cd ~/staging/ && git reset --hard && git clean -fd && git pull'
+      - name: Deploy to Production Server
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+          REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
+          REMOTE_USER: ${{ secrets.DEPLOY_USER }}
+          REMOTE_PORT: 22
+          SOURCE: "/web/"
+          TARGET: /staging/
+          EXCLUDE: ""
