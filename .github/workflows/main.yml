@@ -22,6 +22,5 @@ jobs:
           REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
           REMOTE_USER: ${{ secrets.DEPLOY_USER }}
           REMOTE_PORT: 22
-          SOURCE: "/web/"
+          SOURCE: "web/"
           TARGET: /staging/
-          EXCLUDE: ""
