@@ -52,6 +52,8 @@ add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
 	$post_mock_card     = do_shortcode( '[wps_get_mocked_card encoding=\'ISO-8859-1\']' );
 	$data_arr['mocked'] = base64_encode( $post_mock_card );
 
+	$data_arr['posts']  = wps_get_filter_posts( 'product' );
+
 	$nocache             = isset( $_GET['nocache'] ) && $_GET['nocache'] == 1;
 	$data_arr['nocache'] = $nocache;
 
