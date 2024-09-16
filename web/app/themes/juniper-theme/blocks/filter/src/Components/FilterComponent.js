@@ -53,16 +53,22 @@ const FilterComponent = (data) => {
 
     const [loading, isLoading] = useState(true);
 
-
-
     function loadPosts() {
         isLoading(true)
-        const posts = loadInPostsFromPage(endpoint, postType, 0, nocache);
 
-        posts.then((data) => {
-            setAllPosts(data)
+        if (data.posts) {
+            const posts = data.posts
+
+            setAllPosts(posts)
             isLoading(false)
-        })
+        } else {
+            const posts = loadInPostsFromPage(endpoint, postType, 0, nocache);
+
+            posts.then((data) => {
+                setAllPosts(data)
+                isLoading(false)
+            })
+        }
     }
 
     function applyFilterReturn(filter, postsToFilter = null) {
@@ -260,7 +266,7 @@ const FilterComponent = (data) => {
                 {loading && loadingElement()}
                 <div className={"grid grid-cols-1 md:grid-cols-3 md:mb-10 md:gap-7 filter-grid flex-wrap"}>
                     {allPosts?.length === 0 && [...Array(6).keys()].map(() => renderMock(mockedCard))}
-                    {filteredPosts?.length ?
+                    {filteredPosts?.length > 0 ?
                         filteredPosts.map((post, index) => renderPost(post, index, false, refreshSlick))
                         : <div className={'w-full text-center col-span-3'}> {translationObject.no_results} </div>}
                 </div>
