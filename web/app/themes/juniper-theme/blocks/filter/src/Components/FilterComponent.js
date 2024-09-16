@@ -89,7 +89,14 @@ const FilterComponent = (data) => {
 
             switch (filterOptionName) {
                 case 'searchText':
-                    toFilterData = toFilterData.filter((post) => postInTextSelection(filterValue.toLowerCase().trim(), post))
+                    try {
+                        const textRegex = new RegExp(filterValue.toLowerCase().trim().replaceAll(' ', '.*?'))
+                        toFilterData = toFilterData.filter((post) => postInTextSelection(textRegex, post))
+                    } catch (e) {
+                        // failsave if the regex is faulty
+                        const textRegex = filterValue.toLowerCase().trim().replaceAll(/[*.?\[\]]/g, '')
+                        toFilterData = toFilterData.filter((post) => postInTextSelection(textRegex, post))
+                    }
                     break
                 case 'sampleAvailable':
                     toFilterData = toFilterData.filter(postHasSampleAvailable)
