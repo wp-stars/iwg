@@ -2,7 +2,6 @@ import translationObject from "../../../TranslationObject";
 // import colorCodes from "../../../ColorCodes";
 import {clone, getUrlParamValue} from "../../../utils";
 import convert from "color-convert";
-import {FilterEnvStorage} from "../../../FilterEntry";
 
 /**
  * @param rawOptions {FilterOption[]}

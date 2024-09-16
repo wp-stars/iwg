@@ -1,5 +1,4 @@
 import React from "react";
-import FilterDropdown from "./Components/SingleFilterComponents/Dropdown/FilterDropdown";
 import axios from "axios";
 import SingleProduct from "./Components/ProductComponent/SingleProduct";
 
@@ -29,8 +28,6 @@ export function clone(obj) {
 export async function loadInPostsFromPage(endpointUrl = '', postType = 'product', pageNum = 0, nocache) {
     const endpoint = `${endpointUrl}&post_type=${postType}&page=${pageNum}&nocache=${nocache}`
     const response = await axios.get(endpoint)
-
-    console.log(nocache)
 
     const responseData = response.data ?? {posts: []}
 
@@ -110,15 +107,15 @@ export function postInSelection(taxonomyName, taxonomyValue, post) {
     return postApplysToTax(post, taxonomyName, taxonomyValue)
 }
 
-export function postInTextSelection(text, post) {
-    return post.post_title.toLowerCase().includes(text)
-        || post.excerpt.toLowerCase().includes(text)
-        || post.description_text && post.description_text.toLowerCase().includes(text)
-        || post.description_title && post.description_title.toLowerCase().includes(text)
-        || post.subheadline && post.subheadline.toLowerCase().includes(text)
-        || post.features_text && post.features_text.toLowerCase().includes(text)
-        || post.areas_of_application && post.areas_of_application.toLowerCase().includes(text)
-        || Object.values(post.taxonomies).some(taxonomy => taxonomy.some(term => term.name.toLowerCase().includes(text)))
+export function postInTextSelection(regex, post) {
+    return post.post_title.toLowerCase().replace(/<[^>]*>/, " ").match(regex)?.length > 0
+        || post.excerpt.toLowerCase().match(regex)?.length > 0
+        || post.description_text && post.description_text.toLowerCase().match(regex)?.length > 0
+        || post.description_title && post.description_title.toLowerCase().match(regex)?.length > 0
+        || post.subheadline && post.subheadline.toLowerCase().match(regex)?.length > 0
+        || post.features_text && post.features_text.toLowerCase().match(regex)?.length > 0
+        || post.areas_of_application && post.areas_of_application.toLowerCase().match(regex)?.length > 0
+        || Object.values(post.taxonomies).some(taxonomy => taxonomy.some(term => term.name.toLowerCase().match(regex)?.length > 0))
 }
 
 export function postIsAvailableOnline(post) {

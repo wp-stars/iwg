@@ -42,7 +42,7 @@ class PrebuildCache {
 			} catch ( Exception $e ) {
 				error_log('prebuild not generated');
 			}
-		}, 10, 1);
+		});
 	}
 
 	public function get_current_cache(): array {

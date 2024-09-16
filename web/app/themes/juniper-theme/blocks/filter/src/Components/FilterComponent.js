@@ -1,6 +1,6 @@
-import React, {createContext, useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
-    filterOptionToElement, isArray, loadingElement, loadInPostsFromPage, postHasSampleAvailable,
+    isArray, loadingElement, loadInPostsFromPage, postHasSampleAvailable,
     postInSelection,
     postInTextSelection,
     postIsAvailableOnline, refreshSlick, renderMock,
@@ -10,7 +10,7 @@ import {
 import FilterTextSearch from "./SingleFilterComponents/Text/FilterTextSearch";
 import FilterCheckbox from "./SingleFilterComponents/Checkbox/FilterCheckbox";
 import translationObject from "../TranslationObject";
-import {FilterEntry, FilterEnvStorage, FilterTypes} from "../FilterEntry";
+import {FilterEntry, FilterTypes} from "../FilterEntry";
 import FilterDropdown from "./SingleFilterComponents/Dropdown/FilterDropdown";
 
 const FilterComponent = (data) => {
@@ -34,8 +34,6 @@ const FilterComponent = (data) => {
 
     const always_filter_sample_available = sample_available === 'outright'
     const always_filter_online_available = online_available === 'outright'
-
-    const FilterContext = createContext(null)
 
     // mocked card render
     // noinspection JSUnresolvedReference
