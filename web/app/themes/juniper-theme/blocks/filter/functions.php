@@ -6,7 +6,6 @@ require_once __DIR__ . '/prebuildCache/PrebuildCache.php';
 
 use blocks\filter\prebuildCache\PrebuildCache;
 use stdClass;
-use WP_Post;
 
 add_action( 'wp_enqueue_scripts', function () {
 	if ( ! has_block( 'acf/filter' ) ) {
@@ -115,7 +114,11 @@ function wps_filter_callback(): void {
 function wps_get_filter_post_ids( $post_type ): array {
 	global $wpdb;
 
-	$translation_exsist = table_exists( 'icl_translations' );
+	try {
+		$translation_exsist = !!$wpdb->get_col( 'SELECT * FROM icl_translations');
+	} catch (\Exception $e) {
+		$translation_exsist = false;
+	}
 
 	$current_language_code = apply_filters( 'wpml_current_language', null );
 
@@ -155,29 +158,28 @@ function table_exists( $table_name ): bool {
 }
 
 function wps_get_filter_posts( $post_type, $page = 0, $per_page = 6 ): array {
-
 	$currentLang   = apply_filters( 'wpml_current_language', null );
 	$cachingToken  = 'wps_filter_cache_' . $currentLang;
 	$cachedData    = get_transient( $cachingToken );
 	$cacheDuration = HOUR_IN_SECONDS;
 
+//	$nocache = true;
 	$nocache = isset( $_GET['nocache'] ) && $_GET['nocache'] == 1;
-
 	if ( $nocache ) {
 		delete_transient( $cachingToken );
 		$cachedData = null;
 	}
 
 	if ( empty( $cachedData ) ) {
-		$product_ids = wps_get_filter_post_ids( $post_type );
+	$product_ids = wps_get_filter_post_ids( $post_type );
 
 		if ( ! empty( $product_ids ) ) {
-			// set transient for 1 hour
+//			 set transient for 1 hour
 
 			set_transient( $cachingToken, $product_ids, $cacheDuration );
 		}
 	} else {
-		// use the cached Data if available
+//		 use the cached Data if available
 		$product_ids = $cachedData;
 	}
 
