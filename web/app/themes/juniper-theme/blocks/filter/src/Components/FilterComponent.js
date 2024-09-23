@@ -270,7 +270,7 @@ const FilterComponent = (data) => {
                 </div>
             </div>
             <div className={'mt-5 relative isolate'}>
-                {loading && loadingElement()}
+                {loading && loadingElement() && !data.posts}
                 <div className={"grid grid-cols-1 md:grid-cols-3 md:mb-10 md:gap-7 filter-grid flex-wrap"}>
                     {allPosts?.length === 0 && [...Array(6).keys()].map(() => renderMock(mockedCard))}
                     {filteredPosts?.length > 0 ?

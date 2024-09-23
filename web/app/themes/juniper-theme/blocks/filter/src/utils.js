@@ -80,10 +80,6 @@ export function getUrlParamValue(param) {
         : ''
 }
 
-export function filterOptionToElement(filterOption) {
-    return
-}
-
 export function postApplysToTax(post, tax, value) {
     const taxonomies = post.taxonomies
 
@@ -96,7 +92,7 @@ export function postApplysToTax(post, tax, value) {
     const taxonomyToCheck = taxonomies[tax]
 
     return taxonomyToCheck.findIndex((taxObj) => {
-        return taxObj.term_id === value
+        return Number(taxObj.term_id) === Number(value)
     }) !== -1
 }
 
@@ -107,6 +103,13 @@ export function postInSelection(taxonomyName, taxonomyValue, post) {
     return postApplysToTax(post, taxonomyName, taxonomyValue)
 }
 
+/**
+ * @param regex { RegExp|string }
+ * @param post
+ * @param baseString { string }
+ *
+ * @return {boolean|*|boolean}
+ */
 export function postInTextSelection(regex, post) {
     return post.post_title.toLowerCase().replace(/<[^>]*>/, " ").match(regex)?.length > 0
         || post.excerpt.toLowerCase().match(regex)?.length > 0

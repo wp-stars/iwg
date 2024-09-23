@@ -10,7 +10,7 @@ import convert from "color-convert";
  * @return {*[]}
  */
 export default function prepareDropdownOptions(rawOptions, label, optionAvailaleHandler) {
-    const cateogoryOptions = []
+    const categoryOptions = []
 
     const parents = rawOptions
         .filter((tax) => tax.parent)
@@ -23,7 +23,7 @@ export default function prepareDropdownOptions(rawOptions, label, optionAvailale
     parentTaxms.forEach((parent) => {
         const category = generateCategoryOfParent(parent, rawOptions, optionAvailaleHandler);
 
-        cateogoryOptions.push(category);
+        categoryOptions.push(category);
     })
 
     const othersLabel = parentTaxms.length > 0
@@ -38,9 +38,9 @@ export default function prepareDropdownOptions(rawOptions, label, optionAvailale
         .sort(sortByTermOrder)
         .filter((option) => optionAvailaleHandler.optionIsAvailable(option))
 
-    cateogoryOptions.push(others);
+    categoryOptions.push(others);
 
-    return cateogoryOptions
+    return categoryOptions
 }
 
 /**

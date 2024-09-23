@@ -171,7 +171,7 @@ function wps_get_filter_posts( $post_type, $page = 0, $per_page = 6 ): array {
 	}
 
 	if ( empty( $cachedData ) ) {
-	$product_ids = wps_get_filter_post_ids( $post_type );
+		$product_ids = wps_get_filter_post_ids( $post_type );
 
 		if ( ! empty( $product_ids ) ) {
 //			 set transient for 1 hour
