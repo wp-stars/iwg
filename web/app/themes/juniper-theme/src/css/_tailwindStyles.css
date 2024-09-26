@@ -1574,10 +1574,6 @@ video {
   max-width: 24rem;
 }
 
-.flex-shrink {
-  flex-shrink: 1;
-}
-
 .shrink {
   flex-shrink: 1;
 }
@@ -1831,6 +1827,10 @@ video {
 
 .gap-\[4rem\] {
   gap: 4rem;
+}
+
+.gap-0 {
+  gap: 0px;
 }
 
 .gap-x-10 {
@@ -2405,10 +2405,6 @@ video {
   text-transform: uppercase;
 }
 
-.lowercase {
-  text-transform: lowercase;
-}
-
 .italic {
   font-style: italic;
 }
@@ -2515,11 +2511,6 @@ video {
 
 .blur {
   --tw-blur: blur(8px);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-}
-
-.grayscale {
-  --tw-grayscale: grayscale(100%);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
