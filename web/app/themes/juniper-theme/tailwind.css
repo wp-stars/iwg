@@ -19,6 +19,9 @@ Theme Name: WordPress + Tailwind
   .snap-start {
     scroll-snap-align: start;
   }
+  .margin-block-none {
+    margin-block: 0;
+  }
 }
 
  
