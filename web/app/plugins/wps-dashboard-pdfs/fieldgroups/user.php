@@ -1,34 +1,34 @@
 <?php
 
-if (function_exists('acf_add_local_field_group')):
-    acf_add_local_field_group([
+if ( function_exists('acf_add_local_field_group') ):
+    acf_add_local_field_group(array(
         'key' => 'group_66f567b2bd302',
-        'title' => 'UserPDFRechnungen',
-        'fields' => [
-            [
+        'title' => 'Buchhaltung',
+        'fields' => array(
+            array(
                 'key' => 'field_66f567b3e95d9',
-                'label' => 'Rechnungen',
+                'label' => 'Dokumente',
                 'name' => 'wps_dashboardpdfs_list',
                 'aria-label' => '',
                 'type' => 'repeater',
                 'instructions' => '',
                 'required' => 0,
                 'conditional_logic' => 0,
-                'wrapper' => [
+                'wrapper' => array(
                     'width' => '',
                     'class' => '',
                     'id' => '',
-                ],
+                ),
                 'wpml_cf_preferences' => 1,
-                'layout' => 'table',
+                'layout' => 'block',
                 'pagination' => 0,
                 'min' => 0,
                 'max' => 0,
                 'collapsed' => '',
                 'button_label' => 'Eintrag hinzufügen',
                 'rows_per_page' => 20,
-                'sub_fields' => [
-                    [
+                'sub_fields' => array(
+                    array(
                         'key' => 'field_66f56971abc86',
                         'label' => 'Bestellnummer',
                         'name' => 'invoice',
@@ -37,11 +37,11 @@ if (function_exists('acf_add_local_field_group')):
                         'instructions' => '',
                         'required' => 0,
                         'conditional_logic' => 0,
-                        'wrapper' => [
-                            'width' => '',
+                        'wrapper' => array(
+                            'width' => '33',
                             'class' => '',
                             'id' => '',
-                        ],
+                        ),
                         'wpml_cf_preferences' => 2,
                         'default_value' => '',
                         'maxlength' => '',
@@ -49,21 +49,65 @@ if (function_exists('acf_add_local_field_group')):
                         'prepend' => '',
                         'append' => '',
                         'parent_repeater' => 'field_66f567b3e95d9',
-                    ],
-                    [
+                    ),
+                    array(
+                        'key' => 'field_66f56971fab88',
+                        'label' => 'Rechnungsnummer',
+                        'name' => 'invoiceNumber',
+                        'aria-label' => '',
+                        'type' => 'text',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '33',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'wpml_cf_preferences' => 2,
+                        'default_value' => '',
+                        'maxlength' => '',
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'parent_repeater' => 'field_66f567b3e95d9',
+                    ),
+                    array(
+                        'key' => 'field_66f56971tel99',
+                        'label' => 'Lieferscheinnummer',
+                        'name' => 'lieferscheinNumber',
+                        'aria-label' => '',
+                        'type' => 'text',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '33',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'wpml_cf_preferences' => 2,
+                        'default_value' => '',
+                        'maxlength' => '',
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'parent_repeater' => 'field_66f567b3e95d9',
+                    ),
+                    array(
                         'key' => 'field_66f56826e95da',
-                        'label' => 'PDF',
+                        'label' => 'Rechnung als PDF',
                         'name' => 'pdf',
                         'aria-label' => '',
                         'type' => 'file',
                         'instructions' => '',
                         'required' => 0,
                         'conditional_logic' => 0,
-                        'wrapper' => [
-                            'width' => '',
+                        'wrapper' => array(
+                            'width' => '50',
                             'class' => '',
                             'id' => '',
-                        ],
+                        ),
                         'wpml_cf_preferences' => 1,
                         'return_format' => 'array',
                         'library' => 'all',
@@ -71,19 +115,41 @@ if (function_exists('acf_add_local_field_group')):
                         'max_size' => '',
                         'mime_types' => '',
                         'parent_repeater' => 'field_66f567b3e95d9',
-                    ],
-                ],
-            ],
-        ],
-        'location' => [
-            [
-                [
+                    ),
+                    array(
+                        'key' => 'field_66f56826e95yzs',
+                        'label' => 'Lieferschein als PDF',
+                        'name' => 'lieferschein',
+                        'aria-label' => '',
+                        'type' => 'file',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '50',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'wpml_cf_preferences' => 1,
+                        'return_format' => 'array',
+                        'library' => 'all',
+                        'min_size' => '',
+                        'max_size' => '',
+                        'mime_types' => '',
+                        'parent_repeater' => 'field_66f567b3e95d9',
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
                     'param' => 'current_user',
                     'operator' => '==',
                     'value' => 'viewing_back',
-                ],
-            ],
-        ],
+                ),
+            ),
+        ),
         'menu_order' => 0,
         'position' => 'normal',
         'style' => 'default',
@@ -94,5 +160,5 @@ if (function_exists('acf_add_local_field_group')):
         'description' => '',
         'show_in_rest' => 0,
         'acfml_field_group_mode' => 'translation',
-    ]);
+    ));
 endif;
