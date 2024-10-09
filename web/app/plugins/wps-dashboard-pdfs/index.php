@@ -34,17 +34,22 @@ class DashboardPDFs
 
     public function __construct()
     {
-
-        //load user field groups
         require_once 'fieldgroups/user.php';
 
         add_action('init', [$this, 'init']);
-        add_filter('woocommerce_account_menu_items', [$this, 'menu']);
         add_action('woocommerce_account_'.$this->endpoint.'_endpoint', [$this, 'endpoint']);
+        //add_action('show_user_profile', [$this, 'addMetaBox']);
+        //add_action('edit_user_profile', [$this, 'addMetaBox']);
+
+        add_filter('woocommerce_account_menu_items', [$this, 'menu']);
     }
 
     public function init(){
         add_rewrite_endpoint($this->endpoint, EP_ROOT | EP_PAGES);
+    }
+
+    public function addMetaBox(){
+        echo '<p>Es wurden neue Dokumente hochgeladen.</p>';
     }
 
     public function menu($items){
