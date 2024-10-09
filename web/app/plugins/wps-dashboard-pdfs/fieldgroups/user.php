@@ -25,7 +25,7 @@ if ( function_exists('acf_add_local_field_group') ):
                 'min' => 0,
                 'max' => 0,
                 'collapsed' => '',
-                'button_label' => 'Eintrag hinzufügen',
+                'button_label' => 'Dokument hinzufügen',
                 'rows_per_page' => 20,
                 'sub_fields' => array(
                     array(
