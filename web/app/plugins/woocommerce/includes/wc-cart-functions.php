@@ -409,7 +409,7 @@ function wc_get_chosen_shipping_method_ids() {
  */
 function wc_get_chosen_shipping_method_for_package( $key, $package ) {
 	$chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
-	$chosen_method  = isset( $chosen_methods[ $key ] ) ? $chosen_methods[ $key ] : false;
+	$chosen_method  = $chosen_methods[ $key ] ?? FALSE;
 	$changed        = wc_shipping_methods_have_changed( $key, $package );
 
 	// This is deprecated but here for BW compat. TODO: Remove in 4.0.0.

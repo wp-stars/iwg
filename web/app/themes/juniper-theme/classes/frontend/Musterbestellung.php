@@ -480,3 +480,36 @@ function getSampleProductCookieData(): array {
 function getSampleProductsInCart(): array {
 	return array_filter( WC()->cart->get_cart(), 'cartItemIsSample' );
 }
+
+add_action( 'wp_ajax_clearCart', fn() => WC()->cart->empty_cart() );
+
+/**
+ * due to the WPML setup just being FUCKING STUPID!!!!!
+ * this wpml translation helper is necessary for the english translation of the asked class to be recognized
+ * filter mainly gets applied in:
+ *
+ * @see web/app/plugins/woocommerce-germanized/packages/woocommerce-germanized-shipments/src/ShippingMethod/ShippingMethod.php
+ */
+add_filter( 'woocommerce_gzd_shipping_method_rule_condition_package_shipping_classes_applies', function ( $package_data, $rule, $condition, $shipping_method ) {
+	$operator_name = $condition['operator'];
+
+	$classes = ! empty( $condition['classes'] ) ? array_map( 'absint',
+		(array) $condition['classes'] ) : [];
+
+	$classes_used_in_package = $package_data['package_shipping_classes'];
+
+	$classes_with_translation = [];
+
+	foreach ( $classes_used_in_package as $class_id ) {
+		$class_trid        = apply_filters( 'wpml_element_trid', NULL, $class_id, 'tax_shipping_class' );
+		$class_translation = apply_filters( 'wpml_get_element_translations', NULL, $class_trid, 'tax_shipping_class' );
+
+		foreach ( $class_translation as $class_reference ) {
+			$classes_with_translation[] = $class_reference->term_id;
+		}
+	}
+
+	$match_exists = array_intersect( $classes_with_translation, $classes );
+
+	return $operator_name === 'any_of' ? $match_exists : ! $match_exists;
+}, 10, 4 );

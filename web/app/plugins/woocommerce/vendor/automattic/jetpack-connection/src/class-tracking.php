@@ -109,13 +109,13 @@ class Tracking {
 	public static function register_tracks_functions_scripts( $enqueue = false ) {
 
 		// Register jp-tracks as it is a dependency.
-		wp_register_script(
-			'jp-tracks',
-			'//stats.wp.com/w.js',
-			array(),
-			gmdate( 'YW' ),
-			true
-		);
+//		wp_register_script(
+//			'jp-tracks',
+//			'//stats.wp.com/w.js',
+//			array(),
+//			gmdate( 'YW' ),
+//			true
+//		);
 
 		Assets::register_script(
 			'jp-tracks-functions',
