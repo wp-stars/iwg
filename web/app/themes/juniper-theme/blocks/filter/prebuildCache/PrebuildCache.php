@@ -8,6 +8,8 @@ namespace blocks\filter\prebuildCache;
 use Exception;
 use stdClass;
 
+use function Sodium\add;
+
 class PrebuildCache {
 	private static PrebuildCache $instance;
 
@@ -27,6 +29,9 @@ class PrebuildCache {
 		return self::$instance;
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	private function __construct() {
 		try {
 			$this->load_cache_table_data_into_instance();
@@ -169,9 +174,7 @@ class PrebuildCache {
 						'slug'    => $term->slug
 					];
 				}
-
 			}
-
 		}
 
 		$post_obj->taxonomies = $taxonomy_data;
@@ -197,9 +200,7 @@ class PrebuildCache {
 	 * @throws Exception
 	 */
 	private function refill_entire_prebuild_cache_table(): void {
-		array_map(fn($id) => $this->refill_prebuild( $id),
-			array_keys( $this->cache_loaded )
-		);
+		array_map(fn($id) => $this->refill_prebuild( $id), array_keys( $this->cache_loaded ) );
 	}
 
 }

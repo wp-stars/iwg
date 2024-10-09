@@ -60,6 +60,7 @@ add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
 	$data_arr['postName']      = $post_type->labels->name;
 	$data_arr['postType']      = $context['fields']['post_type'];
 	$data_arr['pullEndpoint']  = get_admin_url() . 'admin-ajax.php?action=getPostFilter';
+	$data_arr['cacheResetEndpoint'] = get_admin_url() . 'admin-ajax.php?action=resetCache';
 	$data_arr['filterOptions'] = $context['fields']['filter_options'];
 	$data_arr['title']         = __( $context['fields']['title'], 'text-domain' );
 
@@ -122,6 +123,7 @@ function wps_get_filter_post_ids( $post_type ): array {
 
 	$current_language_code = apply_filters( 'wpml_current_language', null );
 
+	$translation_exsist = true;
 	if ( $translation_exsist ) {
 		$translation_post_type = 'post_' . $post_type;
 
@@ -163,8 +165,8 @@ function wps_get_filter_posts( $post_type, $page = 0, $per_page = 6 ): array {
 	$cachedData    = get_transient( $cachingToken );
 	$cacheDuration = HOUR_IN_SECONDS;
 
-//	$nocache = true;
-	$nocache = isset( $_GET['nocache'] ) && $_GET['nocache'] == 1;
+	$nocache = true;
+//	$nocache = isset( $_GET['nocache'] ) && $_GET['nocache'] == 1;
 	if ( $nocache ) {
 		delete_transient( $cachingToken );
 		$cachedData = null;
@@ -197,6 +199,8 @@ function wps_get_filter_posts( $post_type, $page = 0, $per_page = 6 ): array {
  * @return stdClass
  */
 function map_post_to_filter_post_obj( $post_id, bool $reload_cache = false ): stdClass {
+	return json_decode( PrebuildCache::get_instance()->generate_prebuild_json( $post_id ) );
+
 	try {
 		return PrebuildCache::get_instance()->get_prebuild( $post_id, $reload_cache );
 	} catch ( \Exception $e ) {

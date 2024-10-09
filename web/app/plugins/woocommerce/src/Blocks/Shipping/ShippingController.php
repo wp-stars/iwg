@@ -404,8 +404,10 @@ class ShippingController {
 		if ( null === WC()->session ) {
 			return $address;
 		}
+
+		$session_shipping_method = WC()->session->get( 'chosen_shipping_methods', array() );
 		// We only need to select from the first package, since pickup_location only supports a single package.
-		$chosen_method          = current( WC()->session->get( 'chosen_shipping_methods', array() ) ) ?? '';
+		$chosen_method          = current( is_array($session_shipping_method) ? $session_shipping_method : [] ) ?? '';
 		$chosen_method_id       = explode( ':', $chosen_method )[0];
 		$chosen_method_instance = explode( ':', $chosen_method )[1] ?? 0;
 
