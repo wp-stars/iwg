@@ -125,6 +125,9 @@ function juniper_theme_enqueue(): void {
 	wp_enqueue_style( 'flowbite-js', get_template_directory_uri() . '/src/js/flowbite/flowbite.min.css', [], filemtime( __DIR__ . '/src/js/flowbite/flowbite.min.css' ) );
 	wp_enqueue_script( 'flowbite-css', get_template_directory_uri() . '/src/js/flowbite/flowbite.min.js', [], '1.0', true );
 
+	wp_enqueue_style( 'swiper-css', get_template_directory_uri() . '/src/js/swiper/swiper-bundle.min.css', [], '1.0' );
+	wp_enqueue_script( 'swiper-js', get_template_directory_uri() . '/src/js/swiper/swiper-bundle.min.js', [], '1.0', true );
+
 	wp_enqueue_script( 'nav-js', get_template_directory_uri() . '/src/js/nav.js', [], filemtime( get_template_directory_uri() . '/src/js/nav.js' ), true );
 	wp_enqueue_script( 'project-js', get_template_directory_uri() . '/src/js/project.js', [], filemtime( get_template_directory_uri() . '/src/js/project.js' ), true );
 
@@ -150,9 +153,6 @@ function juniper_theme_enqueue(): void {
 
 	wp_enqueue_script( 'lottie-js', get_template_directory_uri() . '/src/js/lottie/lottie-player.js', [], 'latest', true );
 	wp_enqueue_script( 'lottie-on-click', get_template_directory_uri() . '/src/js/lottie/onClickPlay.js', [ 'lottie-js' ], filemtime( __DIR__ . '/src/js/lottie/onClickPlay.js' ), true );
-
-	wp_enqueue_style( 'swiper-css', get_template_directory_uri() . '/src/js/swiper/swiper-bundle.min.css', [], '1.0' );
-	wp_enqueue_script( 'swiper-js', get_template_directory_uri() . '/src/js/swiper/swiper-bundle.min.js', [], '1.0', true );
 
 	wp_enqueue_script( 'scrollstyle-js', get_template_directory_uri() . '/src/js/scrollstyle/scrollstyle.js', [], '3.0', true);
 
@@ -349,12 +349,12 @@ add_action( 'customize_register', 'juniper_customizer_setting' );
 
 function wps_juniper_register_nav_menu() {
 	register_nav_menus( [
-		                    'primary_menu_de'   => __( 'Primary Menu DE', 'wps_juniper' ),
-		                    'secondary_menu_de' => __( 'Secondary Menu DE', 'wps_juniper' ),
-		                    'footer_menu_de'    => __( 'Footer Menu DE', 'wps_juniper' ),
-		                    'primary_menu_en'   => __( 'Primary Menu EN', 'wps_juniper' ),
-		                    'secondary_menu_en' => __( 'Secondary Menu EN', 'wps_juniper' ),
-		                    'footer_menu_en'    => __( 'Footer Menu EN', 'wps_juniper' ),
+		                    'primary_menu'   => __( 'Primary Menu', 'wps_juniper' ),
+		                    'secondary_menu' => __( 'Secondary Menu', 'wps_juniper' ),
+		                    'footer_menu'    => __( 'Footer Menu', 'wps_juniper' ),
+//		                    'primary_menu_en'   => __( 'Primary Menu EN', 'wps_juniper' ),
+//		                    'secondary_menu_en' => __( 'Secondary Menu EN', 'wps_juniper' ),
+//		                    'footer_menu_en'    => __( 'Footer Menu EN', 'wps_juniper' ),
 	                    ] );
 }
 
@@ -377,15 +377,15 @@ function wps_add_to_context( $context ) {
 	$context['languages']        = $languages;
 	$context['current_language'] = $current_language;
 
-	//$context['primary_menu']        = new \Timber\Menu( "primary_menu_$current_language" );
-	//$context['secondary_menu']      = new \Timber\Menu( "primary_menu_$current_language" );
+//	$context['primary_menu']        = new \Timber\Menu( "primary_menu_$current_language" );
+//	$context['secondary_menu']      = new \Timber\Menu( "primary_menu_$current_language" );
 
 	// use the german menu and translate it with wpml navigation syncronization
-	$context['primary_menu']   = new \Timber\Menu( "primary_menu_de" );
-	$context['secondary_menu'] = new \Timber\Menu( "primary_menu_de" );
+	$context['primary_menu']   = new \Timber\Menu( "primary_menu" );
+	$context['secondary_menu'] = new \Timber\Menu( "secondary_menu" );
 
 	//$context['footer_menu']         = new \Timber\Menu( "footer_menu_$current_language" );
-	$context['footer_menu'] = new \Timber\Menu( "footer_menu_de" );
+	$context['footer_menu'] = new \Timber\Menu( "footer_menu" );
 
 	$context['title']              = get_the_title();
 	$context['jumbotron_bg_image'] = get_stylesheet_directory_uri() . '/assets/img/default_bg_image.png';
@@ -542,6 +542,7 @@ function theme_add_woocommerce_support(): void {
 
 add_action( 'after_setup_theme', 'theme_add_woocommerce_support' );
 
+require_once THEME_DIR . 'blocks/newsslider/functions.php';
 require_once THEME_DIR . 'ls-blocks/class-gutenberg-blocks.php';
 require_once THEME_DIR . 'shortcodes/index.php';
 require_once THEME_DIR . 'api/metalprices.php';
