@@ -23,7 +23,7 @@ export default function AdminButton(data) {
                     .replace('text-white', '')
                     .split(' ')
 
-                newClassList.push('btn-accent', 'text-black')
+                newClassList.push('btn-accent', 'text-black', 'animate-pulse')
                 return newClassList
             })
         } else {
@@ -31,6 +31,7 @@ export default function AdminButton(data) {
                 .join(' ')
                 .replace('btn-accent', '')
                 .replace('text-black', '')
+                .replace('animate-pulse', '')
                 .split(' ')
 
             newClassList.push('btn-black', 'text-white')

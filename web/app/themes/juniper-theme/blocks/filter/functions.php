@@ -60,7 +60,7 @@ add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
 	$data_arr['postName']      = $post_type->labels->name;
 	$data_arr['postType']      = $context['fields']['post_type'];
 	$data_arr['pullEndpoint']  = get_admin_url() . 'admin-ajax.php?action=getPostFilter';
-	$data_arr['cacheResetEndpoint'] = get_admin_url() . 'admin-ajax.php?action=resetCache';
+	$data_arr['cacheResetEndpoint'] = 'https://www.iwgplating.com/productfinder?nocache=1';
 	$data_arr['filterOptions'] = $context['fields']['filter_options'];
 	$data_arr['title']         = __( $context['fields']['title'], 'text-domain' );
 
@@ -165,8 +165,7 @@ function wps_get_filter_posts( $post_type, $page = 0, $per_page = 6 ): array {
 	$cachedData    = get_transient( $cachingToken );
 	$cacheDuration = HOUR_IN_SECONDS;
 
-	$nocache = true;
-//	$nocache = isset( $_GET['nocache'] ) && $_GET['nocache'] == 1;
+	$nocache = isset( $_GET['nocache'] ) && $_GET['nocache'] == 1;
 	if ( $nocache ) {
 		delete_transient( $cachingToken );
 		$cachedData = null;
@@ -187,22 +186,28 @@ function wps_get_filter_posts( $post_type, $page = 0, $per_page = 6 ): array {
 
 	//	$products_to_load = array_splice( $product_ids, $page * $per_page, $per_page);
 
-	$post_arr = array_map( fn( $post_id ) => map_post_to_filter_post_obj( $post_id, $nocache ), $product_ids );
+	/** @noinspection PhpUnhandledExceptionInspection */
+	if($nocache) {
+		try {
+			PrebuildCache::get_instance()->refill_entire_prebuild_cache_table();
+		} catch ( \Exception $e ) {
+			error_log($e);
+		}
+	}
+
+	$post_arr = array_map( fn( $post_id ) => map_post_to_filter_post_obj( $post_id ), $product_ids );
 
 	return array_filter( $post_arr );
 }
 
 /**
  * @param $post_id
- * @param bool $reload_cache
  *
  * @return stdClass
  */
-function map_post_to_filter_post_obj( $post_id, bool $reload_cache = false ): stdClass {
-	return json_decode( PrebuildCache::get_instance()->generate_prebuild_json( $post_id ) );
-
+function map_post_to_filter_post_obj( $post_id ): stdClass {
 	try {
-		return PrebuildCache::get_instance()->get_prebuild( $post_id, $reload_cache );
+		return PrebuildCache::get_instance()->get_prebuild( $post_id );
 	} catch ( \Exception $e ) {
 		return json_decode( PrebuildCache::get_instance()->generate_prebuild_json( $post_id ) );
 	}

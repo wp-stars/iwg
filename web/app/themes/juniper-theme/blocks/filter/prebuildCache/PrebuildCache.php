@@ -73,7 +73,7 @@ class PrebuildCache {
 	/**
 	 * @throws Exception
 	 */
-	public function get_prebuild( int $id, $force_refill ): ?stdClass {
+	public function get_prebuild( int $id, $force_refill = false ): ?stdClass {
 		if ( ! get_post( $id ) ) {
 			return null;
 		}
@@ -199,7 +199,7 @@ class PrebuildCache {
 	 * @return void
 	 * @throws Exception
 	 */
-	private function refill_entire_prebuild_cache_table(): void {
+	public function refill_entire_prebuild_cache_table(): void {
 		array_map(fn($id) => $this->refill_prebuild( $id), array_keys( $this->cache_loaded ) );
 	}
 
