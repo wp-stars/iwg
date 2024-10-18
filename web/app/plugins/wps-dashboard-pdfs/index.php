@@ -109,6 +109,11 @@ class DashboardPDFs
         $html .= '<form method="post" action="">';
         $html .= '<div style="display: flex; flex-direction: column; justify-content: end; padding-right: 10px; max-width: 350px;">';
         $html .= '<button id="customerNotificationAboutNewDocuments" style="display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 15px; text-align: center; margin-bottom: 15px;" class="button-primary">' . __('Benachrichtigung senden') . '</button>';
+
+        if(get_current_screen()->id !== 'user-edit') {
+            $html .= '<a target="_blank" href="/wp/wp-admin/user-edit.php?user_id=' . $this->userId . '" style="display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 15px; text-align: center; margin-bottom: 15px;" class="button-secondary">' . __('Zum Kundenprofil') . '</a>';
+        }
+
         $html .= '<span style="font-size: 11px;" id="notificationResponse">'.$lastNotification.'</span>';
         $html .= '</div>';
         $html .= '</form>';
