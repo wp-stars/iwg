@@ -121,10 +121,10 @@ if ( ! class_exists( 'FooterNewsletter' ) ) {
 		 */
 		public function shortcode_markup( $attributes = [] ): string {
 
-			echo '<p class="font-bold leading-6 pb-2">' . __( 'Newsletter', 'wps-juniper' ) . '</p>';
+			$header = '<p class="font-bold leading-6 pb-2">' . __( 'Newsletter', 'wps-juniper' ) . '</p>';
 
 			$privacyPageUrl = ( get_locale() === "de_DE" ) ? '/datenschutz' : '/en/privacy-policy/';
-			echo '<p class="mb-7" >' . sprintf( __( 'Register now and always be well informed! Here you will find information about our <a class="underline hover:no-underline" target="_blank" href="%s">privacy policy</a>.', 'wps-juniper' ), $privacyPageUrl ) . '</p>';
+			$header .= '<p class="mb-7" >' . sprintf( __( 'Register now and always be well informed! Here you will find information about our <a class="underline hover:no-underline" target="_blank" href="%s">privacy policy</a>.', 'wps-juniper' ), $privacyPageUrl ) . '</p>';
 
 			if ( self::$modal_displayed ) {
 				return ''; // Return empty string if modal has already been displayed
@@ -158,7 +158,9 @@ if ( ! class_exists( 'FooterNewsletter' ) ) {
 			// Set the flag to indicate that the modal has been displayed
 			self::$modal_displayed = true;
 
-			return "<div class='newsletter'>
+			return "
+			$header
+			<div class='newsletter'>
                 <div class='newsletterModal modal'>
                     <div class='modal-content'>
                         <span class='close'>&times;</span>
