@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       WPS Dashboard PDF Rechnungen
  * Plugin URI:        https://wp-stars.com
- * Description:       Erzeugt einen neuen Tab im WooCommerce Dashboard, um PDF Rechnungen hochzuladen.
+ * Description:       Erzeugt einen neuen Tab im WooCommerce Dashboard, um PDF Rechnungen anzuzeigen.
  * Version:           1.0.0
  * Requires PHP:      8.1
  * Author:            wp-stars gmbh
@@ -26,6 +26,7 @@ class DashboardPDFs
 
     public string $endpoint = 'buchhaltung';
     public string $menueItem = 'Buchhaltung';
+    public int $userId = 0;
 
     public function __construct()
     {
@@ -34,19 +35,18 @@ class DashboardPDFs
         add_action('init', [$this, 'init']);
         add_action('woocommerce_account_'.$this->endpoint.'_endpoint', [$this, 'endpoint']);
 
-        // debugging by michaelritsch - 26.09.24 (new features - just for testing/development)
-        if (in_array( $_SERVER['REMOTE_ADDR'], ['88.116.97.118', '2a02:8388:2809:c880:a82f:50b:bdce:94bc'])){
+        // ajax request + metabox with button
+        add_action('admin_enqueue_scripts', [$this, 'profileScripts']);
 
-            // ajax request + metabox with button
-            add_action('admin_enqueue_scripts', [$this, 'profileScripts']);
-            add_action('show_user_profile', [$this, 'addMetaBox']);
-            add_action('edit_user_profile', [$this, 'addMetaBox']);
-            add_action('wp_ajax_profile_notification_profile_action', [$this, 'sendNotification']);
+        add_action('show_user_profile', [$this, 'addMetaBox']);
+        add_action('edit_user_profile', [$this, 'addMetaBox']);
 
-            // custom email class
-            add_filter( 'woocommerce_locate_template', [$this, 'loadCustomEmailTemplate'], 10, 3 );
-            add_filter( 'woocommerce_email_classes', [$this, 'registerNotificationEmailClass'] );
-        }
+        add_action('wp_ajax_profile_notification_profile_action', [$this, 'sendNotification']);
+        add_action('add_meta_boxes', [$this, 'setupMetaBoxes']);
+
+        // custom email class
+        add_filter( 'woocommerce_locate_template', [$this, 'loadCustomEmailTemplate'], 10, 3 );
+        add_filter( 'woocommerce_email_classes', [$this, 'registerNotificationEmailClass'] );
 
         add_filter('woocommerce_account_menu_items', [$this, 'menu']);
     }
@@ -55,28 +55,64 @@ class DashboardPDFs
         add_rewrite_endpoint($this->endpoint, EP_ROOT | EP_PAGES);
     }
 
-    public function addMetaBox(){
-
-        $html = '';
-
-        $lastNotification = get_user_meta(get_current_user_id(), 'wps_last_notification_datetime', true);
-        if(!$lastNotification){
-            $lastNotification = 'keine Benachrichtigung versendet';
-        }else{
-            $lastNotification = 'letzte Benachrichtigung: ' . $lastNotification;
-        }
+    public function setupMetaBoxes(){
 
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" style="width: 1em; height: 1em; scale: 2; transform: translateX(2px);">
           <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
           <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
         </svg>';
 
+        add_meta_box(
+            'wps-dashboard-pdf-box',
+            $svg . 'Buchaltung',
+            [$this, 'addMetaBox'],
+            'woocommerce_page_wc-orders',
+            'side',
+            'high'
+        );
+
+        /*add_meta_box(
+            'wps-dashboard-acf-box',
+            'Rechnungen & Lieferscheine hochladen',
+            [$this, 'acfMetabox'],
+            'woocommerce_page_wc-orders',
+            'normal'
+        );*/
+
+    }
+
+    public function acfMetabox(){
+        global $post;
+        acf_form(array(
+            'post_id' => $post->ID,  // Ensure fields load for the correct order
+            'field_groups' => array('group_66f567b2bd302'),  // Replace with your ACF field group ID
+            'form' => true,
+            'uploader' => 'wp',
+            'honeypot' => true,
+        ));
+    }
+
+    public function addMetaBox(){
+
+        $html = '';
+        $html .= "<style>body.user-edit-php div#wps-pdf-notification-box{border: dashed 1px #555; padding: 10px; border-radius: 5px; max-width: 300px; float: right;}</style>";
+
+        $lastNotification = get_user_meta($this->userId, 'wps_last_notification_datetime', true);
+        if(!$lastNotification){
+            $lastNotification = 'keine Benachrichtigung versendet';
+        }else{
+            $lastNotification = 'letzte Benachrichtigung: ' . $lastNotification;
+        }
+
+        $html .= '<div id="wps-pdf-notification-box">';
+        $html .= '<p>'.__('Senden Sie ihren Kunden Benachrichtigen über neu hochgeladene Dokumente').'</p>';
         $html .= '<form method="post" action="">';
-        $html .= '<div style="display: flex; flex-direction: column; justify-content: end; padding-right: 10px; max-width: 350px; float: right;">';
-        $html .= '<button id="customerNotificationAboutNewDocuments" style="display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 15px; font-size: 15px; background: gray; border-color: darkgray;" class="button-primary">' . $svg . __('User über neue Dokumente benachrichtigen') . '</button>';
-        $html .= '<span id="notificationResponse">'.$lastNotification.'</span>';
+        $html .= '<div style="display: flex; flex-direction: column; justify-content: end; padding-right: 10px; max-width: 350px;">';
+        $html .= '<button id="customerNotificationAboutNewDocuments" style="display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 15px; text-align: center; margin-bottom: 15px;" class="button-primary">' . __('Benachrichtigung senden') . '</button>';
+        $html .= '<span style="font-size: 11px;" id="notificationResponse">'.$lastNotification.'</span>';
         $html .= '</div>';
         $html .= '</form>';
+        $html .= '</div>';
 
         echo $html;
 
@@ -168,20 +204,49 @@ class DashboardPDFs
             null,
         );
 
+
+        $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : 0;
+        $order_id = isset($_GET['id']) ? $_GET['id'] : 0;
+
+        $order = wc_get_order( $order_id );
+        $user = get_user_by('ID', $user_id);
+
+        if(!!$order){
+            // get userID from single-order
+            $this->userId = $order->get_user_id();
+            // get userID from single-user
+        }else if($user instanceof WP_User){
+            $this->userId = $user->ID;
+        }else{
+            // return if there is no id - don't use current user
+            return;
+        }
+
         wp_localize_script('wps-profile-ajax-script', 'profileNotifactionAjax', array(
             'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce'    => wp_create_nonce('profile_notification_nonce')
+            'nonce'    => wp_create_nonce('profile_notification_nonce'),
+            'user_id'  => $this->userId
         ));
     }
 
     public function sendNotification()
     {
         check_ajax_referer('profile_notification_nonce', 'nonce');
-        $current_user = wp_get_current_user();
+
+
+        $this->userId = (int) $_POST['user'];
+        $current_user = get_user_by('ID', $this->userId);
+
+        // check if user exists
+        if(!$current_user instanceof WP_User){
+            echo "Benutzer konnte nicht gefunden werden.";
+            wp_die();
+        }
+
         $date = new DateTime('now', new DateTimeZone('Europe/Berlin'));
 
         // check if notification was sent within the last hour
-        $lastNotification = get_user_meta(get_current_user_id(), 'wps_last_notification_datetime', true);
+        $lastNotification = get_user_meta($this->userId, 'wps_last_notification_datetime', true);
         if(!!$lastNotification){
             $lastNotification = new DateTime($lastNotification, new DateTimeZone('Europe/Berlin'));
             $diff = $date->diff($lastNotification);

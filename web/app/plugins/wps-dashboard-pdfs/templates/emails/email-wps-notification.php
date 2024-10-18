@@ -26,9 +26,8 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 
 <?php /* translators: %s: Customer first name */ ?>
 
-    <strong>Neue Dokumente sind verfügbar</strong>
-    <a href="https://www.iwgplating.com/my-account/buchhaltung/">Hier klicken um die Dokumente zu sehen</a>
-
+    <strong>Neue Dokumente sind verfügbar</strong><br><br>
+    <a class="woocommerce-MyAccount-downloads-file button alt" href="https://www.iwgplating.com/my-account/buchhaltung/">Hier klicken um die Dokumente zu sehen</a>
 <?php
 
 /*
