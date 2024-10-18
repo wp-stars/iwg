@@ -5,13 +5,15 @@ import {
     postInTextSelection,
     postIsAvailableOnline, refreshSlick, renderMock,
     renderPost,
-    rerenderSlick
+    rerenderSlick,
+    requestCacheReset, waitJustSeconds, generateCurrentFilterUrl,
 } from "../utils";
 import FilterTextSearch from "./SingleFilterComponents/Text/FilterTextSearch";
 import FilterCheckbox from "./SingleFilterComponents/Checkbox/FilterCheckbox";
 import translationObject from "../TranslationObject";
 import {FilterEntry, FilterTypes} from "../FilterEntry";
 import FilterDropdown from "./SingleFilterComponents/Dropdown/FilterDropdown";
+import AdminButton from "./AdminComponents/AdminButton";
 
 const FilterComponent = (data) => {
     const title = data.title ?? '';
@@ -19,7 +21,13 @@ const FilterComponent = (data) => {
     const postType = data.postType ?? 'product'
 
     // noinspection JSUnresolvedReference
+    const isCurrentlyAdmin = data.currently_admin === 'true'
+
+    // noinspection JSUnresolvedReference
     const endpoint = data.pullEndpoint
+
+    // noinspection JSUnresolvedReference
+    const endpointResetCache = data.cacheResetEndpoint ?? ''
 
     // noinspection JSUnresolvedReference
     const nocache = data.nocache ?? false
@@ -52,6 +60,12 @@ const FilterComponent = (data) => {
     const [filteredPosts, setFilteredPosts] = useState([])
 
     const [loading, isLoading] = useState(true);
+
+    const urlFilterNameMap = {
+        searchText: 'text',
+        sampleAvailable: 'purchasability',
+        onlineAvailable: 'online-available',
+    }
 
     function loadPosts() {
         isLoading(true)
@@ -163,7 +177,7 @@ const FilterComponent = (data) => {
             filterOption.url = filterOption.filterChoice.replaceAll('_', '-')
 
             filterOption.optionAvailable = (option, filterSelected, filterPosts) => {
-                if(filterPosts <= 0) {
+                if (filterPosts <= 0) {
                     return true
                 }
 
@@ -205,6 +219,28 @@ const FilterComponent = (data) => {
                     data-aos={'fade-up'}
                     className={"mb-0 sm:mb-6"}>{title}</h1>
             </div>
+
+
+            {isCurrentlyAdmin &&
+                <>
+                    <h3>Frontend Admin Utils Panel</h3>
+                    <div className={'border-solid border-red-400 border w-full p-3 flex flex-row gap-3'}>
+                        <AdminButton onClick={() => requestCacheReset(endpointResetCache)}>
+                            Reload Cache
+                        </AdminButton>
+
+                        <AdminButton onClick={() => {
+                            filterOptions.forEach((filterOption) => {
+                                urlFilterNameMap[filterOption.filterChoice] = filterOption.url
+                            })
+
+                            return generateCurrentFilterUrl(filterSelected, urlFilterNameMap)}
+                        }>
+                            generate Filter URL
+                        </AdminButton>
+                    </div>
+                </>
+            }
             <div className={"mx-auto"}>
                 <div id={'filter-items'}
                      data-aos={'fade-up'}
@@ -214,7 +250,7 @@ const FilterComponent = (data) => {
                     <FilterTextSearch
                         label={'Product Search'}
                         name={'Product Search'}
-                        url={'text'}
+                        url={urlFilterNameMap.searchText}
                         placeholder={translationObject.product_search}
                         onChange={(newValue) =>
                             applyValueToFilter('searchText', newValue.trim().toLowerCase())
@@ -230,7 +266,7 @@ const FilterComponent = (data) => {
                         data={filter}
                         filterSelected={filterSelected}
                         filterPosts={allPosts}
-                    /> )}
+                    />)}
                 </div>
 
                 <div data-aos={'fade-up'}
@@ -242,7 +278,7 @@ const FilterComponent = (data) => {
                             key={'sampleAvailable'}
                             name={'sampleAvailable'}
                             label={translation.filter_sample_available}
-                            url={'purchasability'}
+                            url={urlFilterNameMap.sampleAvailable}
                             onChange={(isChecked) => setFilterSelected(prevFilters => (
                                 {
                                     ...prevFilters,
@@ -254,7 +290,7 @@ const FilterComponent = (data) => {
                             key={'onlineAvailable'}
                             name={'onlineAvailable'}
                             label={translation.filter_online_available}
-                            url={'online-available'}
+                            url={urlFilterNameMap.onlineAvailable}
                             isChecked={filterSelected.onlineAvailable}
                             onChange={(isChecked) => setFilterSelected(prevFilters => (
                                 {

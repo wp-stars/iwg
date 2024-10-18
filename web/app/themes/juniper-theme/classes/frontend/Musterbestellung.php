@@ -514,10 +514,6 @@ function maybe_load_cart() {
 		WC()->session->init();
 	}
 
-	if(in_array( $_SERVER['REMOTE_ADDR'], ['2a02:8109:a380:3b00:903d:584e:76a5:4f83', '95.90.247.156'])) {
-		error_log(print_r($_POST, TRUE ));
-	}
-
 	/**
 	 * For logged in customers, pull data from their account rather than the
 	 * session which may contain incomplete data.

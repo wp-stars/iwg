@@ -66,6 +66,7 @@ add_filter( 'timber/acf-gutenberg-blocks-data/filter', function ( $context ) {
 
 	$data_arr['sample_available'] = $context['fields']['sample_available'];
 	$data_arr['online_available'] = $context['fields']['online_available'];
+	$data_arr['currently_admin'] = current_user_can('administrator') ? 'true' : 'false';
 
 	$context['data'] = json_encode( $data_arr );
 
@@ -122,7 +123,6 @@ function wps_get_filter_post_ids( $post_type ): array {
 	}
 
 	$current_language_code = apply_filters( 'wpml_current_language', null );
-
 	$translation_exsist = true;
 	if ( $translation_exsist ) {
 		$translation_post_type = 'post_' . $post_type;

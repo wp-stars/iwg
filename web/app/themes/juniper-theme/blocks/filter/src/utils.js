@@ -118,7 +118,7 @@ export function postInTextSelection(regex, post) {
         || post.subheadline && post.subheadline.toLowerCase().match(regex)?.length > 0
         || post.features_text && post.features_text.toLowerCase().match(regex)?.length > 0
         || post.areas_of_application && post.areas_of_application.toLowerCase().match(regex)?.length > 0
-        || Object.values(post.taxonomies).some(taxonomy => taxonomy.some(term => term.name.toLowerCase().match(regex)?.length > 0))
+        // || Object.values(post.taxonomies).some(taxonomy => taxonomy.some(term => term.name.toLowerCase().match(regex)?.length > 0))
 }
 
 export function postIsAvailableOnline(post) {
@@ -127,4 +127,57 @@ export function postIsAvailableOnline(post) {
 
 export function postHasSampleAvailable(post) {
     return post.taxonomies["purchasability"]?.some(term => term.slug === 'muster-verfuegbar' || term.slug === 'sample-available-en')
+}
+
+export async function requestCacheReset(endpointUrl = '') {
+    const endpoint = `${endpointUrl}`
+
+    const response = await axios.get(endpoint)
+
+    const resposeData = response.data ?? {}
+
+    window.location.reload()
+}
+
+/**
+ * @param currentFilter {object}
+ * @param urlFilterNameMap
+ * @returns {Promise<void>}
+ */
+export async function generateCurrentFilterUrl(currentFilter, urlFilterNameMap) {
+    let urlMappedFilter = {}
+
+    for (const filterName in urlFilterNameMap) {
+        urlMappedFilter[urlFilterNameMap[filterName]] = currentFilter[filterName]
+    }
+
+    const currentUrl = new URL(window.location.origin + window.location.pathname)
+
+    for (const urlFilter in urlMappedFilter) {
+        const filter = urlMappedFilter[urlFilter]
+
+        let urlValue = ''
+
+        if (typeof filter === 'object') {
+            urlValue = encodeURI(filter.map((filter) => filter.slug).join(','))
+        } else {
+            urlValue = filter
+        }
+
+        if(!urlValue || urlFilter.length === 0) {
+            continue
+        }
+
+        currentUrl.searchParams.set(urlFilter, urlValue)
+    }
+
+    await navigator.clipboard.writeText(currentUrl.href)
+
+    await waitJustSeconds(2)
+}
+
+export async function waitJustSeconds(seconds = 1) {
+    return new Promise((resolve) => {
+        setTimeout(() => {resolve('resolved')}, seconds * 1000)
+    })
 }
