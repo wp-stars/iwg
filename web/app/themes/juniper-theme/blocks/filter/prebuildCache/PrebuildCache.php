@@ -39,11 +39,11 @@ class PrebuildCache {
 			error_log( 'ERROR: UNABLE TO LOAD IN PRODUCT SEARCH CACHE!!!! ' . $e->getMessage());
 		}
 
-		add_action('save_post_product', function($product_id) {
+		add_action('save_post_product', function() {
 			error_log('save post product');
 
 			try {
-				$this->get_prebuild($product_id, true);
+				$this->refill_entire_prebuild_cache_table();
 			} catch ( Exception $e ) {
 				error_log('prebuild not generated');
 			}

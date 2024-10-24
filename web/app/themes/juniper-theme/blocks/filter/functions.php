@@ -206,6 +206,8 @@ function wps_get_filter_posts( $post_type, $page = 0, $per_page = 6 ): array {
  * @return stdClass
  */
 function map_post_to_filter_post_obj( $post_id ): stdClass {
+	return json_decode( PrebuildCache::get_instance()->generate_prebuild_json( $post_id ) );
+
 	try {
 		return PrebuildCache::get_instance()->get_prebuild( $post_id );
 	} catch ( \Exception $e ) {
