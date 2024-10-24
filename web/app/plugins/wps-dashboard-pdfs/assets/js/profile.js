@@ -8,7 +8,8 @@ jQuery(document).ready(function($) {
             type: 'POST',
             data: {
                 action: 'profile_notification_profile_action',
-                nonce: profileNotifactionAjax.nonce
+                nonce: profileNotifactionAjax.nonce,
+                user_id: profileNotifactionAjax.user_id,
             },
             success: function(response) {
                 $('#notificationResponse').html(response);

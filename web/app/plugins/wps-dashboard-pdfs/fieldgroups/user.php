@@ -1,12 +1,13 @@
 <?php
 
 if ( function_exists('acf_add_local_field_group') ):
+
     acf_add_local_field_group(array(
-        'key' => 'group_66f567b2bd302',
+        'key' => 'group_6717a119cb957',
         'title' => 'Buchhaltung',
         'fields' => array(
             array(
-                'key' => 'field_66f567b3e95d9',
+                'key' => 'field_6717a11a4b205',
                 'label' => 'Dokumente',
                 'name' => 'wps_dashboardpdfs_list',
                 'aria-label' => '',
@@ -29,7 +30,7 @@ if ( function_exists('acf_add_local_field_group') ):
                 'rows_per_page' => 20,
                 'sub_fields' => array(
                     array(
-                        'key' => 'field_66f56971abc86',
+                        'key' => 'field_6717a1724b206',
                         'label' => 'Bestellnummer',
                         'name' => 'invoice',
                         'aria-label' => '',
@@ -38,7 +39,7 @@ if ( function_exists('acf_add_local_field_group') ):
                         'required' => 0,
                         'conditional_logic' => 0,
                         'wrapper' => array(
-                            'width' => '33',
+                            'width' => '',
                             'class' => '',
                             'id' => '',
                         ),
@@ -48,10 +49,10 @@ if ( function_exists('acf_add_local_field_group') ):
                         'placeholder' => '',
                         'prepend' => '',
                         'append' => '',
-                        'parent_repeater' => 'field_66f567b3e95d9',
+                        'parent_repeater' => 'field_6717a11a4b205',
                     ),
                     array(
-                        'key' => 'field_66f56971fab88',
+                        'key' => 'field_6717a1964b207',
                         'label' => 'Rechnungsnummer',
                         'name' => 'invoiceNumber',
                         'aria-label' => '',
@@ -60,7 +61,7 @@ if ( function_exists('acf_add_local_field_group') ):
                         'required' => 0,
                         'conditional_logic' => 0,
                         'wrapper' => array(
-                            'width' => '33',
+                            'width' => '',
                             'class' => '',
                             'id' => '',
                         ),
@@ -70,10 +71,10 @@ if ( function_exists('acf_add_local_field_group') ):
                         'placeholder' => '',
                         'prepend' => '',
                         'append' => '',
-                        'parent_repeater' => 'field_66f567b3e95d9',
+                        'parent_repeater' => 'field_6717a11a4b205',
                     ),
                     array(
-                        'key' => 'field_66f56971tel99',
+                        'key' => 'field_6717a1ab4b208',
                         'label' => 'Lieferscheinnummer',
                         'name' => 'lieferscheinNumber',
                         'aria-label' => '',
@@ -82,7 +83,7 @@ if ( function_exists('acf_add_local_field_group') ):
                         'required' => 0,
                         'conditional_logic' => 0,
                         'wrapper' => array(
-                            'width' => '33',
+                            'width' => '',
                             'class' => '',
                             'id' => '',
                         ),
@@ -92,10 +93,10 @@ if ( function_exists('acf_add_local_field_group') ):
                         'placeholder' => '',
                         'prepend' => '',
                         'append' => '',
-                        'parent_repeater' => 'field_66f567b3e95d9',
+                        'parent_repeater' => 'field_6717a11a4b205',
                     ),
                     array(
-                        'key' => 'field_66f56826e95da',
+                        'key' => 'field_6717a1bb4b209',
                         'label' => 'Rechnung als PDF',
                         'name' => 'pdf',
                         'aria-label' => '',
@@ -104,7 +105,7 @@ if ( function_exists('acf_add_local_field_group') ):
                         'required' => 0,
                         'conditional_logic' => 0,
                         'wrapper' => array(
-                            'width' => '50',
+                            'width' => '',
                             'class' => '',
                             'id' => '',
                         ),
@@ -114,10 +115,10 @@ if ( function_exists('acf_add_local_field_group') ):
                         'min_size' => '',
                         'max_size' => '',
                         'mime_types' => '',
-                        'parent_repeater' => 'field_66f567b3e95d9',
+                        'parent_repeater' => 'field_6717a11a4b205',
                     ),
                     array(
-                        'key' => 'field_66f56826e95yzs',
+                        'key' => 'field_6717a1e94b20a',
                         'label' => 'Lieferschein als PDF',
                         'name' => 'lieferschein',
                         'aria-label' => '',
@@ -126,7 +127,7 @@ if ( function_exists('acf_add_local_field_group') ):
                         'required' => 0,
                         'conditional_logic' => 0,
                         'wrapper' => array(
-                            'width' => '50',
+                            'width' => '',
                             'class' => '',
                             'id' => '',
                         ),
@@ -136,7 +137,7 @@ if ( function_exists('acf_add_local_field_group') ):
                         'min_size' => '',
                         'max_size' => '',
                         'mime_types' => '',
-                        'parent_repeater' => 'field_66f567b3e95d9',
+                        'parent_repeater' => 'field_6717a11a4b205',
                     ),
                 ),
             ),
@@ -161,4 +162,5 @@ if ( function_exists('acf_add_local_field_group') ):
         'show_in_rest' => 0,
         'acfml_field_group_mode' => 'translation',
     ));
+
 endif;

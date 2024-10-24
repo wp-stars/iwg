@@ -99,7 +99,7 @@ class DashboardPDFs
 
         $lastNotification = get_user_meta($this->userId, 'wps_last_notification_datetime', true);
         if(!$lastNotification){
-            $lastNotification = 'keine Benachrichtigung versendet';
+            $lastNotification = '';
         }else{
             $lastNotification = 'letzte Benachrichtigung: ' . $lastNotification;
         }
@@ -210,41 +210,44 @@ class DashboardPDFs
         );
 
 
-        $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : 0;
-        $order_id = isset($_GET['id']) ? $_GET['id'] : 0;
+        $user_id = (int) (isset($_GET['user_id']) ? $_GET['user_id'] : 0);
 
-        $order = wc_get_order( $order_id );
-        $user = get_user_by('ID', $user_id);
+        if(isset($_GET['id'])){
+            $order_id =  $_GET['id'];
+            $order = wc_get_order( $order_id );
 
-        if(!!$order){
-            // get userID from single-order
-            $this->userId = $order->get_user_id();
-            // get userID from single-user
-        }else if($user instanceof WP_User){
-            $this->userId = $user->ID;
-        }else{
-            // return if there is no id - don't use current user
-            return;
+            if(isset($order) && !!$order){
+                $user_id = $order->get_user_id();
+            }
         }
 
-        wp_localize_script('wps-profile-ajax-script', 'profileNotifactionAjax', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce'    => wp_create_nonce('profile_notification_nonce'),
-            'user_id'  => $this->userId
-        ));
+        $user = get_user_by('ID', $user_id);
+
+        if(isset($user) && $user instanceof WP_User){
+
+            $this->userId = $user->ID;
+
+            wp_localize_script('wps-profile-ajax-script', 'profileNotifactionAjax', array(
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'nonce'    => wp_create_nonce('profile_notification_nonce'),
+                'user_id'  => $this->userId
+            ));
+        }
     }
 
     public function sendNotification()
     {
         check_ajax_referer('profile_notification_nonce', 'nonce');
 
+        if(isset($_POST['user_id'])){
+            $this->userId = (int) $_POST['user_id'];
+        }
 
-        $this->userId = (int) $_POST['user'];
         $current_user = get_user_by('ID', $this->userId);
 
         // check if user exists
         if(!$current_user instanceof WP_User){
-            echo "Benutzer konnte nicht gefunden werden.";
+            echo "Benutzer ({$this->userId}) konnte nicht gefunden werden.";
             wp_die();
         }
 
@@ -278,6 +281,7 @@ class DashboardPDFs
     {
         // send email
         $mailObject = WC()->mailer()->emails['WC_Notification_Email'];
+
         return $mailObject->trigger($email);
     }
 
