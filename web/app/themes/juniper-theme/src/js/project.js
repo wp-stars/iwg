@@ -1,11 +1,10 @@
-
 const toggleNavbar = (event) => {
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         document.querySelector(".navbar").classList.add("navbar-scrolled")
     } else {
         document.querySelector(".navbar").classList.remove("navbar-scrolled")
     }
-} 
+}
 
 document.addEventListener("scroll", toggleNavbar)
 
@@ -51,10 +50,10 @@ const closeModal = (id) => {
     dialog.close();
 }
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     const initSlider = ($element) => {
         // Initialize the slider first with default settings
-        $element.each(function() {
+        $element.each(function () {
             const $slider = jQuery(this);
 
             if ($slider.hasClass('slick-initialized')) {
@@ -80,7 +79,7 @@ jQuery(document).ready(function() {
 
     const refreshSlider = ($element) => {
         // Initialize the slider first with default settings
-        $element.each(function() {
+        $element.each(function () {
             const $slider = jQuery(this);
 
             if (!$slider.hasClass('slick-initialized')) {
@@ -95,7 +94,7 @@ jQuery(document).ready(function() {
     initSlider(jQuery('.product-card-slider'));
 
     // Event delegation for dynamically added elements
-    jQuery(document).on('click', '.product-card-slider .slick-dots li', function(e) {
+    jQuery(document).on('click', '.product-card-slider .slick-dots li', function (e) {
         e.preventDefault();
         e.stopPropagation(); // To stop the event from bubbling up to the parent link
     });
@@ -112,7 +111,7 @@ jQuery(document).ready(function() {
         initSlider(jQuery('.product-card-slider')); // Reinitialize the slider after filter rendering is done
     });
 
-    jQuery(document).on('filterRefreshRenderedElements', function() {
+    jQuery(document).on('filterRefreshRenderedElements', function () {
         refreshSlider(jQuery('.product-card-slider'));
     })
 });
@@ -132,7 +131,7 @@ function getNextOuterClass(current, className) {
 function getNextInnerClass(current, className) {
     const currentContainsClass = current.classList.contains(className)
 
-    if(currentContainsClass) {
+    if (currentContainsClass) {
         return current
     }
 
@@ -146,13 +145,13 @@ function getNextInnerClass(current, className) {
 function getNearestClass(current, className) {
     const currentContainsClass = current.classList.contains(className)
 
-    if(currentContainsClass) {
+    if (currentContainsClass) {
         return current
     }
 
     const nextInnerClass = getNextInnerClass(current, className)
 
-    if(!nextInnerClass) {
+    if (!nextInnerClass) {
         const parent = current.parentNode
 
         return getNearestClass(parent, className)
@@ -220,7 +219,7 @@ Element.prototype.appendBefore = function (element, parentNode = null) {
 };
 
 function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
@@ -233,7 +232,7 @@ function wps_addClassToPlusCellsInFigures() {
 
 const wps_handleFigures = (figure) => {
     let items = figure.getElementsByTagName('table');
-    for (let i = 0; i < items.length; i++){
+    for (let i = 0; i < items.length; i++) {
         wps_handleTable(items[i]);
     }
 };
@@ -255,3 +254,20 @@ const wps_containsPlus = (text) => /\+/.test(text);
 const wps_appendClass = (cell) => cell.classList.add('table-cell-plus');
 
 wps_addClassToPlusCellsInFigures();
+
+const setup_magnific_popup = () => {
+    document.getElementsByClassName('wp-block-image')
+
+    $('.wp-block-gallery').each(function () {
+        $(this).magnificPopup({
+            delegate: 'a', // child items selector, by clicking on it popup will open
+            type: 'image',
+            gallery: {
+                enabled: true,
+            },
+            // other options
+        })
+    })
+}
+
+addEventListener('DOMContentLoaded', setup_magnific_popup)

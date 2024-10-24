@@ -135,85 +135,45 @@ function print_scss_compile_error(
  * @throws SassException
  */
 function juniper_theme_enqueue(): void {
-	wp_enqueue_style( 'flowbite-js',
-		get_template_directory_uri() . '/src/js/flowbite/flowbite.min.css', [],
-		filemtime( __DIR__ . '/src/js/flowbite/flowbite.min.css' ) );
-	wp_enqueue_script( 'flowbite-css',
-		get_template_directory_uri() . '/src/js/flowbite/flowbite.min.js', [],
-		'1.0', TRUE );
+	wp_enqueue_style( 'flowbite-js', get_template_directory_uri() . '/src/js/flowbite/flowbite.min.css', [], filemtime( __DIR__ . '/src/js/flowbite/flowbite.min.css' ) );
+	wp_enqueue_script( 'flowbite-css', get_template_directory_uri() . '/src/js/flowbite/flowbite.min.js', [], '1.0', TRUE );
 
-	wp_enqueue_style( 'swiper-css',
-		get_template_directory_uri() . '/src/js/swiper/swiper-bundle.min.css',
-		[], '1.0' );
-	wp_enqueue_script( 'swiper-js',
-		get_template_directory_uri() . '/src/js/swiper/swiper-bundle.min.js',
-		[], '1.0', TRUE );
+	wp_enqueue_style( 'swiper-css', get_template_directory_uri() . '/src/js/swiper/swiper-bundle.min.css', [], '1.0' );
+	wp_enqueue_script( 'swiper-js', get_template_directory_uri() . '/src/js/swiper/swiper-bundle.min.js', [], '1.0', TRUE );
 
-	wp_enqueue_script( 'nav-js',
-		get_template_directory_uri() . '/src/js/nav.js', [],
-		filemtime( get_template_directory_uri() . '/src/js/nav.js' ), TRUE );
-	wp_enqueue_script( 'project-js',
-		get_template_directory_uri() . '/src/js/project.js', [],
-		filemtime( get_template_directory_uri() . '/src/js/project.js' ),
-		TRUE );
+	wp_enqueue_style('mp-css', get_template_directory_uri() . '/src/js/magnific-popup/magnific-popup.css', [], '1.0');
+	wp_enqueue_script('jquery-mp', get_template_directory_uri() . '/src/js/magnific-popup/jquery.js', [], '1.0', TRUE);
+	wp_enqueue_script('mp-script', get_template_directory_uri() . '/src/js/magnific-popup/jquery.magnific-popup.min.js', ['jquery-mp'], '1.0', TRUE);
+
+	wp_enqueue_script( 'nav-js', get_template_directory_uri() . '/src/js/nav.js', [], filemtime( get_template_directory_uri() . '/src/js/nav.js' ), TRUE );
+	wp_enqueue_script( 'project-js', get_template_directory_uri() . '/src/js/project.js', [], filemtime( get_template_directory_uri() . '/src/js/project.js' ), TRUE );
 
 	$shop_url = rtrim( home_url(), '/' );
-	wp_localize_script( 'project-js', 'scriptData',
-		[ 'shopUrl' => $shop_url ] );
+	wp_localize_script( 'project-js', 'scriptData', [ 'shopUrl' => $shop_url ] );
 
-	wp_enqueue_style( 'tailwind-css',
-		get_template_directory_uri() . '/src/css/_tailwindStyles.css', [],
-		filemtime( get_template_directory_uri()
-		           . '/src/css/_tailwindStyles.css' ) );
+	wp_enqueue_style( 'tailwind-css', get_template_directory_uri() . '/src/css/_tailwindStyles.css', [], filemtime( get_template_directory_uri() . '/src/css/_tailwindStyles.css' ) );
 
-	check_for_recompile( __DIR__ . '/src/scss/_project.scss', TRUE,
-		__DIR__ . '/src/scss/_project.scss' );
+	check_for_recompile( __DIR__ . '/src/scss/_project.scss', TRUE, __DIR__ . '/src/scss/_project.scss' );
 
-	wp_enqueue_style( 'font-css', get_template_directory_uri() . '/fonts.css',
-		[], filemtime( get_template_directory_uri() . '/fonts.css' ) );
-	wp_enqueue_style( 'tailwind-css',
-		get_template_directory_uri() . '/_tailwind.css', [],
-		filemtime( get_template_directory_uri() . '/_tailwind.css' ) );
-	wp_enqueue_style( 'theme-css',
-		get_template_directory_uri() . '/src/css/theme.min.css', [],
-		filemtime( get_template_directory_uri() . '/src/css/theme.min.css' ) );
-	wp_enqueue_style( 'style-css', get_template_directory_uri() . '/style.css',
-		[], filemtime( get_template_directory_uri() . '/style.css' ) );
+	wp_enqueue_style( 'font-css', get_template_directory_uri() . '/fonts.css', [], filemtime( get_template_directory_uri() . '/fonts.css' ) );
+	wp_enqueue_style( 'tailwind-css', get_template_directory_uri() . '/_tailwind.css', [], filemtime( get_template_directory_uri() . '/_tailwind.css' ) );
+	wp_enqueue_style( 'theme-css', get_template_directory_uri() . '/src/css/theme.min.css', [], filemtime( get_template_directory_uri() . '/src/css/theme.min.css' ) );
+	wp_enqueue_style( 'style-css', get_template_directory_uri() . '/style.css', [], filemtime( get_template_directory_uri() . '/style.css' ) );
 
-	wp_enqueue_style( 'slick-css',
-		get_template_directory_uri() . '/src/js/slick/slick.min.css', [],
-		'1.8.1' );
-	wp_enqueue_style( 'slick-theme-css',
-		get_template_directory_uri() . '/src/js/slick/slick-theme.min.css', [],
-		'1.8.1' );
-	wp_enqueue_script( 'slick-js',
-		get_template_directory_uri() . '/src/js/slick/slick.js', [ 'jquery' ],
-		filemtime( __DIR__ . '/src/js/slick/slick.js' ), TRUE );
+	wp_enqueue_style( 'slick-css', get_template_directory_uri() . '/src/js/slick/slick.min.css', [], '1.8.1' );
+	wp_enqueue_style( 'slick-theme-css', get_template_directory_uri() . '/src/js/slick/slick-theme.min.css', [], '1.8.1' );
+	wp_enqueue_script( 'slick-js', get_template_directory_uri() . '/src/js/slick/slick.js', [ 'jquery' ], filemtime( __DIR__ . '/src/js/slick/slick.js' ), TRUE );
 
-	wp_enqueue_style( 'aos-css',
-		get_template_directory_uri() . '/src/js/aos/aos.css', [], '3.0.0' );
-	wp_enqueue_script( 'aos-js',
-		get_template_directory_uri() . '/src/js/aos/aos.js', [], '3.0.0',
-		TRUE );
-	wp_enqueue_script( 'aos-starter',
-		get_template_directory_uri() . '/src/js/aos/aos-enqueue.js', [],
-		'3.0.0', TRUE );
+	wp_enqueue_style( 'aos-css', get_template_directory_uri() . '/src/js/aos/aos.css', [], '3.0.0' );
+	wp_enqueue_script( 'aos-js', get_template_directory_uri() . '/src/js/aos/aos.js', [], '3.0.0', TRUE );
+	wp_enqueue_script( 'aos-starter', get_template_directory_uri() . '/src/js/aos/aos-enqueue.js', [], '3.0.0', TRUE );
 
-	wp_enqueue_script( 'lottie-js',
-		get_template_directory_uri() . '/src/js/lottie/lottie-player.js', [],
-		'latest', TRUE );
-	wp_enqueue_script( 'lottie-on-click',
-		get_template_directory_uri() . '/src/js/lottie/onClickPlay.js',
-		[ 'lottie-js' ], filemtime( __DIR__ . '/src/js/lottie/onClickPlay.js' ),
-		TRUE );
+	wp_enqueue_script( 'lottie-js', get_template_directory_uri() . '/src/js/lottie/lottie-player.js', [], 'latest', TRUE );
+	wp_enqueue_script( 'lottie-on-click', get_template_directory_uri() . '/src/js/lottie/onClickPlay.js', [ 'lottie-js' ], filemtime( __DIR__ . '/src/js/lottie/onClickPlay.js' ), TRUE );
 
-	wp_enqueue_script( 'scrollstyle-js',
-		get_template_directory_uri() . '/src/js/scrollstyle/scrollstyle.js', [],
-		'3.0', TRUE );
+	wp_enqueue_script( 'scrollstyle-js', get_template_directory_uri() . '/src/js/scrollstyle/scrollstyle.js', [], '3.0', TRUE );
 
-	wp_enqueue_script( 'woocommerce-cart-icon-counter-updater',
-		get_template_directory_uri()
-		. '/src/js/woocomemrce/cartCounterUpdater.js', [], 1, TRUE );
+	wp_enqueue_script( 'woocommerce-cart-icon-counter-updater', get_template_directory_uri() . '/src/js/woocomemrce/cartCounterUpdater.js', [], 1, TRUE );
 }
 
 
