@@ -250,6 +250,42 @@ const wps_handleTableCell = (cell) => {
     }
 }
 
+/**
+ * lsauer.com, 2012; rev. 2014 by lo sauer
+ * description: transformTag fully replaces a node by a different Tag, and re-attaches all children to the newly formed Tag
+ *              Any desired EventHandlers must be re-attached manually
+ *
+ * @param tagIdOrElem
+ * @param tagType the HTML Tag Type. Default is 'span' (HTMLSpanElement)
+ */
+function transformTag(tagIdOrElem, tagType) {
+    var elem = (tagIdOrElem instanceof HTMLElement)
+        ? tagIdOrElem
+        : document.getElementById(tagIdOrElem);
+
+
+    if (!elem || !(elem instanceof HTMLElement)) {
+        return
+    }
+
+    const children = elem.childNodes;
+    const parent = elem.parentNode;
+    const newNode = document.createElement(tagType || "span");
+
+    for (let a = 0; a < elem.attributes.length; a++) {
+        newNode.setAttribute(elem.attributes[a].nodeName, elem.attributes[a].value);
+    }
+
+    let i = 0, clen = children.length;
+
+    for (; i < clen; i++) {
+        newNode.appendChild(children[0]); //0...always point to the first non-moved element
+    }
+
+    newNode.style.cssText = elem.style.cssText;
+    parent.replaceChild(newNode, elem);
+}
+
 const wps_containsPlus = (text) => /\+/.test(text);
 const wps_appendClass = (cell) => cell.classList.add('table-cell-plus');
 
@@ -271,3 +307,28 @@ const setup_magnific_popup = () => {
 }
 
 addEventListener('DOMContentLoaded', setup_magnific_popup)
+
+const make_first_h2_to_h1_if_h1_doesnt_exist = () => {
+    const mainHeadersExists = document.getElementsByTagName('h1')
+
+    if (mainHeadersExists.length > 0) {
+        return
+    }
+
+    const limesodeHeaders = document.getElementsByClassName('wp-block-ls-heading__headline').toConnectedArray()
+    const generalH2 = document.getElementsByTagName('h2').toConnectedArray()
+
+    // limesoda header should always be h2 !
+    if (generalH2 === 0) {
+        return
+    }
+
+    /** @type HTMLElement elementToTransform  */
+    const elementToTransform = limesodeHeaders.length > 0
+        ? limesodeHeaders.first()
+        : generalH2.first()
+
+    transformTag(elementToTransform, 'h1')
+}
+
+addEventListener('DOMContentLoaded', make_first_h2_to_h1_if_h1_doesnt_exist)
