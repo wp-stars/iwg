@@ -174,6 +174,8 @@ function juniper_theme_enqueue(): void {
 	wp_enqueue_script( 'scrollstyle-js', get_template_directory_uri() . '/src/js/scrollstyle/scrollstyle.js', [], '3.0', TRUE );
 
 	wp_enqueue_script( 'woocommerce-cart-icon-counter-updater', get_template_directory_uri() . '/src/js/woocomemrce/cartCounterUpdater.js', [], 1, TRUE );
+
+	wp_enqueue_style('fontawesome-solid', get_template_directory_uri() . '/src/fontawesome/css/all.min.css', [], 1);
 }
 
 
