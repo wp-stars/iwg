@@ -145,9 +145,9 @@ if ( function_exists('acf_add_local_field_group') ):
         'location' => array(
             array(
                 array(
-                    'param' => 'current_user',
+                    'param' => 'user_role',
                     'operator' => '==',
-                    'value' => 'viewing_back',
+                    'value' => 'all',
                 ),
             ),
         ),
