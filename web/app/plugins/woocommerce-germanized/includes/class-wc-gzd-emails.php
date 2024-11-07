@@ -489,7 +489,7 @@ class WC_GZD_Emails {
 		if ( 'emails/customer-processing-order.php' === $template_name || 'emails/plain/customer-processing-order.php' === $template_name ) {
 			if ( isset( $args['order'] ) && is_a( $args['order'], 'WC_Order' ) ) {
 				$this->current_order_instance = $args['order'];
-				add_filter( 'gettext', array( $this, 'replace_processing_email_text' ), 9999, 3 );
+				add_filter( 'gettext', [ $this, 'replace_processing_email_text' ], 9999, 3 );
 			}
 		}
 
@@ -522,6 +522,7 @@ class WC_GZD_Emails {
 			if ( in_array( $original, $search, true ) ) {
 				if ( is_a( $this->current_order_instance, 'WC_Order' ) ) {
 					$order = $this->current_order_instance;
+
 
 					return $this->get_processing_email_text( $order );
 				}
@@ -592,7 +593,7 @@ class WC_GZD_Emails {
 		 */
 		$plain = apply_filters( 'woocommerce_gzd_order_confirmation_email_plain_text', get_option( 'woocommerce_gzd_email_order_confirmation_text' ) );
 
-		if ( ! $plain || '' === $plain ) {
+		if ( ! $plain ) {
 
 			/**
 			 * Filter the fallback order confirmation email text.
@@ -605,11 +606,11 @@ class WC_GZD_Emails {
 			$plain = apply_filters( 'woocommerce_gzd_order_confirmation_email_default_text', __( 'Your order has been received and is now being processed. Your order details are shown below for your reference.', 'woocommerce-germanized' ) );
 		}
 
-		$placeholders = array(
+		$placeholders = [
 			'{site_title}'   => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
 			'{order_number}' => $order->get_order_number(),
 			'{order_date}'   => wc_gzd_get_order_date( $order ),
-		);
+		];
 
 		$plain = str_replace( array_keys( $placeholders ), array_values( $placeholders ), $plain );
 

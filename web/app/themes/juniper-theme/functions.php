@@ -927,3 +927,37 @@ function adjust_language_display_contents_of_item_in_cart( &$data ): void {
 	$product->set_description( $translation_product->get_description() );
 	$product->set_short_description( $translation_product->get_short_description() );
 }
+
+// add extra placeholders to confirmation emails
+function add_order_sum_to_placeholder_replace($text, $order) {
+	return !$order instanceof WC_Order
+		? $text
+		: str_replace('{order_sum}', $order->get_total(), $text);
+}
+
+function add_footer_mail_link_to_placeholder_replace( string $text ): string {
+	return str_replace('{footer_email_link}', '<a href="mailto:office@iwgplating.com">office@iwgplating.com</a>', $text);
+}
+
+function add_footer_phone_link_to_placeholder_replace( string $text ): string {
+	return str_replace('{footer_tel_link}', '<a href = \'tel:+43 2287 71073\' > + 43( 0 ) 2287 71073 </a>', $text);
+}
+
+function replace_newlines_with_html_breaks(string $text): string {
+	$text = str_replace("\n", '<br>', $text);
+
+	error_log(print_r($text, true));
+
+	return $text;
+}
+
+add_filter('woocommerce_gzd_order_confirmation_email_plain_text', 'replace_newlines_with_html_breaks' , 11);
+
+add_filter('woocommerce_gzd_order_confirmation_email_text', function($text, $order) {
+	$text = add_order_sum_to_placeholder_replace($text, $order);
+	$text = add_footer_mail_link_to_placeholder_replace($text);
+	/** @noinspection PhpUnnecessaryLocalVariableInspection */
+	$text = add_footer_phone_link_to_placeholder_replace($text);
+
+	return $text;
+}, 11, 2);

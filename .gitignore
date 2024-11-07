@@ -8,6 +8,7 @@ web/app/uploads/*
 
 # WordPress
 web/.htaccess
+web/wp-config.php
 
 # ignore any Log files
 *.log
