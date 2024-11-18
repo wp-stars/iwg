@@ -141,8 +141,10 @@ if ( ! class_exists( 'FooterNewsletter' ) ) {
 			ob_start();
 
 			?>
+			<script charset="utf-8" type="text/javascript" src="//js-eu1.hsforms.net/forms/embed/v2.js"></script>
 			<script>
                 hbspt.forms.create({
+		    region: 'eu1',
                     portalId: '25864699',
                     formId: '<?= $formId; ?>',
                     target: '.newsletter-wrapper-<?= $form_id?>'
