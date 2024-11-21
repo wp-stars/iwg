@@ -2,6 +2,7 @@ import translationObject from "../../../TranslationObject";
 // import colorCodes from "../../../ColorCodes";
 import {clone, getUrlParamValue} from "../../../utils";
 import convert from "color-convert";
+import {FilterEnvStorage} from "../../../FilterEntry";
 
 /**
  * @param rawOptions {FilterOption[]}
@@ -10,7 +11,7 @@ import convert from "color-convert";
  * @return {*[]}
  */
 export default function prepareDropdownOptions(rawOptions, label, optionAvailaleHandler) {
-    const categoryOptions = []
+    const cateogoryOptions = []
 
     const parents = rawOptions
         .filter((tax) => tax.parent)
@@ -23,7 +24,7 @@ export default function prepareDropdownOptions(rawOptions, label, optionAvailale
     parentTaxms.forEach((parent) => {
         const category = generateCategoryOfParent(parent, rawOptions, optionAvailaleHandler);
 
-        categoryOptions.push(category);
+        cateogoryOptions.push(category);
     })
 
     const othersLabel = parentTaxms.length > 0
@@ -38,9 +39,9 @@ export default function prepareDropdownOptions(rawOptions, label, optionAvailale
         .sort(sortByTermOrder)
         .filter((option) => optionAvailaleHandler.optionIsAvailable(option))
 
-    categoryOptions.push(others);
+    cateogoryOptions.push(others);
 
-    return categoryOptions
+    return cateogoryOptions
 }
 
 /**

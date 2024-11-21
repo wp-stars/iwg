@@ -10,6 +10,7 @@ jQuery(document).ready(function($) {
                 action: 'profile_notification_profile_action',
                 nonce: profileNotifactionAjax.nonce,
                 user_id: profileNotifactionAjax.user_id,
+                order_id: profileNotifactionAjax.order_id,
             },
             success: function(response) {
                 $('#notificationResponse').html(response);

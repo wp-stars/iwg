@@ -27,7 +27,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 <?php /* translators: %s: Customer first name */ ?>
 
 	<?php
-		$informational_text = __('Hello, <br>
+		$informational_text = __('Hello, <br><br>
 		Your invoice and delivery note are now available in your personal area in the customer dashboard
 <br><br>
 		For security reasons, you will first need to enter your email address and personal password.

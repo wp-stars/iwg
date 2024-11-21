@@ -141,38 +141,21 @@ export async function requestCacheReset(endpointUrl = '') {
 
 /**
  * @param currentFilter {object}
- * @param urlFilterNameMap
+ * @param urlFilterNameMap {object}
  * @returns {Promise<void>}
  */
 export async function generateCurrentFilterUrl(currentFilter, urlFilterNameMap) {
-    let urlMappedFilter = {}
+    const urlMappedFilter = ''
 
-    for (const filterName in urlFilterNameMap) {
-        urlMappedFilter[urlFilterNameMap[filterName]] = currentFilter[filterName]
-    }
-
-    const currentUrl = new URL(window.location.origin + window.location.pathname)
-
-    for (const urlFilter in urlMappedFilter) {
-        const filter = urlMappedFilter[urlFilter]
-
-        let urlValue = ''
-
-        if (typeof filter === 'object') {
-            urlValue = encodeURI(filter.map((filter) => filter.slug).join(','))
-        } else {
-            urlValue = filter
-        }
-
-        if(!urlValue || urlFilter.length === 0) {
+    for (const filterName of urlFilterNameMap) {
+        if (!currentFilter[filterName]) {
             continue
         }
 
-        currentUrl.searchParams.set(urlFilter, urlValue)
+        urlMappedFilter[urlFilterNameMap[filterName]] = currentFilter[filterName]
     }
 
-    await navigator.clipboard.writeText(currentUrl.href)
-
+    console.log(urlMappedFilter)
     await waitJustSeconds(2)
 }
 

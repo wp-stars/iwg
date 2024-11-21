@@ -219,6 +219,7 @@ class DashboardPDFs {
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'profile_notification_nonce' ),
 				'user_id'  => $this->userId,
+				'order_id' => $order_id ?? '',
 			] );
 		}
 	}
@@ -252,8 +253,14 @@ class DashboardPDFs {
 			}
 		}
 
+		$current_potential_order = $_POST['order_id'] ?: null;
+
+		$email_to_send_to = $current_potential_order ?
+			wc_get_order($current_potential_order)->get_billing_email() :
+			$current_user->user_email;
+
 		// send email
-		$submission = $this->sendEmail( $current_user->user_email );
+		$submission = $this->sendEmail( $email_to_send_to );
 		if ( FALSE === $submission ) {
 			echo 'Die Benachrichtigung konnte nicht versendet werden.';
 			wp_die();
@@ -261,7 +268,7 @@ class DashboardPDFs {
 
 		// mark notification as sent
 		update_user_meta( $current_user->ID, 'wps_last_notification_datetime', $date->format( 'Y-m-d H:i:s' ) );
-		echo "Eine Benachrichtung wurde an folgende E-Mail versendet: <strong>{$current_user->user_email}</strong>.";
+		echo "Eine Benachrichtung wurde an folgende E-Mail versendet: <strong>{$email_to_send_to}</strong>.";
 		wp_die();
 	}
 

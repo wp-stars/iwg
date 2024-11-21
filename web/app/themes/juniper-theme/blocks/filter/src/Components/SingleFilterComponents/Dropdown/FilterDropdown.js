@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 import chroma from 'chroma-js';
 

@@ -15,7 +15,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		return;
 	}
 
-	wp_enqueue_style('newsslider-css', $theme_path . '/blocks/newsslider/style.css', [], $time );
+	wp_enqueue_style('newsslider-css', $theme_path . '/blocks/newsslider/style.css', array(), $time, 'all');
 
 	if ( empty( file_get_contents( $script_file_path ) ) ) {
 		return;
@@ -27,7 +27,7 @@ add_action('admin_enqueue_scripts', function() {
 	$theme_path = get_template_directory_uri();
 	$time       = time();
 
-	wp_enqueue_style('newsslider-css', $theme_path . '/blocks/newsslider/style.css', [], $time );
+	wp_enqueue_style('newsslider-css', $theme_path . '/blocks/newsslider/style.css', array(), $time, 'all');
 });
 
 add_filter( 'timber/acf-gutenberg-blocks-data/newsslider',

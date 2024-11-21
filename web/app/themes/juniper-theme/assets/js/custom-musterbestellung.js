@@ -126,6 +126,8 @@ const customMusterbestellung = () => {
         const containers = document.querySelectorAll('#musterbestellung .products, #musterbestellung-mobile .products-mobile')
         const productNumberSpans = document.querySelectorAll('#musterbestellung .product-number, #musterbestellung-mobile .product-number')
 
+        console.log(products)
+
         const numberOfProducts = products.length
         const maxProductsAllowed = 3
 

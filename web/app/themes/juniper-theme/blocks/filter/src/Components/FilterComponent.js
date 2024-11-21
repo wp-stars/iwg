@@ -61,12 +61,6 @@ const FilterComponent = (data) => {
 
     const [loading, isLoading] = useState(true);
 
-    const urlFilterNameMap = {
-        searchText: 'text',
-        sampleAvailable: 'purchasability',
-        onlineAvailable: 'online-available',
-    }
-
     function loadPosts() {
         isLoading(true)
 
@@ -230,11 +224,13 @@ const FilterComponent = (data) => {
                         </AdminButton>
 
                         <AdminButton onClick={() => {
-                            filterOptions.forEach((filterOption) => {
-                                urlFilterNameMap[filterOption.filterChoice] = filterOption.url
-                            })
+                            const filterUrlMap = []
 
-                            return generateCurrentFilterUrl(filterSelected, urlFilterNameMap)}
+                            for (const filterOption of filterOptions) {
+                                filterUrlMap[filterOption.filterChoice] = filterOption.url
+                            }
+
+                            return generateCurrentFilterUrl(filterUrlMap)}
                         }>
                             generate Filter URL
                         </AdminButton>
@@ -250,7 +246,7 @@ const FilterComponent = (data) => {
                     <FilterTextSearch
                         label={'Product Search'}
                         name={'Product Search'}
-                        url={urlFilterNameMap.searchText}
+                        url={'text'}
                         placeholder={translationObject.product_search}
                         onChange={(newValue) =>
                             applyValueToFilter('searchText', newValue.trim().toLowerCase())
@@ -278,7 +274,7 @@ const FilterComponent = (data) => {
                             key={'sampleAvailable'}
                             name={'sampleAvailable'}
                             label={translation.filter_sample_available}
-                            url={urlFilterNameMap.sampleAvailable}
+                            url={'purchasability'}
                             onChange={(isChecked) => setFilterSelected(prevFilters => (
                                 {
                                     ...prevFilters,
@@ -290,7 +286,7 @@ const FilterComponent = (data) => {
                             key={'onlineAvailable'}
                             name={'onlineAvailable'}
                             label={translation.filter_online_available}
-                            url={urlFilterNameMap.onlineAvailable}
+                            url={'online-available'}
                             isChecked={filterSelected.onlineAvailable}
                             onChange={(isChecked) => setFilterSelected(prevFilters => (
                                 {

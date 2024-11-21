@@ -91,7 +91,7 @@ if (!class_exists('Newsarchive')) {
                 define('THEME_URI', get_template_directory_uri() . '/');
             }
 
-            if (has_shortcode($post->post_content, self::$slug)) {
+//            if (has_shortcode($post->post_content, self::$slug)) {
                 $asset_file = include THEME_DIR . 'shortcodes/' . self::$slug . '/index.asset.php';
                 wp_enqueue_style(
                     'ls_shortcode_style_' . self::$slug,
@@ -120,7 +120,7 @@ if (!class_exists('Newsarchive')) {
                         'ajaxUrl' => admin_url('admin-ajax.php'),
                     ]
                 );
-            }
+//            }
         }
 
         /**

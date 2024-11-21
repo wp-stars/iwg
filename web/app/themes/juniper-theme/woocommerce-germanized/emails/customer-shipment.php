@@ -48,13 +48,18 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 				Delivery Details:<br>
 				- Shipping Date: %1$s <br>
 				- Expected Delivery Date: %2$s <br>
-				- Shipment tracking: %3$s<br>
+				- Shipment tracking: %3$s<br><br>
 			', 'shipments', 'woocommerce-germanized' );
 
 			$shipping_methods = $order->get_shipping_methods();
-			$shipping_method  = $shipping_methods[ array_key_first( $shipping_methods ) ];
 
-			$shipment = wc_gzd_get_shipment( $shipping_method->get_id() );
+			$shipment_order = wc_gzd_get_shipment_order($order->get_id());
+
+			$shipments = $shipment_order->get_shipments();
+
+			$latest_shipment = $shipments[array_key_last($shipments)];
+
+			$shipment = wc_gzd_get_shipment( $latest_shipment->get_id() );
 
 			$shipment_estemated_date = $shipment->get_est_delivery_date();
 
