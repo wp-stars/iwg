@@ -27,7 +27,10 @@ if($price == 0){
     echo '<h5 class="' . esc_attr( apply_filters( 'woocommerce_product_price_class', 'price' ) ) . ' mb-5"></h5>';
     return;
 }
-
+// for black friday deal: hide sale notice if price is missing
+if (empty($price)) {
+    echo '<style>.pwss-promo-text, .pwss-expires-text { display: none !important;}</style>';
+}
 
 ?>
 <div class="flex gap-4">
