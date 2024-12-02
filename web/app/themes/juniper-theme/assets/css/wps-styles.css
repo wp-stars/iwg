@@ -342,3 +342,24 @@ a.borlabs-cookie-preference svg {
 .slider-initial .colored__background .n2-ss-layer-with-background img {
     animation: ease-out homeSliderImage 1s 300ms;
 }
+
+/* Variable Products style */
+.variations_form.cart .variations {
+    margin-bottom: 15px;
+}
+.variations_form.cart .variations select {
+    min-height: 48px;
+    min-width: 200px;
+    padding: .5rem .75rem;
+}
+.variations_form.cart a.reset_variations {
+    color: #979797;
+    margin-left: 10px;
+    font-size: 14px;
+}
+.variations_form.cart th.label {
+    padding-right: 10px;    
+}
+.variations_form.cart label {
+    font-size: 16px;    
+}
