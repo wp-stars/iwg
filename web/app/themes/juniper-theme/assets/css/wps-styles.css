@@ -363,3 +363,9 @@ a.borlabs-cookie-preference svg {
 .variations_form.cart label {
     font-size: 16px;    
 }
+.product-type-variable p.price {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 26px;    
+}
