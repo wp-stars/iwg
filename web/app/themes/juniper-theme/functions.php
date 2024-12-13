@@ -768,3 +768,8 @@ add_action('woocommerce_checkout_order_processed', function($order_id, $posted_d
     }
 
 }, 10, 3);
+
+// image size used for variation images
+add_filter('woocommerce_gallery_thumbnail_size', function() {
+    return 'woocommerce_single'; 
+});
