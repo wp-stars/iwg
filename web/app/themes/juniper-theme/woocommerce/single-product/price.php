@@ -34,7 +34,15 @@ if (empty($price)) {
 
 ?>
 <div class="flex gap-4">
-    <h5 class="<?php echo esc_attr( apply_filters( 'woocommerce_product_price_class', 'price' ) ); ?> mb-5"><?php echo $product->get_price_html(); ?></h5>
+    <?php if ( $product->is_type( 'variable' ) ) : // variation prices aren't showing with h5 tag ?>
+        <p class="<?php echo esc_attr( apply_filters( 'woocommerce_product_price_class', 'price' ) ); ?> mb-5">
+            <?php echo $product->get_price_html(); ?>
+        </p>
+    <?php else : ?>
+        <h5 class="<?php echo esc_attr( apply_filters( 'woocommerce_product_price_class', 'price' ) ); ?> mb-5">
+            <?php echo $product->get_price_html(); ?>
+        </h5>
+    <?php endif; ?>
     <?php if ( !!$product->is_purchasable() && $product->is_in_stock() ) : ?>
         <div style="color: green;"><?php _e('Available', 'wps-juniper'); ?></div>
     <?php endif; ?>
