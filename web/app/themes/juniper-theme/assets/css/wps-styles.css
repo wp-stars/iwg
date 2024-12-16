@@ -369,3 +369,8 @@ a.borlabs-cookie-preference svg {
     font-weight: 700;
     line-height: 26px;    
 }
+
+/* hide img that is being displayed as missing on Safari https://iwgplating.com/en/our-values */
+#post-12859 h1 img {
+    display: none !important;
+}
